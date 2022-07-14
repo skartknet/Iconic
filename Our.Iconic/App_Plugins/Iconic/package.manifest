@@ -6,7 +6,7 @@
       "icon": "icon-binoculars",
       "group": "Pickers",
       "editor": {
-        "view": "~/App_Plugins/Iconic/views/iconic.html",
+        "view": "~/App_Plugins/Iconic/Views/iconic.html",
         "valueType": "JSON"
       },
       "prevalues": {
@@ -15,7 +15,7 @@
             "label": "Packages configuration",
             "description": "Add the font packages you want to use",
             "key": "packages",
-            "view": "~/App_Plugins/Iconic/views/iconic.prevalues.html"
+            "view": "~/App_Plugins/Iconic/Views/iconic.prevalues.html"
           }
         ]
       }
@@ -32,7 +32,7 @@
     "~/App_Plugins/Iconic/js/src/iconic.prevalues.editor.controller.js"
   ],
   "css": [
-    "~/App_Plugins/Iconic/styles/iconic.css"
+    "~/App_Plugins/Iconic/Styles/iconic.css"
   ]
 
 
