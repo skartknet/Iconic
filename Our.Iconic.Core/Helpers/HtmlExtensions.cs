@@ -1,13 +1,6 @@
-﻿#if NET5_0_OR_GREATER
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-#else
-using System.Web;
-using System.Web.Mvc;
-#endif
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Html
 
 namespace Our.Iconic.Core.Helpers
 {

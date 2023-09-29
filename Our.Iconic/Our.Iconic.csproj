@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	<StaticWebAssetBasePath>App_Plugins/Iconic</StaticWebAssetBasePath>
@@ -12,7 +12,7 @@
 	</Description>
 	<Product>$(AssemblyName)</Product>
 	<PackageTags>umbraco plugin package icon picker editor backoffice umbraco-marketplace</PackageTags>
-	<Version>5.3.0</Version>
+	<Version>6.0.0</Version>
 	<Authors>Mario Lopez</Authors>
 	<PackageProjectUrl>https://github.com/Skartknet/Iconic</PackageProjectUrl>
 	<PackageIcon>iconic_logo.png</PackageIcon>
@@ -128,6 +128,10 @@
 			<Pack>True</Pack>
 			<PackagePath>README.md</PackagePath>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Umbraco.Cms.Core" Version="14.0.0--preview002" />
 	</ItemGroup>
 	
   <ItemGroup>

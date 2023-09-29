@@ -1,4 +1,4 @@
-namespace UmbracoV14
+namespace UmbracoV1402
 {
     public class Startup
     {

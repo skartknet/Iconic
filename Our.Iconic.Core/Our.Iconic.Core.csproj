@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <Version>5.3.0</Version>
+	  <Version>6.0.0</Version>
 	  <Authors>Mario Lopez</Authors>
 	  <Description>Highly configurable icon picker for Umbraco. 
 With Iconic you will be able to create a property editor that can use virtually any font package out there and not only that, you will be able to select your icon from more than one package on the same property.
@@ -37,18 +37,6 @@ Core DLL Package Only.</Description>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
 		<PlatformTarget>AnyCPU</PlatformTarget>
 	</PropertyGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">		
-		<PackageReference Include="Umbraco.Cms.Web.Common">
-			<Version>10.2.0</Version>
-		</PackageReference>
-	</ItemGroup>
-	 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">		
-		<PackageReference Include="Umbraco.Cms.Web.Common">
-			<Version>11.0.0</Version>
-		</PackageReference>
-	</ItemGroup>
 	
 
 	<ItemGroup>
@@ -60,6 +48,11 @@ Core DLL Package Only.</Description>
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+	</ItemGroup>
+	
+
+	<ItemGroup>
+	  <PackageReference Include="Umbraco.Cms.Core" Version="14.0.0--preview002" />
 	</ItemGroup>
 
 	<!-- Workaround for this bug (replace the analyzer name with the one you need to exclude (filename only, no extension) -->
