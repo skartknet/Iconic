@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Html
+using Microsoft.AspNetCore.Html;
 
 namespace Our.Iconic.Core.Helpers
 {
