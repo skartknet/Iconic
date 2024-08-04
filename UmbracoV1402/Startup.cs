@@ -56,8 +56,7 @@ namespace UmbracoV1402
                     u.UseWebsite();
                 })
                 .WithEndpoints(u =>
-                {
-                    u.UseInstallerEndpoints();
+                {                    
                     u.UseBackOfficeEndpoints();
                     u.UseWebsiteEndpoints();
                 });

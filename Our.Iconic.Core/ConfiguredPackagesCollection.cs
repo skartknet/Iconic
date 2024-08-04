@@ -2,12 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Our.Iconic.Core.Models;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Services;
+using Umbraco.Extensions;
 
 namespace Our.Iconic.Core
 {
@@ -32,13 +34,13 @@ namespace Our.Iconic.Core
             this.dataTypeService = dataTypeService;
         }
 
-        public IDictionary<Guid, Package> GetConfiguratedPackages(IPublishedPropertyType propertyType)
+        public async Task<IDictionary<Guid, Package>> GetConfiguredPackages(IPublishedPropertyType propertyType)
         {
             var uniqueKey = propertyType.DataType.Id.ToString();
             if (!_packagesCache.ContainsKey(uniqueKey))
             {
-                var dataType = dataTypeService.GetDataType(propertyType.DataType.Id);
-                var configurationJson = (IconicPackagesConfiguration)dataType.Configuration;
+                var dataType = await dataTypeService.GetAsync(propertyType.DataType.EditorAlias);
+                var configurationJson = dataType.ConfigurationAs<IconicPackagesConfiguration>();
                 _packagesCache.Add(uniqueKey, configurationJson.Packages.ToDictionary(p => p.Id));
             }
 

@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<StaticWebAssetBasePath>App_Plugins/Iconic</StaticWebAssetBasePath>
+	<StaticWebAssetBasePath>/</StaticWebAssetBasePath>
 	<ContentTargetFolders>.</ContentTargetFolders>
 	<Description>
 		Highly configurable icon picker for Umbraco.
@@ -12,7 +12,7 @@
 	</Description>
 	<Product>$(AssemblyName)</Product>
 	<PackageTags>umbraco plugin package icon picker editor backoffice umbraco-marketplace</PackageTags>
-	<Version>6.0.0</Version>
+	<Version>14.0.0</Version>
 	<Authors>Mario Lopez</Authors>
 	<PackageProjectUrl>https://github.com/Skartknet/Iconic</PackageProjectUrl>
 	<PackageIcon>iconic_logo.png</PackageIcon>
@@ -24,96 +24,106 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="src\background.png" />
-    <None Remove="src\js\build\findPolyfill.min.js" />
-    <None Remove="src\js\src\iconic.controller.js" />
-    <None Remove="src\js\src\iconic.dialog.controller.js" />
-    <None Remove="src\js\src\iconic.directives.js" />
-    <None Remove="src\js\src\iconic.models.js" />
-    <None Remove="src\js\src\iconic.prevalues.controller.js" />
-    <None Remove="src\js\src\iconic.prevalues.editor.controller.js" />
-    <None Remove="src\lang\en-US.xml" />
-    <None Remove="src\lang\es-ES.xml" />
-    <None Remove="src\Styles\iconic.css" />
-    <None Remove="src\Styles\iconic.min.css" />
-    <None Remove="src\Styles\iconic.min.css.map" />
-    <None Remove="src\Styles\iconic.scss" />
-    <None Remove="src\Views\iconic.dialog.html" />
-    <None Remove="src\Views\iconic.edit.dialog.html" />
-    <None Remove="src\Views\iconic.html" />
-    <None Remove="src\Views\iconic.prevalues.html" />
+    <None Remove="public\lang\en-US.xml" />
+    <None Remove="public\lang\es-ES.xml" />
+    <None Remove="src-old\background.png" />
+    <None Remove="src-old\js\build\findPolyfill.min.js" />
+    <None Remove="src-old\js\src\iconic.controller.js" />
+    <None Remove="src-old\js\src\iconic.dialog.controller.js" />
+    <None Remove="src-old\js\src\iconic.directives.js" />
+    <None Remove="src-old\js\src\iconic.models.js" />
+    <None Remove="src-old\js\src\iconic.prevalues.controller.js" />
+    <None Remove="src-old\js\src\iconic.prevalues.editor.controller.js" />
+    <None Remove="src-old\lang\en-US.xml" />
+    <None Remove="src-old\lang\es-ES.xml" />
+    <None Remove="src-old\Styles\iconic.css" />
+    <None Remove="src-old\Styles\iconic.min.css" />
+    <None Remove="src-old\Styles\iconic.min.css.map" />
+    <None Remove="src-old\Styles\iconic.scss" />
+    <None Remove="src-old\Views\iconic.dialog.html" />
+    <None Remove="src-old\Views\iconic.edit.dialog.html" />
+    <None Remove="src-old\Views\iconic.html" />
+    <None Remove="src-old\Views\iconic.prevalues.html" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="src\background.png">
+    <Content Include="public\lang\en-US.xml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="public\lang\es-ES.xml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="src-old\background.png">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\js\build\findPolyfill.min.js">
+    <Content Include="src-old\js\build\findPolyfill.min.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\js\src\iconic.controller.js">
+    <Content Include="src-old\js\src\iconic.controller.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\js\src\iconic.dialog.controller.js">
+    <Content Include="src-old\js\src\iconic.dialog.controller.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\js\src\iconic.directives.js">
+    <Content Include="src-old\js\src\iconic.directives.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\js\src\iconic.models.js">
+    <Content Include="src-old\js\src\iconic.models.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\js\src\iconic.prevalues.controller.js">
+    <Content Include="src-old\js\src\iconic.prevalues.controller.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\js\src\iconic.prevalues.editor.controller.js">
+    <Content Include="src-old\js\src\iconic.prevalues.editor.controller.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\lang\en-US.xml">
+    <Content Include="src-old\lang\en-US.xml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\lang\es-ES.xml">
+    <Content Include="src-old\lang\es-ES.xml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\Styles\iconic.css">
+    <Content Include="src-old\Styles\iconic.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\Styles\iconic.min.css">
+    <Content Include="src-old\Styles\iconic.min.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\Styles\iconic.min.css.map">
+    <Content Include="src-old\Styles\iconic.min.css.map">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\Styles\iconic.scss">
+    <Content Include="src-old\Styles\iconic.scss">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\Views\iconic.dialog.html">
+    <Content Include="src-old\Views\iconic.dialog.html">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\Views\iconic.edit.dialog.html">
+    <Content Include="src-old\Views\iconic.edit.dialog.html">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\Views\iconic.html">
+    <Content Include="src-old\Views\iconic.html">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Include="src\Views\iconic.prevalues.html">
+    <Content Include="src-old\Views\iconic.prevalues.html">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
@@ -131,85 +141,29 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Umbraco.Cms.Core" Version="14.0.0--preview002" />
+	  <PackageReference Include="Umbraco.Cms.Core" Version="14.1.1" />
 	</ItemGroup>
 	
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.9" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="10.2.0" />
-  </ItemGroup>
-	 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="11.0.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Our.Iconic.Core\Our.Iconic.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="src\preconfigs.json">
+    <Content Update="public\preconfigs.json">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Update="wwwroot\js\build\findPolyfill.min.js">
+    <Content Update="src-old\preconfigs.json">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-    <Content Update="wwwroot\js\src\iconic.controller.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.dialog.controller.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.directives.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.models.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.prevalues.controller.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.prevalues.editor.controller.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\lang\en-US.xml">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\lang\es-ES.xml">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\preconfigs.json">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Styles\iconic.css">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Styles\iconic.min.css">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Styles\iconic.min.css.map">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Styles\iconic.scss">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Views\iconic.dialog.html">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Views\iconic.edit.dialog.html">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Views\iconic.html">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Views\iconic.prevalues.html">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 	<!-- Workaround for this bug (replace the analyzer name with the one you need to exclude (filename only, no extension) -->
 	<Target Name="RemoveLuceneAnalyzer" BeforeTargets="CoreCompile">

@@ -1,0 +1,59 @@
+{
+  "preconfigs": [
+    {
+      "name": "Glyphicons",
+      "selector": "\\.(glyphicon-[\\w-]+):before{",
+      "template": "<i class=\"glyphicon {icon}\"></i>"
+    },
+    {
+      "name": "Font Awesome 4",
+      "selector": "\\.(fa-[\\w-]+):before{",
+      "template": "<i class=\"fa {icon}\"></i>"
+    },
+    {
+      "name": "Foundation Icons",
+      "selector": "\\.(fi-[\\w-]+):before{",
+      "template": "<i class=\"{icon}\"></i>"
+    },
+    {
+      "name": "Material Icons",
+      "selector": "\"(\\w+)\":\\s\"[^\"]",
+      "template": "<i class=\"material-icons\">{icon}</i>"
+    },
+    {
+      "name": "Simple Line Icons",
+      "selector": "\\.(icon-[\\w-]+):before {",
+      "template": "<i class=\"{icon}\"></i>"
+    },
+    {
+      "name": "Font Awesome 5 (Brands)",
+      "selector": "\\.(fa-[\\w-]+):before {",
+      "template": "<i class=\"fab {icon}\"></i>"
+    },
+    {
+      "name": "Font Awesome 5 (Regular)",
+      "selector": "\\.(fa-[\\w-]+):before {",
+      "template": "<i class=\"far {icon}\"></i>"
+    },
+    {
+      "name": "Font Awesome 5 (Solid)",
+      "selector": "\\.(fa-[\\w-]+):before {",
+      "template": "<i class=\"fas {icon}\"></i>"
+    },
+    {
+      "name": "Font Awesome 5 (Light)",
+      "selector": "\\.(fa-[\\w-]+):before {",
+      "template": "<i class=\"fal {icon}\"></i>"
+    },
+    {
+      "name": "Font Awesome 6 (Brands)",
+      "selector": "\\.(fa-[\\w-]+)::before {",
+      "template": "<i class=\"fa-brands {icon}\"></i>"
+    },   
+    {
+      "name": "Font Awesome 6 (Solid)",
+      "selector": "\\.(fa-[\\w-]+)::before {",
+      "template": "<i class=\"fa-solid {icon}\"></i>"
+    }
+  ]
+}

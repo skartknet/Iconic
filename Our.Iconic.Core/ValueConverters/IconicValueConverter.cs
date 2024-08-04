@@ -1,18 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Html;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Our.Iconic.Core.Models;
 using System;
-#if NET5_0_OR_GREATER
-using Microsoft.AspNetCore.Html;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Cms.Core.Services;
-#else
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Core.PropertyEditors;
-using Umbraco.Core.Services;
-using System.Web;
-#endif
+
 namespace Our.Iconic.Core.ValueConverters
 {
     public class IconicValueConverter : IPropertyValueConverter
@@ -56,7 +50,7 @@ namespace Our.Iconic.Core.ValueConverters
 
             var icon = (SelectedIcon)inter;
 
-            var packages = _configuredPackages.GetConfiguratedPackages(propertyType);
+            var packages = _configuredPackages.GetConfiguredPackages(propertyType).GetAwaiter().GetResult();
 
             if (icon != null && packages.ContainsKey(icon.PackageId))
             {

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	  <Version>6.0.0</Version>
 	  <Authors>Mario Lopez</Authors>
@@ -37,6 +37,12 @@ Core DLL Package Only.</Description>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
 		<PlatformTarget>AnyCPU</PlatformTarget>
 	</PropertyGroup>
+
+
+	<ItemGroup>
+	  <Compile Remove="IconicPackagesConfigurationEditor.cs" />
+	  <Compile Remove="IconicPropertyEditor.cs" />
+	</ItemGroup>
 	
 
 	<ItemGroup>
@@ -52,7 +58,9 @@ Core DLL Package Only.</Description>
 	
 
 	<ItemGroup>
-	  <PackageReference Include="Umbraco.Cms.Core" Version="14.0.0--preview002" />
+	  <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+	  <PackageReference Include="Umbraco.Cms.Core" Version="14.1.1" />
 	</ItemGroup>
 
 	<!-- Workaround for this bug (replace the analyzer name with the one you need to exclude (filename only, no extension) -->
