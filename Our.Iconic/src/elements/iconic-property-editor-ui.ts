@@ -1,10 +1,10 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
 import { UmbPropertyEditorUiElement } from "@umbraco-cms/backoffice/extension-registry";
-import { Package } from './models';
+import { Package } from '../models';
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal';
-import { ICONIC_MODALPICKER_TOKEN } from './modal-picker.token';
+import { ICONIC_MODALPICKER_TOKEN } from '../tokens/modal-picker.token';
 
 @customElement('iconic-element')
 export default class IconicElement extends UmbElementMixin((LitElement)) implements UmbPropertyEditorUiElement {
@@ -12,7 +12,7 @@ export default class IconicElement extends UmbElementMixin((LitElement)) impleme
   #modalManagerContext?: typeof UMB_MODAL_MANAGER_CONTEXT.TYPE;
 
   @property({ type: String })
-  public value = ''
+  value: string | undefined;
 
   @state()
   private package: Package = new Package();
@@ -50,6 +50,7 @@ export default class IconicElement extends UmbElementMixin((LitElement)) impleme
         data: {
             headline: "My modal headline",
         },
+
     });
 }
 

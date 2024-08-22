@@ -1,18 +1,22 @@
-import { LitElement as s, html as u, property as d, customElement as h } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as p } from "@umbraco-cms/backoffice/element-api";
-var b = Object.defineProperty, c = Object.getOwnPropertyDescriptor, m = (t, e, n, a) => {
-  for (var l = a > 1 ? void 0 : a ? c(e, n) : e, i = t.length - 1, r; i >= 0; i--)
-    (r = t[i]) && (l = (a ? r(e, n, l) : r(l)) || l);
-  return a && l && b(e, n, l), l;
+import { LitElement as p, html as u, property as m, state as c, customElement as h } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as d } from "@umbraco-cms/backoffice/element-api";
+import { P as b } from "./models-u6n50sPP.js";
+var f = Object.defineProperty, _ = Object.getOwnPropertyDescriptor, r = (t, e, n, l) => {
+  for (var a = l > 1 ? void 0 : l ? _(e, n) : e, i = t.length - 1, s; i >= 0; i--)
+    (s = t[i]) && (a = (l ? s(e, n, a) : s(a)) || a);
+  return l && a && f(e, n, a), a;
 };
-let o = class extends p(s) {
+let o = class extends d(p) {
+  constructor() {
+    super(...arguments), this.package = new b();
+  }
   _handleCancel() {
     var t;
     (t = this.modalContext) == null || t.submit();
   }
   _handleSubmit() {
     var t, e;
-    (t = this.modalContext) == null || t.updateValue({ myData: "hello world" }), (e = this.modalContext) == null || e.submit();
+    (t = this.modalContext) == null || t.updateValue({ package: this.package }), (e = this.modalContext) == null || e.submit();
   }
   render() {
     var t;
@@ -25,13 +29,16 @@ let o = class extends p(s) {
         `;
   }
 };
-m([
-  d({ attribute: !1 })
+r([
+  m({ attribute: !1 })
 ], o.prototype, "modalContext", 2);
-m([
-  d({ attribute: !1 })
-], o.prototype, "data", 2);
-o = m([
+r([
+  m({ attribute: !1 })
+], o.prototype, "value", 2);
+r([
+  c()
+], o.prototype, "package", 2);
+o = r([
   h("modal-picker")
 ], o);
 export {

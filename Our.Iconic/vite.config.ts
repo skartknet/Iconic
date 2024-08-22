@@ -3,7 +3,14 @@ import { defineConfig } from "vite";
 export default defineConfig({
     build: {
         lib: {
-            entry: ["src/iconic.ts", "src/modal-picker.element.ts", "src/modal-picker.token.ts", "src/settings.element.ts"], // your web component source file
+            entry: [
+                "src/elements/iconic-property-editor-ui.ts",
+                "src/elements/modal-picker.element.ts",
+                "src/elements/modal-settings-addpackage.element.ts",
+                "src/elements/settings-editor.element.ts",
+                "src/tokens/modal-picker.token.ts",
+                "src/tokens/modal-settings-addpackage.token.ts",
+            ], 
             formats: ["es"],
         },
         outDir: "wwwroot/App_Plugins/Iconic", // all compiled files will be placed here

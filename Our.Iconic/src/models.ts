@@ -12,10 +12,8 @@ class Package {
 
     id: string;
     name: string;
-    selector: string;
+    selector: string;      
     template: string;
-    overrideTemplate: boolean;
-    backofficeTemplate: string;
     cssfile: string;
     sourcefile: string;
     extractedStyles: string[];
@@ -24,10 +22,8 @@ class Package {
     constructor() {
         this.id = this.uuid();
         this.name = "";
-        this.selector = "";
-        this.template = '<i class="{icon}"></i>';
-        this.overrideTemplate = false;
-        this.backofficeTemplate = "";
+        this.selector = "";                
+        this.template = "";
         this.cssfile = "";
         this.sourcefile = "";
         this.extractedStyles = [];
@@ -49,4 +45,17 @@ class Package {
     }
 }
 
-export { Icon, Package };
+class PreConfiguration{
+    name: string;
+    selector: string;
+    template: string;
+
+    constructor(name: string, selector: string, template: string){
+        this.name = name;
+        this.selector = selector;
+        this.template = template;
+    }
+
+}
+
+export { Icon, Package, PreConfiguration };

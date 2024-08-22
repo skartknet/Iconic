@@ -1,8 +1,9 @@
-import { html, LitElement, property, customElement } from "@umbraco-cms/backoffice/external/lit";
+import { html, LitElement, property, customElement, state } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import type { UmbModalContext } from "@umbraco-cms/backoffice/modal";
 import type { MyModalData, MyModalValue } from "./modal-picker.token.ts";
 import { UmbModalExtensionElement } from "@umbraco-cms/backoffice/extension-registry";
+import { Package } from "../models.ts";
 
 @customElement('modal-picker')
 export default class MyDialogElement
@@ -13,14 +14,18 @@ export default class MyDialogElement
     modalContext?: UmbModalContext<MyModalData, MyModalValue>;
 
     @property({ attribute: false })
-    data?: MyModalData;
+    value?: MyModalValue;
+
+    @state()
+    private package: Package = new Package();
+
 
     private _handleCancel() {
         this.modalContext?.submit();
     }
 
     private _handleSubmit() {
-        this.modalContext?.updateValue({ myData: "hello world" });
+        this.modalContext?.updateValue({ package: this.package });
         this.modalContext?.submit();
     }
 
