@@ -5,20 +5,14 @@ import { Package } from "../models";
 import { UMB_MODAL_MANAGER_CONTEXT } from "@umbraco-cms/backoffice/modal";
 import { ICONIC_SETTINGS_ADDPACKAGE_TOKEN } from "../tokens/modal-settings-addpackage.token";
 import { UmbSorterController } from '@umbraco-cms/backoffice/sorter';
-
+import { UmbPropertyValueChangeEvent } from "@umbraco-cms/backoffice/property-editor";
 
 
 @customElement('iconic-settings-element')
 export default class IconicSettingsElement extends UmbElementMixin((LitElement)) implements UmbPropertyEditorUiElement {
-    @property({ type: String })
-    value: string | undefined;
 
-
-    @state()
-    private _value?: Package[];
-
-    @state()
-    private _selectedItem?: Package;
+    @property({ type: Array })
+    value: Array<Package> = [];
 
     private _modalManagerContext?: typeof UMB_MODAL_MANAGER_CONTEXT.TYPE;
 
@@ -26,34 +20,33 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
         itemSelector: '.item',
         containerSelector: '.container',
         getUniqueOfElement: (element) => element.id,
-        getUniqueOfModel: (model) => model.id
+        getUniqueOfModel: (model: Package) => model.id
     });
 
 
     constructor() {
         super();
 
-        if (this.value) {
-            this._value = JSON.parse(this.value);
-        }
-
         this.consumeContext(UMB_MODAL_MANAGER_CONTEXT, (instance) => {
             this._modalManagerContext = instance;
         });
 
+        //this.#sorter.setModel(this._value);
+
     }
+
 
     render() {
         return html`                
             <div class="container">                   
-                ${this._value?.map((item, index) => this.renderItem(item, index))}   
+                ${this.value?.map((item, index) => this.#renderItem(item, index))}   
             </div>                                         
 
             <uui-button
                     class = "add-button"
 					look="placeholder"
 					label="Add"
-                    @click="${this.createNewPackage}" 
+                    @click="${this.#createNewPackage}" 
 					></uui-button>                   
         `
     }
@@ -65,9 +58,9 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
         }
   `];
 
-    renderItem = (item: Package, index: number) => {
+    #renderItem = (item: Package, index: number) => {
         return html`
-        <div class="item">
+        <div class="item" id="package_${index}">
             <div class="umb-node-preview">
                 <i class="umb-node-preview__icon icon-navigation handle"></i>
                 <div class="umb-node-preview__content">
@@ -80,8 +73,8 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
                     </div>
                 </div>
                 <div class="umb-node-preview__actions">
-                    <a class="umb-node-preview__action umb-node-preview__action--green" @click="${() => this.editPackage(item)}" prevent-default>Edit</a>
-                    <a class="umb-node-preview__action umb-node-preview__action--red" @click="${() => this.removeItem(index)}" prevent-default>
+                    <a class="umb-node-preview__action umb-node-preview__action--green" @click="${() => this.#editPackage(item)}" prevent-default>Edit</a>
+                    <a class="umb-node-preview__action umb-node-preview__action--red" @click="${() => this.#removeItem(index)}" prevent-default>
                         <umb-localize key="iconicConfig_remove">Remove</umb-localize>
                     </a>
                 </div>
@@ -90,31 +83,33 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
         `
     }
 
-    createNewPackage = () => {
+    #createNewPackage = () => {
 
-        this._modalManagerContext?.open(this, ICONIC_SETTINGS_ADDPACKAGE_TOKEN,{
-            data: {
-                package: new Package()
+        let modalContext = this._modalManagerContext?.open(this, ICONIC_SETTINGS_ADDPACKAGE_TOKEN);
+
+        modalContext?.onSubmit().then((value) => {
+            if (!this.value) {
+                this.value = [];
             }
-        });
 
+            this.value = [...this.value, value.package];
+            this.dispatchEvent(new UmbPropertyValueChangeEvent());
+        })
     };
 
-    editPackage = (pkg: Package) => {
-        this._modalManagerContext?.open(this, ICONIC_SETTINGS_ADDPACKAGE_TOKEN,{
+    #editPackage = (pkg: Package) => {
+        this._modalManagerContext?.open(this, ICONIC_SETTINGS_ADDPACKAGE_TOKEN, {
             data: {
                 package: pkg
             }
         });
     };
 
-    removeItem = (index: number) => {
-        if (this._value && this._value.length > index) {
-            this._value = this._value.splice(index, 1);
+    #removeItem = (index: number) => {
+        if (this.value && this.value.length > index) {
+            this.value = this.value.splice(index, 1);
         }
     };
-
-    toggleItemDisplay = (item: Package) => this._selectedItem = this._selectedItem === item ? this._selectedItem = undefined : item;
 
 
 }

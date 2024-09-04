@@ -4,7 +4,7 @@ export default defineConfig({
     build: {
         lib: {
             entry: [
-                "src/elements/iconic-property-editor-ui.ts",
+                "src/elements/iconic-property-editor.element.ts",
                 "src/elements/modal-picker.element.ts",
                 "src/elements/modal-settings-addpackage.element.ts",
                 "src/elements/settings-editor.element.ts",

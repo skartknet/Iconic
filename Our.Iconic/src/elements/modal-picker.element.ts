@@ -1,40 +1,38 @@
 import { html, LitElement, property, customElement, state } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import type { UmbModalContext } from "@umbraco-cms/backoffice/modal";
-import type { MyModalData, MyModalValue } from "./modal-picker.token.ts";
+import type { ModalPickerData, ModalPickerValue } from "../tokens/modal-picker.token.ts";
 import { UmbModalExtensionElement } from "@umbraco-cms/backoffice/extension-registry";
 import { Package } from "../models.ts";
 
 @customElement('modal-picker')
 export default class MyDialogElement
     extends UmbElementMixin(LitElement)
-    implements UmbModalExtensionElement<MyModalData, MyModalValue> {
+    implements UmbModalExtensionElement<ModalPickerData, ModalPickerValue> {
 
     @property({ attribute: false })
-    modalContext?: UmbModalContext<MyModalData, MyModalValue>;
+    modalContext?: UmbModalContext<ModalPickerData, ModalPickerValue>;
 
     @property({ attribute: false })
-    value?: MyModalValue;
+    value?: ModalPickerValue;
 
-    @state()
-    private package: Package = new Package();
+    @property({ attribute: false })
+    data?: ModalPickerData;
 
-
-    private _handleCancel() {
+    #handleCancel() {
         this.modalContext?.submit();
     }
 
-    private _handleSubmit() {
-        this.modalContext?.updateValue({ package: this.package });
+    #handleSubmit() {
+        this.modalContext?.updateValue({ value: "" });
         this.modalContext?.submit();
     }
 
     render() {
         return html`
             <div>
-                <h1>${this.modalContext?.data.headline ?? "Default headline"}</h1>
-                <button @click=${this._handleCancel}>Cancel</button>
-                <button @click=${this._handleSubmit}>Submit</button>
+                <button @click=${this.#handleCancel}>Cancel</button>
+                <button @click=${this.#handleSubmit}>Submit</button>
             </div>
         `;
     }

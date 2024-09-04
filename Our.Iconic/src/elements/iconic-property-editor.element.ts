@@ -5,14 +5,21 @@ import { Package } from '../models';
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal';
 import { ICONIC_MODALPICKER_TOKEN } from '../tokens/modal-picker.token';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 
-@customElement('iconic-element')
-export default class IconicElement extends UmbElementMixin((LitElement)) implements UmbPropertyEditorUiElement {
+@customElement('iconic-property-editor')
+export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) implements UmbPropertyEditorUiElement {
 
   #modalManagerContext?: typeof UMB_MODAL_MANAGER_CONTEXT.TYPE;
 
   @property({ type: String })
-  value: string | undefined;
+  value?: string;
+
+  @property({ attribute: false})
+  config?: UmbPropertyEditorConfigCollection;
+
+  _configObj?: Record<string, unknown>;
 
   @state()
   private package: Package = new Package();
@@ -31,24 +38,24 @@ export default class IconicElement extends UmbElementMixin((LitElement)) impleme
       this.#modalManagerContext = instance;
     });
 
+    this._configObj = this.config?.toObject();
 
     this.#loadPackage([], this.package);
   }
 
   render() {
     return html`
-      <uui-button id="icon" compact="" label="icon" look="outline" type="button" color="default" style="font-size: 25px;"
-                  @click=${this._openModal}>
-						<umb-icon name="icon-document"></umb-icon>            
-      </uui-button>
+              <uui-button id="icon" compact label="icon" look="placeholder" @click=${this.#openModal} ?disabled="${!this.value}" type="button" color="default">
+                  ${unsafeHTML(this.value)}
+              </uui-button>
     `
   }
 
 
-  private _openModal() {
+  #openModal() {
     this.#modalManagerContext?.open(this, ICONIC_MODALPICKER_TOKEN, {
         data: {
-            headline: "My modal headline",
+            packages: value,
         },
 
     });
@@ -56,11 +63,13 @@ export default class IconicElement extends UmbElementMixin((LitElement)) impleme
 
   static styles = [
     css`
-      #icon {
-        font-size: var(--uui-size-8);
-        height: 60px;
-        width: 60px;
-      }
+      #icon{
+            font-size: var(--uui-size-8);
+            height: 60px;
+            width: 60px;
+            margin-right: var(--uui-size-layout-1);
+            margin-bottom: var(--uui-size-layout-1);
+        }
     `
   ]
 
@@ -68,6 +77,6 @@ export default class IconicElement extends UmbElementMixin((LitElement)) impleme
 
 declare global {
   interface HTMLElementTagNameMap {
-    'iconic-element': IconicElement
+    'iconic-property-editor': IconicPropertyEditor
   }
 }

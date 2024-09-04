@@ -1,25 +1,25 @@
-import { LitElement as m, html as c, css as p, property as u, state as v, customElement as h } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as f } from "@umbraco-cms/backoffice/element-api";
-import { P as g } from "./models-u6n50sPP.js";
-import { UMB_MODAL_MANAGER_CONTEXT as b } from "@umbraco-cms/backoffice/modal";
-import { ICONIC_SETTINGS_ADDPACKAGE_TOKEN as d } from "./modal-settings-addpackage.token.js";
+import { LitElement as w, html as u, css as b, property as C, customElement as E } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as k } from "@umbraco-cms/backoffice/element-api";
+import { UMB_MODAL_MANAGER_CONTEXT as y } from "@umbraco-cms/backoffice/modal";
+import { ICONIC_SETTINGS_ADDPACKAGE_TOKEN as _ } from "./modal-settings-addpackage.token.js";
 import { UmbSorterController as I } from "@umbraco-cms/backoffice/sorter";
-var w = Object.defineProperty, y = Object.getOwnPropertyDescriptor, C = (e) => {
+import { UmbPropertyValueChangeEvent as M } from "@umbraco-cms/backoffice/property-editor";
+var $ = Object.defineProperty, O = Object.getOwnPropertyDescriptor, m = (e) => {
   throw TypeError(e);
-}, s = (e, t, i, n) => {
-  for (var o = n > 1 ? void 0 : n ? y(t, i) : t, r = e.length - 1, l; r >= 0; r--)
-    (l = e[r]) && (o = (n ? l(t, i, o) : l(o)) || o);
-  return n && o && w(t, i, o), o;
-}, E = (e, t, i) => t.has(e) ? C("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), _;
-let a = class extends f(m) {
+}, f = (e, t, i, o) => {
+  for (var a = o > 1 ? void 0 : o ? O(t, i) : t, l = e.length - 1, c; l >= 0; l--)
+    (c = e[l]) && (a = (o ? c(t, i, a) : c(a)) || a);
+  return o && a && $(t, i, a), a;
+}, S = (e, t, i) => t.has(e) || m("Cannot " + i), r = (e, t, i) => (S(e, t, "read from private field"), i ? i.call(e) : t.get(e)), n = (e, t, i) => t.has(e) ? m("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), g, d, v, p, h;
+let s = class extends k(w) {
   constructor() {
-    super(), E(this, _, new I(this, {
+    super(), this.value = [], n(this, g, new I(this, {
       itemSelector: ".item",
       containerSelector: ".container",
       getUniqueOfElement: (e) => e.id,
       getUniqueOfModel: (e) => e.id
-    })), this.renderItem = (e, t) => c`
-        <div class="item">
+    })), n(this, d, (e, t) => u`
+        <div class="item" id="package_${t}">
             <div class="umb-node-preview">
                 <i class="umb-node-preview__icon icon-navigation handle"></i>
                 <div class="umb-node-preview__content">
@@ -32,69 +32,66 @@ let a = class extends f(m) {
                     </div>
                 </div>
                 <div class="umb-node-preview__actions">
-                    <a class="umb-node-preview__action umb-node-preview__action--green" @click="${() => this.editPackage(e)}" prevent-default>Edit</a>
-                    <a class="umb-node-preview__action umb-node-preview__action--red" @click="${() => this.removeItem(t)}" prevent-default>
+                    <a class="umb-node-preview__action umb-node-preview__action--green" @click="${() => r(this, p).call(this, e)}" prevent-default>Edit</a>
+                    <a class="umb-node-preview__action umb-node-preview__action--red" @click="${() => r(this, h).call(this, t)}" prevent-default>
                         <umb-localize key="iconicConfig_remove">Remove</umb-localize>
                     </a>
                 </div>
             </div>
         </div>    
-        `, this.createNewPackage = () => {
-      var e;
-      (e = this._modalManagerContext) == null || e.open(this, d, {
-        data: {
-          package: new g()
-        }
-      });
-    }, this.editPackage = (e) => {
+        `), n(this, v, () => {
       var t;
-      (t = this._modalManagerContext) == null || t.open(this, d, {
+      let e = (t = this._modalManagerContext) == null ? void 0 : t.open(this, _);
+      e == null || e.onSubmit().then((i) => {
+        this.value || (this.value = []), this.value = [...this.value, i.package], this.dispatchEvent(new M());
+      });
+    }), n(this, p, (e) => {
+      var t;
+      (t = this._modalManagerContext) == null || t.open(this, _, {
         data: {
           package: e
         }
       });
-    }, this.removeItem = (e) => {
-      this._value && this._value.length > e && (this._value = this._value.splice(e, 1));
-    }, this.toggleItemDisplay = (e) => this._selectedItem = this._selectedItem === e ? this._selectedItem = void 0 : e, this.value && (this._value = JSON.parse(this.value)), this.consumeContext(b, (e) => {
+    }), n(this, h, (e) => {
+      this.value && this.value.length > e && (this.value = this.value.splice(e, 1));
+    }), this.consumeContext(y, (e) => {
       this._modalManagerContext = e;
     });
   }
   render() {
     var e;
-    return c`                
+    return u`                
             <div class="container">                   
-                ${(e = this._value) == null ? void 0 : e.map((t, i) => this.renderItem(t, i))}   
+                ${(e = this.value) == null ? void 0 : e.map((t, i) => r(this, d).call(this, t, i))}   
             </div>                                         
 
             <uui-button
                     class = "add-button"
 					look="placeholder"
 					label="Add"
-                    @click="${this.createNewPackage}" 
+                    @click="${r(this, v)}" 
 					></uui-button>                   
         `;
   }
 };
-_ = /* @__PURE__ */ new WeakMap();
-a.styles = [p`
+g = /* @__PURE__ */ new WeakMap();
+d = /* @__PURE__ */ new WeakMap();
+v = /* @__PURE__ */ new WeakMap();
+p = /* @__PURE__ */ new WeakMap();
+h = /* @__PURE__ */ new WeakMap();
+s.styles = [b`
         :host {
             display: flex;
             flex-direction: column;
         }
   `];
-s([
-  u({ type: String })
-], a.prototype, "value", 2);
-s([
-  v()
-], a.prototype, "_value", 2);
-s([
-  v()
-], a.prototype, "_selectedItem", 2);
-a = s([
-  h("iconic-settings-element")
-], a);
+f([
+  C({ type: Array })
+], s.prototype, "value", 2);
+s = f([
+  E("iconic-settings-element")
+], s);
 export {
-  a as default
+  s as default
 };
 //# sourceMappingURL=settings-editor.element.js.map

@@ -1,14 +1,15 @@
 import { UmbModalToken } from "@umbraco-cms/backoffice/modal";
+import { Package } from "../models";
 
-export type MyModalData = {
-    headline: string;
+export type ModalPickerData = {
+    packages: Package[];
 }
 
-export type MyModalValue = {
-    myData: string;
+export type ModalPickerValue = {
+    value: string;
 }
 
-export const ICONIC_MODALPICKER_TOKEN = new UmbModalToken<MyModalData, MyModalValue>('Our.Iconic.ModalPicker', {
+export const ICONIC_MODALPICKER_TOKEN = new UmbModalToken<ModalPickerData, ModalPickerValue>('Our.Iconic.ModalPicker', {
     modal: {
         type: 'sidebar',
         size: 'small'

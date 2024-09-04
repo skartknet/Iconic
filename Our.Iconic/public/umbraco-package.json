@@ -7,7 +7,7 @@
       "type": "propertyEditorUi",
       "alias": "Our.Iconic",
       "name": "Iconic",
-      "element": "/App_Plugins/Iconic/iconic.js",
+      "element": "/App_Plugins/Iconic/iconic-property-editor.element.js",
       "meta": {
         "label": "Iconic",
         "icon": "iconic-logo",
