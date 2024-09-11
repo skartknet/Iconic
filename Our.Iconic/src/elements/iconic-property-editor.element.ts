@@ -1,35 +1,31 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
 import { UmbPropertyEditorUiElement } from "@umbraco-cms/backoffice/extension-registry";
-import { Package } from '../models';
+import { Icon, Package } from '../models';
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal';
 import { ICONIC_MODALPICKER_TOKEN } from '../tokens/modal-picker.token';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
+import { UmbPropertyEditorConfigCollection, UmbPropertyValueChangeEvent } from '@umbraco-cms/backoffice/property-editor';
+import DataService from '../dataService';
 
 @customElement('iconic-property-editor')
 export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) implements UmbPropertyEditorUiElement {
 
   #modalManagerContext?: typeof UMB_MODAL_MANAGER_CONTEXT.TYPE;
 
-  @property({ type: String })
-  value?: string;
+  @property({ attribute: false })
+  value?: Icon;
 
-  @property({ attribute: false})
-  config?: UmbPropertyEditorConfigCollection;
-
-  _configObj?: Record<string, unknown>;
 
   @state()
-  private package: Package = new Package();
-  
+  private _previewIcon?: string;
 
-  #loadPackage(packages: Package[], selectedPackage: Package) {
-    return packages.find(function (el) {
-      return el.id === selectedPackage.id;
-    });
-  }
+
+  private _dataService: DataService = new DataService();
+  private _packages?: Package[] = [];
+  private _selectedPackage?: Package;
+
 
   constructor() {
     super();
@@ -38,28 +34,53 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
       this.#modalManagerContext = instance;
     });
 
-    this._configObj = this.config?.toObject();
 
-    this.#loadPackage([], this.package);
   }
 
-  render() {
-    return html`
-              <uui-button id="icon" compact label="icon" look="placeholder" @click=${this.#openModal} ?disabled="${!this.value}" type="button" color="default">
-                  ${unsafeHTML(this.value)}
-              </uui-button>
-    `
+  connectedCallback(): void {
+    super.connectedCallback();
+    if (this.value && this._packages) {
+      this._selectedPackage = this._packages.find((el) => el.id === this.value?.packageId);
+    }
+
+    this.#setPreviewIcon();
   }
 
+  @property({ attribute: false })
+  public set config(config: UmbPropertyEditorConfigCollection) {
+    this._packages = config.getValueByAlias("packages");
+  }
+
+  async #setPreviewIcon() {
+
+
+    if (this.value?.icon && this._selectedPackage) {
+      await this._dataService.processCssFile(this._selectedPackage.cssfile, this.shadowRoot).then(() => {
+        this._previewIcon = this._selectedPackage?.template.replace("{icon}", this.value!.icon)
+      });
+    } else {
+      this._previewIcon = "";
+    }
+  }
 
   #openModal() {
-    this.#modalManagerContext?.open(this, ICONIC_MODALPICKER_TOKEN, {
-        data: {
-            packages: value,
-        },
-
+    let modalContext = this.#modalManagerContext?.open(this, ICONIC_MODALPICKER_TOKEN, {
+      data: {
+        packages: this._packages,
+      },
     });
-}
+
+    modalContext?.onSubmit().then((val) => {
+      if (!val.value) {
+        this.value = undefined;
+      } else {
+        this.value = val.value;
+        this.dispatchEvent(new UmbPropertyValueChangeEvent());
+        this._selectedPackage = this._packages?.find((el) => el.id === this.value?.packageId);
+        this.#setPreviewIcon();
+      }
+    })
+  }
 
   static styles = [
     css`
@@ -72,6 +93,15 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
         }
     `
   ]
+
+
+  render() {
+    return html`
+              <uui-button id="icon" compact label="icon" look="placeholder" @click=${this.#openModal} type="button" color="default">
+                ${unsafeHTML(this._previewIcon)}
+              </uui-button>
+    `
+  }
 
 }
 

@@ -128,6 +128,7 @@ export default class AddPackageModal
         this.modalContext?.submit();
     }
 
+
     #openCssFilePicker() {
         this.#cssFilePickerModal?.selectedItems.subscribe(async (selection) => {
             if (selection.length === 0) return;
@@ -146,9 +147,9 @@ export default class AddPackageModal
                         this.errors["cssfile.iconsfound"] = false;
                         return;
                     }
-    
+
                     this.package.extractedStyles = extractedStyles;
-    
+
                     //display first icon in the css
                     this.previewIconName = extractedStyles[0];
                     this.previewIcon = this.package.template.replace("{icon}", this.previewIconName);
@@ -183,6 +184,33 @@ export default class AddPackageModal
             filter: (item) => item.name.endsWith(".css"),
             pickableFilter: (item) => item.name.endsWith(".css")
         });
+    }
+
+    #handleStringValueChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        const name = target.name;
+
+        var tempObj = Object.assign({}, this.package);
+
+        switch (name) {
+            case "packageName":
+                tempObj.name = target.value;
+                break;
+            case "template":
+                tempObj.template = target.value;
+                break;
+            case "editCssFile":
+                tempObj.cssfile = target.value;
+                break;
+            case "editSelector":
+                tempObj.selector = target.value;
+                break;
+            case "editSourceFile":
+                tempObj.sourcefile = target.value;
+                break;
+        }
+
+        this.package = tempObj;
     }
 
     #handleConfigTypeChange(event: Event) {
@@ -284,15 +312,15 @@ export default class AddPackageModal
 
                         <uui-form-layout-item>  
                             <uui-label for="packageName" slot="label" >Enter a name</uui-label>
-                            <uui-input id="packageName" .value="${this.package.name}"  class="full-width" name="packageName" type="text"></uui-input>
+                            <uui-input id="packageName" .value="${this.package.name}" @change="${this.#handleStringValueChange}"  class="full-width" name="packageName" type="text"></uui-input>
                             <div ?hidden="${this.errors["name.required"]}">
                                 <p>Please enter a name for the package.</p>
                             </div>
                         </uui-form-layout-item>                                    
 
                         <uui-form-layout-item>
-                            <uui-label for="backofficeTemplate" slot="label" >Backoffice template</uui-label>
-                            <uui-input id="backofficeTemplate" .value="${this.package.template}"  class="full-width" name="backofficeTemplate" type="text"></uui-input>
+                            <uui-label for="template" slot="label" >Backoffice template</uui-label>
+                            <uui-input id="template" .value="${this.package.template}" @change="${this.#handleStringValueChange}"  class="full-width" name="template" type="text"></uui-input>
                             <div ?hidden="${this.errors["template.required"]}">
                                 <p>Please enter a template for the icon to display on the backoffice.</p>
                             </div>
@@ -301,7 +329,7 @@ export default class AddPackageModal
                         <uui-form-layout-item>                            
                             <uui-label for="editCssFile" slot="label">CSS File</uui-label>
                             <div class="flex">
-                                <uui-input id="editCssFile" class="full-width" .value="${this.package.cssfile}"  name="editCssFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
+                                <uui-input id="editCssFile" class="full-width" .value="${this.package.cssfile}" @change="${this.#handleStringValueChange}"  name="editCssFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
                                 <uui-button type="button" label="Select" @click=${this.#openCssFilePicker}></uui-button>
                             </div>
                             <div ?hidden="${this.errors["cssfile.loaded"]}">
@@ -316,13 +344,13 @@ export default class AddPackageModal
 
                         <uui-form-layout-item>
                             <uui-label for="editSelector" slot="label">Selector</uui-label>
-                            <uui-input id="editSelector" .value="${this.package.selector}"  class="full-width" name="editSelector" type="text"></uui-input>
+                            <uui-input id="editSelector" .value="${this.package.selector}" @change="${this.#handleStringValueChange}"  class="full-width" name="editSelector" type="text"></uui-input>
                         </uui-form-layout-item>
 
                         <uui-form-layout-item>
                             <uui-label for="editSourceFile" slot="label">Source File</uui-label>
                             <div class="flex">                                
-                                <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
+                                <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}" @change="${this.#handleStringValueChange}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
                                 <uui-button type="button" label="Select" @click=${this.#openSourceFilePicker}></uui-button>
                                 <div ?hidden="${this.errors["name.required"]}">
                                     <p>A source file is required to extract the icons values.</p>

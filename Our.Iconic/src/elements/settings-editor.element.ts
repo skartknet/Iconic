@@ -1,4 +1,4 @@
-import { html, customElement, property, LitElement, state, css } from "@umbraco-cms/backoffice/external/lit";
+import { html, customElement, property, LitElement, css } from "@umbraco-cms/backoffice/external/lit";
 import { UmbPropertyEditorUiElement } from "@umbraco-cms/backoffice/extension-registry";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { Package } from "../models";
@@ -16,11 +16,11 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
 
     private _modalManagerContext?: typeof UMB_MODAL_MANAGER_CONTEXT.TYPE;
 
-    #sorter = new UmbSorterController(this, {
+    #sorter = new UmbSorterController<Package, HTMLElement>(this, {
         itemSelector: '.item',
         containerSelector: '.container',
-        getUniqueOfElement: (element) => element.id,
-        getUniqueOfModel: (model: Package) => model.id
+        getUniqueOfElement: (element) => element.getAttribute('data-package-id'),
+        getUniqueOfModel: (modelEntry) => modelEntry.id
     });
 
 
@@ -31,8 +31,11 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
             this._modalManagerContext = instance;
         });
 
-        //this.#sorter.setModel(this._value);
+    }
 
+    connectedCallback() {
+        super.connectedCallback();
+        this.#sorter.setModel(this.value);
     }
 
 
@@ -55,30 +58,48 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
         :host {
             display: flex;
             flex-direction: column;
+            
+        }
+
+        .item {
+            display: flex;      
+            padding: calc(var(--uui-size-2, 6px) + 1px);      
+            justify-content: space-between;
+            align-items: center;            
+            border-bottom: 1px solid #ccc;
+            min-height: var(--uui-size-16);
+            border: 1px solid var(--uui-color-border, #d8d7d9);
+            border-radius: var(--uui-border-radius, 3px);
+            margin-bottom: var(--uui-size-2);
+        }
+
+        .details-small {
+            font-size: 0.8em;
         }
   `];
 
     #renderItem = (item: Package, index: number) => {
         return html`
-        <div class="item" id="package_${index}">
-            <div class="umb-node-preview">
-                <i class="umb-node-preview__icon icon-navigation handle"></i>
-                <div class="umb-node-preview__content">
-                    <div class="umb-node-preview__name">${item.name}</div>
+        <div class="item" data-package-id="${item.id}">
+            <div class="details">                
+                ${item.name}
+                <div class="details-small">
                     <div ?hidden="${item.filteredIcons && item.filteredIcons.length > 0}" class="umb-node-preview__description">
-                        <umb-localize key="iconicConfig_icons">Icons</umb-localize>: ${item.extractedStyles.length}
+                        Icons: ${item.extractedStyles.length}
                     </div>
                     <div ?hidden="${!item.filteredIcons || item.filteredIcons.length <= 0}" class="umb-node-preview__description">
-                        <umb-localize key="iconicConfig_icons">Icons</umb-localize>: ${item.filteredIcons.length} (filtered out of ${item.extractedStyles.length})
+                        Icons: ${item.filteredIcons.length} (filtered out of ${item.extractedStyles.length})
                     </div>
                 </div>
-                <div class="umb-node-preview__actions">
-                    <a class="umb-node-preview__action umb-node-preview__action--green" @click="${() => this.#editPackage(item)}" prevent-default>Edit</a>
-                    <a class="umb-node-preview__action umb-node-preview__action--red" @click="${() => this.#removeItem(index)}" prevent-default>
-                        <umb-localize key="iconicConfig_remove">Remove</umb-localize>
-                    </a>
-                </div>
             </div>
+            <uui-action-bar>
+				<uui-button label="edit" compact  @click="${() => this.#editPackage(item)}">
+                    <uui-icon name="icon-edit"></uui-icon>
+				</uui-button>		
+				<uui-button label="delete" compact @click="${() => this.#removeItem(index)}">
+					<uui-icon name="icon-remove"></uui-icon>
+				</uui-button>
+			</uui-action-bar>
         </div>    
         `
     }
@@ -98,11 +119,25 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
     };
 
     #editPackage = (pkg: Package) => {
-        this._modalManagerContext?.open(this, ICONIC_SETTINGS_ADDPACKAGE_TOKEN, {
+        let modalContext = this._modalManagerContext?.open(this, ICONIC_SETTINGS_ADDPACKAGE_TOKEN, {
             data: {
                 package: pkg
             }
         });
+
+        modalContext?.onSubmit().then((value) => {
+            if (!value) {
+                return;
+            }
+
+            var existingPackage = this.value.findIndex(x => x.id === value.package.id);
+            if (existingPackage >= 0) {
+                let tempVal = Array.from(this.value);
+                tempVal[existingPackage] = value.package;
+                this.value = tempVal;
+                this.dispatchEvent(new UmbPropertyValueChangeEvent());
+            }
+        })
     };
 
     #removeItem = (index: number) => {

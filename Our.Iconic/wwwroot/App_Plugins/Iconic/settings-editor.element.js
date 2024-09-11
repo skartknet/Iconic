@@ -1,97 +1,127 @@
-import { LitElement as w, html as u, css as b, property as C, customElement as E } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as k } from "@umbraco-cms/backoffice/element-api";
-import { UMB_MODAL_MANAGER_CONTEXT as y } from "@umbraco-cms/backoffice/modal";
-import { ICONIC_SETTINGS_ADDPACKAGE_TOKEN as _ } from "./modal-settings-addpackage.token.js";
+import { LitElement as k, html as m, css as x, property as w, customElement as E } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as y } from "@umbraco-cms/backoffice/element-api";
+import { UMB_MODAL_MANAGER_CONTEXT as C } from "@umbraco-cms/backoffice/modal";
+import { ICONIC_SETTINGS_ADDPACKAGE_TOKEN as f } from "./modal-settings-addpackage.token.js";
 import { UmbSorterController as I } from "@umbraco-cms/backoffice/sorter";
-import { UmbPropertyValueChangeEvent as M } from "@umbraco-cms/backoffice/property-editor";
-var $ = Object.defineProperty, O = Object.getOwnPropertyDescriptor, m = (e) => {
+import { UmbPropertyValueChangeEvent as _ } from "@umbraco-cms/backoffice/property-editor";
+var M = Object.defineProperty, A = Object.getOwnPropertyDescriptor, g = (e) => {
   throw TypeError(e);
-}, f = (e, t, i, o) => {
-  for (var a = o > 1 ? void 0 : o ? O(t, i) : t, l = e.length - 1, c; l >= 0; l--)
-    (c = e[l]) && (a = (o ? c(t, i, a) : c(a)) || a);
-  return o && a && $(t, i, a), a;
-}, S = (e, t, i) => t.has(e) || m("Cannot " + i), r = (e, t, i) => (S(e, t, "read from private field"), i ? i.call(e) : t.get(e)), n = (e, t, i) => t.has(e) ? m("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), g, d, v, p, h;
-let s = class extends k(w) {
+}, b = (e, t, i, r) => {
+  for (var a = r > 1 ? void 0 : r ? A(t, i) : t, n = e.length - 1, c; n >= 0; n--)
+    (c = e[n]) && (a = (r ? c(t, i, a) : c(a)) || a);
+  return r && a && M(t, i, a), a;
+}, S = (e, t, i) => t.has(e) || g("Cannot " + i), s = (e, t, i) => (S(e, t, "read from private field"), i ? i.call(e) : t.get(e)), l = (e, t, i) => t.has(e) ? g("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), d, u, h, p, v;
+let o = class extends y(k) {
   constructor() {
-    super(), this.value = [], n(this, g, new I(this, {
+    super(), this.value = [], l(this, d, new I(this, {
       itemSelector: ".item",
       containerSelector: ".container",
-      getUniqueOfElement: (e) => e.id,
+      getUniqueOfElement: (e) => e.getAttribute("data-package-id"),
       getUniqueOfModel: (e) => e.id
-    })), n(this, d, (e, t) => u`
-        <div class="item" id="package_${t}">
-            <div class="umb-node-preview">
-                <i class="umb-node-preview__icon icon-navigation handle"></i>
-                <div class="umb-node-preview__content">
-                    <div class="umb-node-preview__name">${e.name}</div>
+    })), l(this, u, (e, t) => m`
+        <div class="item" data-package-id="${e.id}">
+            <div class="details">                
+                ${e.name}
+                <div class="details-small">
                     <div ?hidden="${e.filteredIcons && e.filteredIcons.length > 0}" class="umb-node-preview__description">
-                        <umb-localize key="iconicConfig_icons">Icons</umb-localize>: ${e.extractedStyles.length}
+                        Icons: ${e.extractedStyles.length}
                     </div>
                     <div ?hidden="${!e.filteredIcons || e.filteredIcons.length <= 0}" class="umb-node-preview__description">
-                        <umb-localize key="iconicConfig_icons">Icons</umb-localize>: ${e.filteredIcons.length} (filtered out of ${e.extractedStyles.length})
+                        Icons: ${e.filteredIcons.length} (filtered out of ${e.extractedStyles.length})
                     </div>
                 </div>
-                <div class="umb-node-preview__actions">
-                    <a class="umb-node-preview__action umb-node-preview__action--green" @click="${() => r(this, p).call(this, e)}" prevent-default>Edit</a>
-                    <a class="umb-node-preview__action umb-node-preview__action--red" @click="${() => r(this, h).call(this, t)}" prevent-default>
-                        <umb-localize key="iconicConfig_remove">Remove</umb-localize>
-                    </a>
-                </div>
             </div>
+            <uui-action-bar>
+				<uui-button label="edit" compact  @click="${() => s(this, p).call(this, e)}">
+                    <uui-icon name="icon-edit"></uui-icon>
+				</uui-button>		
+				<uui-button label="delete" compact @click="${() => s(this, v).call(this, t)}">
+					<uui-icon name="icon-remove"></uui-icon>
+				</uui-button>
+			</uui-action-bar>
         </div>    
-        `), n(this, v, () => {
+        `), l(this, h, () => {
       var t;
-      let e = (t = this._modalManagerContext) == null ? void 0 : t.open(this, _);
+      let e = (t = this._modalManagerContext) == null ? void 0 : t.open(this, f);
       e == null || e.onSubmit().then((i) => {
-        this.value || (this.value = []), this.value = [...this.value, i.package], this.dispatchEvent(new M());
+        this.value || (this.value = []), this.value = [...this.value, i.package], this.dispatchEvent(new _());
       });
-    }), n(this, p, (e) => {
-      var t;
-      (t = this._modalManagerContext) == null || t.open(this, _, {
+    }), l(this, p, (e) => {
+      var i;
+      let t = (i = this._modalManagerContext) == null ? void 0 : i.open(this, f, {
         data: {
           package: e
         }
       });
-    }), n(this, h, (e) => {
+      t == null || t.onSubmit().then((r) => {
+        if (r) {
+          var a = this.value.findIndex((n) => n.id === r.package.id);
+          if (a >= 0) {
+            let n = Array.from(this.value);
+            n[a] = r.package, this.value = n, this.dispatchEvent(new _());
+          }
+        }
+      });
+    }), l(this, v, (e) => {
       this.value && this.value.length > e && (this.value = this.value.splice(e, 1));
-    }), this.consumeContext(y, (e) => {
+    }), this.consumeContext(C, (e) => {
       this._modalManagerContext = e;
     });
   }
+  connectedCallback() {
+    super.connectedCallback(), s(this, d).setModel(this.value);
+  }
   render() {
     var e;
-    return u`                
+    return m`                
             <div class="container">                   
-                ${(e = this.value) == null ? void 0 : e.map((t, i) => r(this, d).call(this, t, i))}   
+                ${(e = this.value) == null ? void 0 : e.map((t, i) => s(this, u).call(this, t, i))}   
             </div>                                         
 
             <uui-button
                     class = "add-button"
 					look="placeholder"
 					label="Add"
-                    @click="${r(this, v)}" 
+                    @click="${s(this, h)}" 
 					></uui-button>                   
         `;
   }
 };
-g = /* @__PURE__ */ new WeakMap();
 d = /* @__PURE__ */ new WeakMap();
-v = /* @__PURE__ */ new WeakMap();
-p = /* @__PURE__ */ new WeakMap();
+u = /* @__PURE__ */ new WeakMap();
 h = /* @__PURE__ */ new WeakMap();
-s.styles = [b`
+p = /* @__PURE__ */ new WeakMap();
+v = /* @__PURE__ */ new WeakMap();
+o.styles = [x`
         :host {
             display: flex;
             flex-direction: column;
+            
+        }
+
+        .item {
+            display: flex;      
+            padding: calc(var(--uui-size-2, 6px) + 1px);      
+            justify-content: space-between;
+            align-items: center;            
+            border-bottom: 1px solid #ccc;
+            min-height: var(--uui-size-16);
+            border: 1px solid var(--uui-color-border, #d8d7d9);
+            border-radius: var(--uui-border-radius, 3px);
+            margin-bottom: var(--uui-size-2);
+        }
+
+        .details-small {
+            font-size: 0.8em;
         }
   `];
-f([
-  C({ type: Array })
-], s.prototype, "value", 2);
-s = f([
+b([
+  w({ type: Array })
+], o.prototype, "value", 2);
+o = b([
   E("iconic-settings-element")
-], s);
+], o);
 export {
-  s as default
+  o as default
 };
 //# sourceMappingURL=settings-editor.element.js.map

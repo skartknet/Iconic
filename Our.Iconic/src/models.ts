@@ -17,7 +17,7 @@ class Package {
     cssfile: string;
     sourcefile: string;
     extractedStyles: string[];
-    filteredIcons: Icon[];
+    filteredIcons: string[];
 
     constructor() {
         this.id = this.uuid();
