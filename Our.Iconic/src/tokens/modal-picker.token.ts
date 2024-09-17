@@ -3,6 +3,9 @@ import { Icon, Package } from "../models";
 
 export type ModalPickerData = {
     packages?: Package[];
+
+    // Indicates whether the icons to display are from the filtered ones or all the icons in the package.
+    showFilteredOnly?: boolean;
 }
 
 export type ModalPickerValue = {

@@ -18,6 +18,7 @@ export default class ModalPicker
     private _value?: Icon;
     private _dataService: DataService = new DataService();
     private _packages: Package[] = [];
+    private _showFilteredOnly: boolean = false;
 
     @state()
     private _icons: string[] = [];
@@ -36,10 +37,12 @@ export default class ModalPicker
         super.connectedCallback();
 
         this._packages = this.modalContext?.data.packages ?? [];
+        this._showFilteredOnly = this.modalContext?.data.showFilteredOnly ?? false;
+        
         if (this._packages && this._packages.length > 0) {
             this._selectedPackage = this._packages[0];
             this._dataService.processCssFiles(this._packages.map(x => x.cssfile), this.shadowRoot).then(() => {
-                if (this._selectedPackage!.filteredIcons.length > 0) {
+                if (this._selectedPackage!.filteredIcons.length > 0 && this._showFilteredOnly) {
                     this._icons = this._selectedPackage!.filteredIcons;
                 } else {
                     this._icons = this._selectedPackage!.extractedStyles;
@@ -51,7 +54,7 @@ export default class ModalPicker
     }
 
     #selectIcon(e: Event) {
-        var val = (e.target as HTMLElement).getAttribute("value");
+        var val = (e.currentTarget as HTMLElement).getAttribute("value");
 
         if (val) {
             this._value = { packageId: this._selectedPackage!.id, icon: val };
@@ -82,7 +85,7 @@ export default class ModalPicker
                 </select>
                 <h4 ?hidden=${this._packages.length > 0}>${this._packages[0].name}</h4>
                 ${this._icons.map((icon) => html`
-                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" @click=${this.#selectIcon} value=${icon}>
+                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" @click=${this.#selectIcon} label=${icon} value=${icon}>
                             ${unsafeHTML(this._selectedPackage?.template.replace("{icon}", icon))}
                     </uui-button>
                 `)}              

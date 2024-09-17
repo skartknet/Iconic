@@ -1,21 +1,21 @@
-import { LitElement as g, html as h, unsafeHTML as v, css as f, property as k, state as u, customElement as b } from "@umbraco-cms/backoffice/external/lit";
+import { LitElement as g, html as h, unsafeHTML as v, css as f, property as k, state as p, customElement as b } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin as y } from "@umbraco-cms/backoffice/element-api";
 import { D as C } from "./dataService-DAQWLY0h.js";
-var P = Object.defineProperty, x = Object.getOwnPropertyDescriptor, d = (e) => {
+var P = Object.defineProperty, x = Object.getOwnPropertyDescriptor, u = (e) => {
   throw TypeError(e);
-}, l = (e, t, a, s) => {
+}, c = (e, t, a, s) => {
   for (var i = s > 1 ? void 0 : s ? x(t, a) : t, n = e.length - 1, r; n >= 0; n--)
     (r = e[n]) && (i = (s ? r(t, a, i) : r(i)) || i);
   return s && i && P(t, a, i), i;
-}, $ = (e, t, a) => t.has(e) || d("Cannot " + a), w = (e, t, a) => t.has(e) ? d("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), p = (e, t, a) => ($(e, t, "access private method"), a), c, _, m;
+}, $ = (e, t, a) => t.has(e) || u("Cannot " + a), w = (e, t, a) => t.has(e) ? u("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), d = (e, t, a) => ($(e, t, "access private method"), a), l, _, m;
 let o = class extends y(g) {
   constructor() {
-    super(...arguments), w(this, c), this._dataService = new C(), this._packages = [], this._icons = [];
+    super(...arguments), w(this, l), this._dataService = new C(), this._packages = [], this._showFilteredOnly = !1, this._icons = [];
   }
   connectedCallback() {
-    var e;
-    super.connectedCallback(), this._packages = ((e = this.modalContext) == null ? void 0 : e.data.packages) ?? [], this._packages && this._packages.length > 0 && (this._selectedPackage = this._packages[0], this._dataService.processCssFiles(this._packages.map((t) => t.cssfile), this.shadowRoot).then(() => {
-      this._selectedPackage.filteredIcons.length > 0 ? this._icons = this._selectedPackage.filteredIcons : this._icons = this._selectedPackage.extractedStyles;
+    var e, t;
+    super.connectedCallback(), this._packages = ((e = this.modalContext) == null ? void 0 : e.data.packages) ?? [], this._showFilteredOnly = ((t = this.modalContext) == null ? void 0 : t.data.showFilteredOnly) ?? !1, this._packages && this._packages.length > 0 && (this._selectedPackage = this._packages[0], this._dataService.processCssFiles(this._packages.map((a) => a.cssfile), this.shadowRoot).then(() => {
+      this._selectedPackage.filteredIcons.length > 0 && this._showFilteredOnly ? this._icons = this._selectedPackage.filteredIcons : this._icons = this._selectedPackage.extractedStyles;
     }));
   }
   render() {
@@ -30,26 +30,26 @@ let o = class extends y(g) {
                 ${this._icons.map((e) => {
       var t;
       return h`
-                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" @click=${p(this, c, m)} value=${e}>
+                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" @click=${d(this, l, m)} label=${e} value=${e}>
                             ${v((t = this._selectedPackage) == null ? void 0 : t.template.replace("{icon}", e))}
                     </uui-button>
                 `;
     })}              
             </umb-body-layout>
             <umb-footer-layout>
-                        <uui-button slot="actions" label="Cancel" @click="${p(this, c, _)}"></uui-button>                        
+                        <uui-button slot="actions" label="Cancel" @click="${d(this, l, _)}"></uui-button>                        
             </umb-footer-layout> 
         `;
   }
 };
-c = /* @__PURE__ */ new WeakSet();
+l = /* @__PURE__ */ new WeakSet();
 _ = function() {
   var e;
   (e = this.modalContext) == null || e.submit();
 };
 m = function(e) {
   var a, s;
-  var t = e.target.getAttribute("value");
+  var t = e.currentTarget.getAttribute("value");
   t && (this._value = { packageId: this._selectedPackage.id, icon: t }, (a = this.modalContext) == null || a.updateValue({ value: this._value }), (s = this.modalContext) == null || s.submit());
 };
 o.styles = [
@@ -63,16 +63,16 @@ o.styles = [
             }
         `
 ];
-l([
+c([
   k({ attribute: !1 })
 ], o.prototype, "modalContext", 2);
-l([
-  u()
+c([
+  p()
 ], o.prototype, "_icons", 2);
-l([
-  u()
+c([
+  p()
 ], o.prototype, "_selectedPackage", 2);
-o = l([
+o = c([
   b("modal-picker")
 ], o);
 export {

@@ -67,11 +67,12 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
     let modalContext = this.#modalManagerContext?.open(this, ICONIC_MODALPICKER_TOKEN, {
       data: {
         packages: this._packages,
+        showFilteredOnly: true
       },
     });
 
     modalContext?.onSubmit().then((val) => {
-      if (!val.value) {
+      if (val?.value == undefined) {
         this.value = undefined;
       } else {
         this.value = val.value;
@@ -84,12 +85,12 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
 
   static styles = [
     css`
-      #icon{
+      .icon{
             font-size: var(--uui-size-8);
-            height: 60px;
-            width: 60px;
-            margin-right: var(--uui-size-layout-1);
-            margin-bottom: var(--uui-size-layout-1);
+            height: 55px;
+            width: 55px;
+            margin-right: var(--uui-size-space-1);
+            margin-bottom: var(--uui-size-space-2);
         }
     `
   ]
@@ -97,7 +98,7 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
 
   render() {
     return html`
-              <uui-button id="icon" compact label="icon" look="placeholder" @click=${this.#openModal} type="button" color="default">
+              <uui-button class="icon" compact label="icon" look="placeholder" @click=${this.#openModal} type="button" color="default">
                 ${unsafeHTML(this._previewIcon)}
               </uui-button>
     `

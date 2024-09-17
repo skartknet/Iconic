@@ -1,12 +1,13 @@
 import { html, LitElement, property, customElement, state, css, nothing, unsafeHTML, ifDefined } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
-import type { UmbModalContext } from "@umbraco-cms/backoffice/modal";
+import { UMB_MODAL_MANAGER_CONTEXT, UmbModalContext } from "@umbraco-cms/backoffice/modal";
 import type { AddPackageModalData, AddPackageModalValue } from "../tokens/modal-settings-addpackage.token.ts";
 import { UmbModalExtensionElement } from "@umbraco-cms/backoffice/extension-registry";
 import { Package, PreConfiguration } from "../models.ts";
 import DataService from "../dataService.ts";
 import { UmbStaticFilePickerContext } from "@umbraco-cms/backoffice/static-file";
 import { UUIButtonState } from "@umbraco-cms/backoffice/external/uui";
+import { ICONIC_MODALPICKER_TOKEN } from "../tokens/modal-picker.token.ts";
 
 @customElement('add-package-modal')
 export default class AddPackageModal
@@ -43,6 +44,7 @@ export default class AddPackageModal
 
     #cssFilePickerModal?: UmbStaticFilePickerContext;
     #sourceFilePickerModal?: UmbStaticFilePickerContext;
+    #modalManagerContext?: typeof UMB_MODAL_MANAGER_CONTEXT.TYPE;
 
 
     private _dataService: DataService = new DataService();
@@ -58,6 +60,11 @@ export default class AddPackageModal
                     return { name: preconfig.name, value: preconfig.name };
                 });
             });
+
+        this.consumeContext(UMB_MODAL_MANAGER_CONTEXT, (instance) => {
+            this.#modalManagerContext = instance;
+        });
+
 
         this.#initFormValidation();
     }
@@ -226,17 +233,48 @@ export default class AddPackageModal
         }
     }
 
+    #getIconToDisplay(icon: string): string {
+        return this.package.template.replace("{icon}", icon);
+    }
+
     #loadPreview() {
+        this.previewButtonState = "waiting";
+
         this.#processCssFile();
 
         //display first icon in the css
         this.previewIconName = this.package.extractedStyles[0];
-        this.previewIcon = this.package.template.replace("{icon}", this.previewIconName);
+        this.previewIcon = this.#getIconToDisplay(this.previewIconName);
         this.previewButtonState = "success";
     }
 
+    #removeFilteredIcon(index: number) {
+        let tempPackage = Object.assign({}, this.package);
+        tempPackage.filteredIcons.splice(index, 1);
+        this.package = tempPackage;
+    }
+
+    #openFilterIconsOverlay() {
+        let modalContext = this.#modalManagerContext?.open(this, ICONIC_MODALPICKER_TOKEN, {
+            data: {
+                packages: [this.package],
+                showFilteredOnly: false
+            },
+        });
+
+
+        modalContext?.onSubmit().then((val) => {
+            if (val?.value == undefined) {
+                return;
+            }
+
+            let tempPackage = Object.assign([], this.package);
+            tempPackage.filteredIcons = [...tempPackage.filteredIcons, val.value.icon];
+            this.package = tempPackage;
+        });
+    }
+
     async #processCssFile() {
-        this.previewButtonState = "waiting";
         if (!this.package.cssfile) {
             this.errors["preview.cssrequired"] = false;
         }
@@ -275,12 +313,33 @@ export default class AddPackageModal
             flex-direction: column;
         }
 
-        #icon{
+        .icon-filter{
+            display: flex;
+            flex-direction: column;
+            margin-right: var(--uui-size-space-1);
+            margin-bottom: var(--uui-size-space-2);
+        }
+
+        .icon-remove{
+            font-size: var(--uui-size-4); 
+            cursor: pointer;           
+        }
+
+        .icon-remove:hover{
+            text-decoration: underline;
+        }
+
+        
+        .icon{
             font-size: var(--uui-size-8);
-            height: 60px;
-            width: 60px;
-            margin-right: var(--uui-size-layout-1);
-            margin-bottom: var(--uui-size-layout-1);
+            height: 55px;
+            width: 55px;
+            margin-right: var(--uui-size-space-1);
+            margin-bottom: 0;
+        }
+
+        .icon-add{
+            font-size: var(--uui-size-5);
         }
        
     `
@@ -289,7 +348,7 @@ export default class AddPackageModal
         return html`        
         <umb-body-layout headline="Add Package">
             <uui-form>                   
-                <form class="our-iconic__form">   
+                <form>   
                     <uui-box headline="Details">
                         <uui-form-layout-item>
                             <uui-label for="configType" slot="label" >Configuration Type</uui-label>                            
@@ -300,7 +359,7 @@ export default class AddPackageModal
                         </uui-form-layout-item>
 
                         ${this.configType === "preconfigured" ?
-                html`
+                            html`
                                 <uui-form-layout-item>                        
                                     <uui-select class="full-width"
                                                 placeholder="Select a pre-configuration..."
@@ -362,42 +421,36 @@ export default class AddPackageModal
 
                     <uui-box headline="Filters">
                         <small>Use it to make available just specific icons, instead of the whole set. Leave blank to make all icons available.</small>
-                    <!-- <fieldset class="filters">
-                    <legend>
-                        <p>Filter</p>
-                        <small>Use it to make available just specific icons, instead of the whole set. Leave blank to make all icons available.</small>
-                    </legend>
-                    <div ng-show="packageForm.$valid" class="flex our-iconic__container">
-                        <div ng-repeat="filteredIcon in model.package.filteredIcons">
-                            <div class="umb-panel-header-icon -placeholder" title="{{filteredIcon}}">
-                                <iconic-icon package="model.package" icon="filteredIcon">
-                                </iconic-icon>
-                            </div>
-                            <button ng-click="removeFilteredIcon($index)" class="button-remove" prevent-default>
-                                <localize key="general_remove" class="ng-isolate-scope">Remove</localize>
-                            </button>
+
+                        <div class="flex">
+                            ${this.package.filteredIcons.map((filteredIcon, index) => html`
+                                <div class="icon-filter">                        
+                                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default">
+                                        ${unsafeHTML(this.#getIconToDisplay(filteredIcon))}
+                                    </uui-button>                                    
+                                    <div @click="${() => this.#removeFilteredIcon(index)}" class="icon-remove">
+                                        Remove
+                                    </div>
+                                </div>
+                            `)}
+                                                                           
+                            <uui-button class="icon icon-add" compact label="icon" look="placeholder" type="button" color="default" @click=${this.#openFilterIconsOverlay}>
+                                Add
+                            </uui-button>
+                            
                         </div>
 
-                        <div class="umb-panel-header-icon" ng-click="openFilterIconsOverlay()">
-                            <localize key="general_add" class="ng-isolate-scope" style="font-size: 1rem;">Add</localize>
-                            <iconic-icon></iconic-icon>
-                        </div>
-                        </div>
-                        <div ng-hide="packageForm.$valid">
-                            <p>Package configuration is not valid.</p>
-                        </div>
-                    </fieldset> -->
                     </uui-box>
 
                     <uui-box headline="Preview">
                          
                         <div>
-                            <uui-button id="icon" compact label="icon" look="placeholder" ?disabled="${!this.previewIcon}" type="button" color="default">
+                            <uui-button class="icon" compact label="icon" look="placeholder" ?disabled="${!this.previewIcon}" type="button" color="default">
                                 ${unsafeHTML(this.previewIcon)}
                             </uui-button>
                             <div><small><em>${this.previewIconName}</em></small></div>
                         </div>
-                        <uui-button label="Reload Preview" look="primary" @click="${this.#loadPreview}" ?disabled="${!this.package.cssfile}" state="${ifDefined(this.previewButtonState)}"></uui-button>                            
+                        <uui-button label="Reload Preview" look="primary" @click="${this.#loadPreview}" ?disabled="${!this.package.cssfile}" state="${this.previewButtonState}"></uui-button>                            
                     
                         <div ?hidden="${this.errors["cssfile.required"]}">
                             <p>Please select a CSS file first.</p>
