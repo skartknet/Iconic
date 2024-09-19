@@ -3,7 +3,7 @@ import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { UMB_MODAL_MANAGER_CONTEXT, UmbModalContext } from "@umbraco-cms/backoffice/modal";
 import type { AddPackageModalData, AddPackageModalValue } from "../tokens/modal-settings-addpackage.token.ts";
 import { UmbModalExtensionElement } from "@umbraco-cms/backoffice/extension-registry";
-import { Package, PreConfiguration } from "../models.ts";
+import { Icon, Package, PreConfiguration } from "../models.ts";
 import DataService from "../dataService.ts";
 import { UmbStaticFilePickerContext } from "@umbraco-cms/backoffice/static-file";
 import { UUIButtonState } from "@umbraco-cms/backoffice/external/uui";
@@ -258,18 +258,25 @@ export default class AddPackageModal
         let modalContext = this.#modalManagerContext?.open(this, ICONIC_MODALPICKER_TOKEN, {
             data: {
                 packages: [this.package],
-                showFilteredOnly: false
+                showFilteredOnly: false,
+                multiSelect: true
             },
+            value: {
+                icons: this.package.filteredIcons.map(x => {
+                    var icon = new Icon(x, this.package.id);
+                    return icon;
+                })
+            }
         });
 
 
         modalContext?.onSubmit().then((val) => {
-            if (val?.value == undefined) {
+            if (val?.icons == undefined) {
                 return;
             }
 
             let tempPackage = Object.assign([], this.package);
-            tempPackage.filteredIcons = [...tempPackage.filteredIcons, val.value.icon];
+            tempPackage.filteredIcons = val.icons.map(icon => icon.icon);
             this.package = tempPackage;
         });
     }
@@ -421,7 +428,6 @@ export default class AddPackageModal
 
                     <uui-box headline="Filters">
                         <small>Use it to make available just specific icons, instead of the whole set. Leave blank to make all icons available.</small>
-
                         <div class="flex">
                             ${this.package.filteredIcons.map((filteredIcon, index) => html`
                                 <div class="icon-filter">                        

@@ -1,4 +1,4 @@
-import { html, LitElement, property, customElement, state, unsafeHTML, css } from "@umbraco-cms/backoffice/external/lit";
+import { html, LitElement, property, customElement, state, unsafeHTML, css, nothing } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import type { UmbModalContext } from "@umbraco-cms/backoffice/modal";
 import type { ModalPickerData, ModalPickerValue } from "../tokens/modal-picker.token.ts";
@@ -14,8 +14,8 @@ export default class ModalPicker
     @property({ attribute: false })
     modalContext?: UmbModalContext<ModalPickerData, ModalPickerValue>;
 
-
-    private _value?: Icon;
+    private _value: Icon[] = [];
+    private _multiSelect: boolean = false;
     private _dataService: DataService = new DataService();
     private _packages: Package[] = [];
     private _showFilteredOnly: boolean = false;
@@ -26,19 +26,15 @@ export default class ModalPicker
     @state()
     private _selectedPackage?: Package;
 
-    #handleCancel() {
-        this.modalContext?.submit();
-    }
-
-
-
 
     connectedCallback(): void {
         super.connectedCallback();
 
         this._packages = this.modalContext?.data.packages ?? [];
         this._showFilteredOnly = this.modalContext?.data.showFilteredOnly ?? false;
-        
+        this._multiSelect = this.modalContext?.data.multiSelect ?? false;
+        this._value = Array.from(this.modalContext?.getValue()?.icons ?? []);
+
         if (this._packages && this._packages.length > 0) {
             this._selectedPackage = this._packages[0];
             this._dataService.processCssFiles(this._packages.map(x => x.cssfile), this.shadowRoot).then(() => {
@@ -57,10 +53,26 @@ export default class ModalPicker
         var val = (e.currentTarget as HTMLElement).getAttribute("value");
 
         if (val) {
-            this._value = { packageId: this._selectedPackage!.id, icon: val };
-            this.modalContext?.updateValue({ value: this._value });
-            this.modalContext?.submit();
+            this._value.push({ packageId: this._selectedPackage!.id, icon: val });
+            (e.currentTarget as HTMLElement).setAttribute("disabled", "true");
+
+            if (!this._multiSelect) {
+                this.#handleSave();
+            }
         }
+    }
+
+    #isSelected(icon: string): boolean {
+        return this._value.findIndex(x => x.icon === icon) >= 0;
+    }
+
+    #handleCancel() {
+        this.modalContext?.submit();
+    }
+
+    #handleSave() {
+        this.modalContext?.updateValue({ icons: this._value });
+        this.modalContext?.submit();
     }
 
     static styles = [
@@ -85,12 +97,13 @@ export default class ModalPicker
                 </select>
                 <h4 ?hidden=${this._packages.length > 0}>${this._packages[0].name}</h4>
                 ${this._icons.map((icon) => html`
-                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" @click=${this.#selectIcon} label=${icon} value=${icon}>
+                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${this.#isSelected(icon)} @click=${this.#selectIcon} label=${icon} value=${icon}>
                             ${unsafeHTML(this._selectedPackage?.template.replace("{icon}", icon))}
                     </uui-button>
                 `)}              
             </umb-body-layout>
             <umb-footer-layout>
+                        ${this._multiSelect ? html`<uui-button slot="actions" label="Submit" @click="${this.#handleSave}"></uui-button>` : nothing}                        
                         <uui-button slot="actions" label="Cancel" @click="${this.#handleCancel}"></uui-button>                        
             </umb-footer-layout> 
         `;

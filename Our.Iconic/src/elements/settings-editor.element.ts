@@ -29,42 +29,13 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
         super.connectedCallback();
     }
 
-    #renderItem = (item: Package, index: number) => {
-        return html`
-        <div class="item" data-package-id="${item.id}">
-            <div class="details">                
-                ${item.name}
-                <div class="details-small">
-                    <div ?hidden="${item.filteredIcons && item.filteredIcons.length > 0}" class="umb-node-preview__description">
-                        Icons: ${item.extractedStyles.length}
-                    </div>
-                    <div ?hidden="${!item.filteredIcons || item.filteredIcons.length <= 0}" class="umb-node-preview__description">
-                        Icons: ${item.filteredIcons.length} (filtered out of ${item.extractedStyles.length})
-                    </div>
-                </div>
-            </div>
-            <uui-action-bar>
-				<uui-button label="edit" compact  @click="${() => this.#editPackage(item)}">
-                    <uui-icon name="icon-edit"></uui-icon>
-				</uui-button>		
-				<uui-button label="delete" compact @click="${() => this.#removeItem(index)}">
-					<uui-icon name="icon-remove"></uui-icon>
-				</uui-button>
-			</uui-action-bar>
-        </div>    
-        `
-    }
 
     #createNewPackage = () => {
 
         let modalContext = this._modalManagerContext?.open(this, ICONIC_SETTINGS_ADDPACKAGE_TOKEN);
 
         modalContext?.onSubmit().then((val) => {
-            if (!this.value) {
-                this.value = [];
-            }
-
-            if (val && val.package) {
+            if (val?.package) {
                 let tempVal = this.value.map(x => x);
                 tempVal.push(Object.assign({}, val.package));
 
@@ -103,24 +74,10 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
             let tempVal = Array.from(this.value);
             tempVal.splice(index, 1);
             this.value = tempVal;
+            this.dispatchEvent(new UmbPropertyValueChangeEvent());
         }
     };
 
-
-    render() {
-        return html`                
-            <div class="container">                   
-                ${this.value?.map((item, index) => this.#renderItem(item, index))}   
-            </div>                                         
-
-            <uui-button
-                    class = "add-button"
-					look="placeholder"
-					label="Add"
-                    @click="${this.#createNewPackage}" 
-					></uui-button>                   
-        `
-    }
 
     static styles = [css`
         :host {
@@ -146,6 +103,49 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
             font-size: 0.8em;
         }
   `];
+
+
+
+    render() {
+        return html`                
+        <div class="container">                   
+            ${this.value?.map((item, index) => this.#renderItem(item, index))}   
+        </div>                                         
+
+        <uui-button
+                class = "add-button"
+                look="placeholder"
+                label="Add Package"
+                @click="${this.#createNewPackage}" 
+                ></uui-button>                   
+    `
+    }
+
+    #renderItem = (item: Package, index: number) => {
+        return html`
+                    <div class="item" data-package-id="${item.id}">
+                        <div class="details">                
+                            <b>${item.name}</b>
+                            <div class="details-small">
+                                <div ?hidden="${item.filteredIcons && item.filteredIcons.length > 0}">
+                                    Icons: ${item.extractedStyles.length}
+                                </div>
+                                <div ?hidden="${!item.filteredIcons || item.filteredIcons.length <= 0}">
+                                    Icons: ${item.filteredIcons.length} (filtered out of ${item.extractedStyles.length})
+                                </div>
+                            </div>
+                        </div>
+                        <uui-action-bar>
+                            <uui-button label="edit" compact  @click="${() => this.#editPackage(item)}">
+                                <uui-icon name="icon-edit"></uui-icon>
+                            </uui-button>		
+                            <uui-button label="delete" compact @click="${() => this.#removeItem(index)}">
+                                <uui-icon name="icon-remove"></uui-icon>
+                            </uui-button>
+                        </uui-action-bar>
+                    </div>    
+                    `
+    }
 }
 
 declare global {

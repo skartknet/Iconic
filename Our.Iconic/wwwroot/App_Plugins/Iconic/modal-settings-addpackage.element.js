@@ -4,6 +4,11 @@ import { UMB_MODAL_MANAGER_CONTEXT as j } from "@umbraco-cms/backoffice/modal";
 import { D as V } from "./dataService-DAQWLY0h.js";
 import { UmbStaticFilePickerContext as x } from "@umbraco-cms/backoffice/static-file";
 import { ICONIC_MODALPICKER_TOKEN as G } from "./modal-picker.token.js";
+class K {
+  constructor(t, i) {
+    this.icon = t || "", this.packageId = i || "";
+  }
+}
 class w {
   constructor() {
     this.id = this.uuid(), this.name = "", this.selector = "", this.template = "", this.cssfile = "", this.sourcefile = "", this.extractedStyles = [], this.filteredIcons = [];
@@ -15,14 +20,14 @@ class w {
     return t;
   }
 }
-var K = Object.defineProperty, H = Object.getOwnPropertyDescriptor, I = (e) => {
+var H = Object.defineProperty, X = Object.getOwnPropertyDescriptor, I = (e) => {
   throw TypeError(e);
-}, u = (e, t, i, a) => {
-  for (var l = a > 1 ? void 0 : a ? H(t, i) : t, v = e.length - 1, b; v >= 0; v--)
-    (b = e[v]) && (l = (a ? b(t, i, l) : b(l)) || l);
-  return a && l && K(t, i, l), l;
-}, S = (e, t, i) => t.has(e) || I("Cannot " + i), p = (e, t, i) => (S(e, t, "read from private field"), t.get(e)), f = (e, t, i) => t.has(e) ? I("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), y = (e, t, i, a) => (S(e, t, "write to private field"), t.set(e, i), i), o = (e, t, i) => (S(e, t, "access private method"), i), d, h, m, s, P, F, O, q, T, M, c, N, R, _, E, z, A, g;
-let r = class extends L(B) {
+}, c = (e, t, i, a) => {
+  for (var r = a > 1 ? void 0 : a ? X(t, i) : t, v = e.length - 1, b; v >= 0; v--)
+    (b = e[v]) && (r = (a ? b(t, i, r) : b(r)) || r);
+  return a && r && H(t, i, r), r;
+}, S = (e, t, i) => t.has(e) || I("Cannot " + i), p = (e, t, i) => (S(e, t, "read from private field"), t.get(e)), f = (e, t, i) => t.has(e) ? I("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), y = (e, t, i, a) => (S(e, t, "write to private field"), t.set(e, i), i), o = (e, t, i) => (S(e, t, "access private method"), i), d, h, m, s, P, F, O, q, T, M, u, N, R, _, E, z, A, g;
+let l = class extends L(B) {
   constructor() {
     super(), f(this, s), this.package = new w(), this.configType = "custom", this.errors = {}, this.preconfigsOptions = [], this.preconfigs = [], f(this, d), f(this, h), f(this, m), this._dataService = new V(), y(this, d, new x(this)), y(this, h, new x(this)), this._dataService.loadPreconfigs().then((e) => {
       this.preconfigs = e, this.preconfigsOptions = e.map((t) => ({ name: t.name, value: t.name }));
@@ -59,7 +64,7 @@ let r = class extends L(B) {
 
                         <uui-form-layout-item>  
                             <uui-label for="packageName" slot="label" >Enter a name</uui-label>
-                            <uui-input id="packageName" .value="${this.package.name}" @change="${o(this, s, c)}"  class="full-width" name="packageName" type="text"></uui-input>
+                            <uui-input id="packageName" .value="${this.package.name}" @change="${o(this, s, u)}"  class="full-width" name="packageName" type="text"></uui-input>
                             <div ?hidden="${this.errors["name.required"]}">
                                 <p>Please enter a name for the package.</p>
                             </div>
@@ -67,7 +72,7 @@ let r = class extends L(B) {
 
                         <uui-form-layout-item>
                             <uui-label for="template" slot="label" >Backoffice template</uui-label>
-                            <uui-input id="template" .value="${this.package.template}" @change="${o(this, s, c)}"  class="full-width" name="template" type="text"></uui-input>
+                            <uui-input id="template" .value="${this.package.template}" @change="${o(this, s, u)}"  class="full-width" name="template" type="text"></uui-input>
                             <div ?hidden="${this.errors["template.required"]}">
                                 <p>Please enter a template for the icon to display on the backoffice.</p>
                             </div>
@@ -76,7 +81,7 @@ let r = class extends L(B) {
                         <uui-form-layout-item>                            
                             <uui-label for="editCssFile" slot="label">CSS File</uui-label>
                             <div class="flex">
-                                <uui-input id="editCssFile" class="full-width" .value="${this.package.cssfile}" @change="${o(this, s, c)}"  name="editCssFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
+                                <uui-input id="editCssFile" class="full-width" .value="${this.package.cssfile}" @change="${o(this, s, u)}"  name="editCssFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
                                 <uui-button type="button" label="Select" @click=${o(this, s, T)}></uui-button>
                             </div>
                             <div ?hidden="${this.errors["cssfile.loaded"]}">
@@ -91,13 +96,13 @@ let r = class extends L(B) {
 
                         <uui-form-layout-item>
                             <uui-label for="editSelector" slot="label">Selector</uui-label>
-                            <uui-input id="editSelector" .value="${this.package.selector}" @change="${o(this, s, c)}"  class="full-width" name="editSelector" type="text"></uui-input>
+                            <uui-input id="editSelector" .value="${this.package.selector}" @change="${o(this, s, u)}"  class="full-width" name="editSelector" type="text"></uui-input>
                         </uui-form-layout-item>
 
                         <uui-form-layout-item>
                             <uui-label for="editSourceFile" slot="label">Source File</uui-label>
                             <div class="flex">                                
-                                <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}" @change="${o(this, s, c)}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
+                                <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}" @change="${o(this, s, u)}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
                                 <uui-button type="button" label="Select" @click=${o(this, s, M)}></uui-button>
                                 <div ?hidden="${this.errors["name.required"]}">
                                     <p>A source file is required to extract the icons values.</p>
@@ -109,7 +114,6 @@ let r = class extends L(B) {
 
                     <uui-box headline="Filters">
                         <small>Use it to make available just specific icons, instead of the whole set. Leave blank to make all icons available.</small>
-
                         <div class="flex">
                             ${this.package.filteredIcons.map((e, t) => k`
                                 <div class="icon-filter">                        
@@ -182,12 +186,12 @@ T = function() {
     let a = Object.assign({}, this.package);
     a.cssfile = decodeURIComponent(i[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/"), this.package = a, o(this, s, g).call(this), this._dataService.extractStyles(
       this.package,
-      (l) => {
-        if (l.length === 0) {
+      (r) => {
+        if (r.length === 0) {
           this.previewIcon = void 0, this.previewButtonState = "failed", this.errors["cssfile.iconsfound"] = !1;
           return;
         }
-        this.package.extractedStyles = l, this.previewIconName = l[0], this.previewIcon = this.package.template.replace("{icon}", this.previewIconName), this.previewButtonState = "success";
+        this.package.extractedStyles = r, this.previewIconName = r[0], this.previewIcon = this.package.template.replace("{icon}", this.previewIconName), this.previewButtonState = "success";
       },
       () => {
         this.previewIcon = void 0, this.previewButtonState = "failed", this.errors["cssfile.loaded"] = !1;
@@ -212,7 +216,7 @@ M = function() {
     pickableFilter: (i) => i.name.endsWith(".css")
   });
 };
-c = function(e) {
+u = function(e) {
   const t = e.target, i = t.name;
   var a = Object.assign({}, this.package);
   switch (i) {
@@ -258,14 +262,21 @@ A = function() {
   let e = (t = p(this, m)) == null ? void 0 : t.open(this, G, {
     data: {
       packages: [this.package],
-      showFilteredOnly: !1
+      showFilteredOnly: !1,
+      multiSelect: !0
+    },
+    value: {
+      icons: this.package.filteredIcons.map((i) => {
+        var a = new K(i, this.package.id);
+        return a;
+      })
     }
   });
   e == null || e.onSubmit().then((i) => {
-    if ((i == null ? void 0 : i.value) == null)
+    if ((i == null ? void 0 : i.icons) == null)
       return;
     let a = Object.assign([], this.package);
-    a.filteredIcons = [...a.filteredIcons, i.value.icon], this.package = a;
+    a.filteredIcons = i.icons.map((r) => r.icon), this.package = a;
   });
 };
 g = async function() {
@@ -278,7 +289,7 @@ g = async function() {
   const t = new CSSStyleSheet();
   t.replaceSync(e), document.adoptedStyleSheets = [...document.adoptedStyleSheets, t], this.shadowRoot && (this.shadowRoot.adoptedStyleSheets = [...this.shadowRoot.adoptedStyleSheets, t]);
 };
-r.styles = W`
+l.styles = W`
         uui-box {
             margin-top: var(--uui-size-layout-1);            
         }
@@ -325,34 +336,34 @@ r.styles = W`
         }
        
     `;
-u([
+c([
   $({ attribute: !1 })
-], r.prototype, "modalContext", 2);
-u([
+], l.prototype, "modalContext", 2);
+c([
   $({ attribute: !1 })
-], r.prototype, "data", 2);
-u([
+], l.prototype, "data", 2);
+c([
   n()
-], r.prototype, "package", 2);
-u([
+], l.prototype, "package", 2);
+c([
   n()
-], r.prototype, "configType", 2);
-u([
+], l.prototype, "configType", 2);
+c([
   n()
-], r.prototype, "previewIcon", 2);
-u([
+], l.prototype, "previewIcon", 2);
+c([
   n()
-], r.prototype, "errors", 2);
-u([
+], l.prototype, "errors", 2);
+c([
   n()
-], r.prototype, "previewButtonState", 2);
-u([
+], l.prototype, "previewButtonState", 2);
+c([
   n()
-], r.prototype, "previewIconName", 2);
-r = u([
+], l.prototype, "previewIconName", 2);
+l = c([
   D("add-package-modal")
-], r);
+], l);
 export {
-  r as default
+  l as default
 };
 //# sourceMappingURL=modal-settings-addpackage.element.js.map

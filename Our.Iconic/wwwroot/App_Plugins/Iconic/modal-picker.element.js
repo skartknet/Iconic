@@ -1,20 +1,20 @@
-import { LitElement as g, html as h, unsafeHTML as v, css as f, property as k, state as p, customElement as b } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as y } from "@umbraco-cms/backoffice/element-api";
-import { D as C } from "./dataService-DAQWLY0h.js";
-var P = Object.defineProperty, x = Object.getOwnPropertyDescriptor, u = (e) => {
+import { LitElement as v, html as h, unsafeHTML as b, nothing as k, css as y, property as C, state as _, customElement as x } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as S } from "@umbraco-cms/backoffice/element-api";
+import { D as $ } from "./dataService-DAQWLY0h.js";
+var P = Object.defineProperty, w = Object.getOwnPropertyDescriptor, p = (e) => {
   throw TypeError(e);
-}, c = (e, t, a, s) => {
-  for (var i = s > 1 ? void 0 : s ? x(t, a) : t, n = e.length - 1, r; n >= 0; n--)
-    (r = e[n]) && (i = (s ? r(t, a, i) : r(i)) || i);
-  return s && i && P(t, a, i), i;
-}, $ = (e, t, a) => t.has(e) || u("Cannot " + a), w = (e, t, a) => t.has(e) ? u("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), d = (e, t, a) => ($(e, t, "access private method"), a), l, _, m;
-let o = class extends y(g) {
+}, r = (e, t, a, i) => {
+  for (var s = i > 1 ? void 0 : i ? w(t, a) : t, c = e.length - 1, u; c >= 0; c--)
+    (u = e[c]) && (s = (i ? u(t, a, s) : u(s)) || s);
+  return i && s && P(t, a, s), s;
+}, O = (e, t, a) => t.has(e) || p("Cannot " + a), I = (e, t, a) => t.has(e) ? p("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), n = (e, t, a) => (O(e, t, "access private method"), a), l, m, f, g, d;
+let o = class extends S(v) {
   constructor() {
-    super(...arguments), w(this, l), this._dataService = new C(), this._packages = [], this._showFilteredOnly = !1, this._icons = [];
+    super(...arguments), I(this, l), this._value = [], this._multiSelect = !1, this._dataService = new $(), this._packages = [], this._showFilteredOnly = !1, this._icons = [];
   }
   connectedCallback() {
-    var e, t;
-    super.connectedCallback(), this._packages = ((e = this.modalContext) == null ? void 0 : e.data.packages) ?? [], this._showFilteredOnly = ((t = this.modalContext) == null ? void 0 : t.data.showFilteredOnly) ?? !1, this._packages && this._packages.length > 0 && (this._selectedPackage = this._packages[0], this._dataService.processCssFiles(this._packages.map((a) => a.cssfile), this.shadowRoot).then(() => {
+    var e, t, a, i, s;
+    super.connectedCallback(), this._packages = ((e = this.modalContext) == null ? void 0 : e.data.packages) ?? [], this._showFilteredOnly = ((t = this.modalContext) == null ? void 0 : t.data.showFilteredOnly) ?? !1, this._multiSelect = ((a = this.modalContext) == null ? void 0 : a.data.multiSelect) ?? !1, this._value = Array.from(((s = (i = this.modalContext) == null ? void 0 : i.getValue()) == null ? void 0 : s.icons) ?? []), this._packages && this._packages.length > 0 && (this._selectedPackage = this._packages[0], this._dataService.processCssFiles(this._packages.map((c) => c.cssfile), this.shadowRoot).then(() => {
       this._selectedPackage.filteredIcons.length > 0 && this._showFilteredOnly ? this._icons = this._selectedPackage.filteredIcons : this._icons = this._selectedPackage.extractedStyles;
     }));
   }
@@ -30,30 +30,37 @@ let o = class extends y(g) {
                 ${this._icons.map((e) => {
       var t;
       return h`
-                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" @click=${d(this, l, m)} label=${e} value=${e}>
-                            ${v((t = this._selectedPackage) == null ? void 0 : t.template.replace("{icon}", e))}
+                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${n(this, l, f).call(this, e)} @click=${n(this, l, m)} label=${e} value=${e}>
+                            ${b((t = this._selectedPackage) == null ? void 0 : t.template.replace("{icon}", e))}
                     </uui-button>
                 `;
     })}              
             </umb-body-layout>
             <umb-footer-layout>
-                        <uui-button slot="actions" label="Cancel" @click="${d(this, l, _)}"></uui-button>                        
+                        ${this._multiSelect ? h`<uui-button slot="actions" label="Submit" @click="${n(this, l, d)}"></uui-button>` : k}                        
+                        <uui-button slot="actions" label="Cancel" @click="${n(this, l, g)}"></uui-button>                        
             </umb-footer-layout> 
         `;
   }
 };
 l = /* @__PURE__ */ new WeakSet();
-_ = function() {
+m = function(e) {
+  var t = e.currentTarget.getAttribute("value");
+  t && (this._value.push({ packageId: this._selectedPackage.id, icon: t }), e.currentTarget.setAttribute("disabled", "true"), this._multiSelect || n(this, l, d).call(this));
+};
+f = function(e) {
+  return this._value.findIndex((t) => t.icon === e) >= 0;
+};
+g = function() {
   var e;
   (e = this.modalContext) == null || e.submit();
 };
-m = function(e) {
-  var a, s;
-  var t = e.currentTarget.getAttribute("value");
-  t && (this._value = { packageId: this._selectedPackage.id, icon: t }, (a = this.modalContext) == null || a.updateValue({ value: this._value }), (s = this.modalContext) == null || s.submit());
+d = function() {
+  var e, t;
+  (e = this.modalContext) == null || e.updateValue({ icons: this._value }), (t = this.modalContext) == null || t.submit();
 };
 o.styles = [
-  f`
+  y`
           .icon{
                 font-size: var(--uui-size-8);
                 height: 55px;
@@ -63,17 +70,17 @@ o.styles = [
             }
         `
 ];
-c([
-  k({ attribute: !1 })
+r([
+  C({ attribute: !1 })
 ], o.prototype, "modalContext", 2);
-c([
-  p()
+r([
+  _()
 ], o.prototype, "_icons", 2);
-c([
-  p()
+r([
+  _()
 ], o.prototype, "_selectedPackage", 2);
-o = c([
-  b("modal-picker")
+o = r([
+  x("modal-picker")
 ], o);
 export {
   o as default

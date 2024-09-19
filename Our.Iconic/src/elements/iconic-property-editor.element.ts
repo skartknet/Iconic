@@ -75,7 +75,7 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
       if (val?.value == undefined) {
         this.value = undefined;
       } else {
-        this.value = val.value;
+        this.value = Object.assign({}, val.value);
         this.dispatchEvent(new UmbPropertyValueChangeEvent());
         this._selectedPackage = this._packages?.find((el) => el.id === this.value?.packageId);
         this.#setPreviewIcon();

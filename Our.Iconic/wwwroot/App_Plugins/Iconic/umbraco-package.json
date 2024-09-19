@@ -17,8 +17,8 @@
           "properties": [
             {
               "alias": "packages",
-              "name": "Packages",
-              "description": "Add packages",
+              "label": "Packages",
+              "description": "Configure available packages",
               "propertyEditorUiAlias": "Our.Iconic.Settings"
             }
           ]

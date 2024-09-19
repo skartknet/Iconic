@@ -692,7 +692,7 @@ gt = function() {
   });
   r == null || r.onSubmit().then((e) => {
     var s;
-    (e == null ? void 0 : e.value) == null ? this.value = void 0 : (this.value = e.value, this.dispatchEvent(new yt()), this._selectedPackage = (s = this._packages) == null ? void 0 : s.find((i) => {
+    (e == null ? void 0 : e.value) == null ? this.value = void 0 : (this.value = Object.assign({}, e.value), this.dispatchEvent(new yt()), this._selectedPackage = (s = this._packages) == null ? void 0 : s.find((i) => {
       var o;
       return i.id === ((o = this.value) == null ? void 0 : o.packageId);
     }), q(this, T, Y).call(this));
