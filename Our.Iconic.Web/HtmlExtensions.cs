@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Our.Iconic.Core.Models;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -17,7 +17,7 @@ namespace Our.Iconic.Core.Helpers
         /// <param name="extraClasses">Replaces an {classes} placeholder in the icon template.</param>
         /// <returns></returns>
 
-        public static IHtmlContent RenderIcon(this IHtmlHelper helper, IHtmlContent icon, object htmlAttributes, params string[] extraClasses)
+        public static IHtmlContent RenderIcon(this Icon icon, object htmlAttributes, params string[] extraClasses)
 
         {
 
@@ -29,11 +29,16 @@ namespace Our.Iconic.Core.Helpers
                 attributesString.Append($"{ConvertToKebabCase(item.Key)}=\"{item.Value}\"");
             }
 
-            var modifiedTemplate = icon.ToString().Replace("{attributes}", attributesString.ToString())
+            var modifiedTemplate = icon.Package.FrontendTemplate.ToString().Replace("{attributes}", attributesString.ToString())
                                                   .Replace("{classes}", string.Join(" ", extraClasses));
 
 
             return new HtmlString(modifiedTemplate);
+        }
+
+        public static IHtmlContent RenderIcon(this Icon icon)
+        {
+            return new HtmlString(icon.Package.FrontendTemplate.Replace("{icon}", icon.Value) ?? string.Empty);
         }
 
         /// <summary>

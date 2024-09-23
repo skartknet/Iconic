@@ -19,12 +19,13 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
 
 
   @state()
-  private _previewIcon?: string;
+  private _selectedIcon?: string;
 
+  @state()
+  private _selectedPackage?: Package;
 
   private _dataService: DataService = new DataService();
   private _packages?: Package[] = [];
-  private _selectedPackage?: Package;
 
 
   constructor() {
@@ -40,6 +41,7 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
   connectedCallback(): void {
     super.connectedCallback();
     if (this.value && this._packages) {
+      this._selectedIcon = this.value.icon;
       this._selectedPackage = this._packages.find((el) => el.id === this.value?.packageId);
     }
 
@@ -52,14 +54,12 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
   }
 
   async #setPreviewIcon() {
-
-
     if (this.value?.icon && this._selectedPackage) {
       await this._dataService.processCssFile(this._selectedPackage.cssfile, this.shadowRoot).then(() => {
-        this._previewIcon = this._selectedPackage?.template.replace("{icon}", this.value!.icon)
+        this._selectedIcon = this._selectedPackage?.template.replace("{icon}", this.value!.icon)
       });
     } else {
-      this._previewIcon = "";
+      this._selectedIcon = "";
     }
   }
 
@@ -72,13 +72,16 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
     });
 
     modalContext?.onSubmit().then((val) => {
-      if (val?.value == undefined) {
-        this.value = undefined;
-      } else {
-        this.value = Object.assign({}, val.value);
+      let tempVal: Icon | undefined = undefined;
+      if (val?.icons?.length && val?.icons?.length > 0) {
+        tempVal = val.icons[0];
+        this.value = tempVal;
         this.dispatchEvent(new UmbPropertyValueChangeEvent());
         this._selectedPackage = this._packages?.find((el) => el.id === this.value?.packageId);
         this.#setPreviewIcon();
+      } else {
+        this.value = tempVal;
+        this.dispatchEvent(new UmbPropertyValueChangeEvent());
       }
     })
   }
@@ -99,7 +102,7 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
   render() {
     return html`
               <uui-button class="icon" compact label="icon" look="placeholder" @click=${this.#openModal} type="button" color="default">
-                ${unsafeHTML(this._previewIcon)}
+                ${unsafeHTML(this._selectedIcon)}
               </uui-button>
     `
   }

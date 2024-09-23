@@ -13,7 +13,8 @@ class Package {
     id: string;
     name: string;
     selector: string;      
-    template: string;
+    backofficeTemplate: string;
+    frontendTemplate: string;
     cssfile: string;
     sourcefile: string;
     extractedStyles: string[];
@@ -23,7 +24,8 @@ class Package {
         this.id = this.uuid();
         this.name = "";
         this.selector = "";                
-        this.template = "";
+        this.backofficeTemplate = "";
+        this.frontendTemplate = "";
         this.cssfile = "";
         this.sourcefile = "";
         this.extractedStyles = [];

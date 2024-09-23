@@ -1,36 +1,36 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Our.Iconic.Core.Models
 {
     public class Package
     {
-        [JsonProperty(PropertyName = "id")]
+        [JsonPropertyName("id")]
         public Guid Id { get; set; }
 
-        [JsonProperty(PropertyName = "name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty(PropertyName = "selector")]
+        [JsonPropertyName("selector")]
         public string Selector { get; set; }
 
-        [JsonProperty(PropertyName = "template")]
+        [JsonPropertyName("frontendTemplate")]
         public string FrontendTemplate { get; set; }
 
-        [JsonProperty(PropertyName = "backofficeTemplate")]
+        [JsonPropertyName("backofficeTemplate")]
         public string BackofficeTemplate { get; set; }
 
-        [JsonProperty(PropertyName = "cssfile")]
+        [JsonPropertyName("cssfile")]
         public string CssFile { get; set; }
 
-        [JsonProperty(PropertyName = "sourcefile")]
+        [JsonPropertyName("sourcefile")]
         public string SourceFile { get; set; }
 
-        [JsonProperty(PropertyName = "extractedStyles")]
+        [JsonPropertyName("extractedStyles")]
         public IEnumerable<string> ExtractedStyles { get; set; }
 
-        [JsonProperty(PropertyName = "filteredIcons")]
+        [JsonPropertyName("filteredIcons")]
         public IEnumerable<string> FilteredIcons { get; set; }
     }
 }

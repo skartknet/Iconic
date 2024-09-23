@@ -39,6 +39,9 @@ export default class AddPackageModal
     @state()
     private previewIconName?: string;
 
+    @state()
+    private _isCssLoaded: boolean = false;
+
     private preconfigsOptions: Option[] = [];
     private preconfigs: PreConfiguration[] = [];
 
@@ -73,7 +76,7 @@ export default class AddPackageModal
     connectedCallback(): void {
         super.connectedCallback();
         this.package = this.modalContext?.data?.package || new Package();
-        this.#processCssFile();
+        this.#loadPreview();
     }
 
     #initFormValidation(): void {
@@ -135,39 +138,45 @@ export default class AddPackageModal
         this.modalContext?.submit();
     }
 
+    #extractStyles() {
+        this._dataService.extractStyles(
+            this.package,
+            (extractedStyles) => {
+                if (extractedStyles.length === 0) {
+                    this.previewIconName = undefined;
+                    this.previewIcon = undefined;
+                    this.previewButtonState = "failed";
+                    this.errors["cssfile.iconsfound"] = false;
+                    return;
+                }
+
+                this.package.extractedStyles = extractedStyles;
+
+                this.#loadPreview();
+            },
+            () => {
+                this.previewIconName = undefined;
+                this.previewIcon = undefined;
+                this.previewButtonState = "failed";
+                this.errors["cssfile.loaded"] = false;
+            }
+        );
+    }
 
     #openCssFilePicker() {
         this.#cssFilePickerModal?.selectedItems.subscribe(async (selection) => {
             if (selection.length === 0) return;
             let packageCopy = Object.assign({}, this.package);
-            packageCopy.cssfile = decodeURIComponent(selection[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/");
+
+            var cssfile = decodeURIComponent(selection[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/");
+
+            if (cssfile === this.package.cssfile) return;
+
+            this._isCssLoaded = false;
+
+            packageCopy.cssfile = cssfile;
             this.package = packageCopy;
-
-            this.#processCssFile();
-
-            this._dataService.extractStyles(
-                this.package,
-                (extractedStyles) => {
-                    if (extractedStyles.length === 0) {
-                        this.previewIcon = undefined;
-                        this.previewButtonState = "failed";
-                        this.errors["cssfile.iconsfound"] = false;
-                        return;
-                    }
-
-                    this.package.extractedStyles = extractedStyles;
-
-                    //display first icon in the css
-                    this.previewIconName = extractedStyles[0];
-                    this.previewIcon = this.package.template.replace("{icon}", this.previewIconName);
-                    this.previewButtonState = "success";
-                },
-                () => {
-                    this.previewIcon = undefined;
-                    this.previewButtonState = "failed";
-                    this.errors["cssfile.loaded"] = false;
-                }
-            );
+            this.#extractStyles();
         });
 
         this.#cssFilePickerModal?.openPicker({
@@ -181,8 +190,14 @@ export default class AddPackageModal
     #openSourceFilePicker() {
         this.#sourceFilePickerModal?.selectedItems.subscribe((selection) => {
             let packageCopy = Object.assign({}, this.package);
-            packageCopy.sourcefile = decodeURIComponent(selection[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/");
+
+            var sourcefile = decodeURIComponent(selection[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/");
+            if (sourcefile === this.package.sourcefile) return;
+
+            packageCopy.sourcefile = sourcefile;
             this.package = packageCopy;
+            this.#extractStyles();
+
         });
 
         this.#sourceFilePickerModal?.openPicker({
@@ -203,8 +218,11 @@ export default class AddPackageModal
             case "packageName":
                 tempObj.name = target.value;
                 break;
-            case "template":
-                tempObj.template = target.value;
+            case "backofficeTemplate":
+                tempObj.backofficeTemplate = target.value;
+                break;
+            case "frontendTemplate":
+                tempObj.frontendTemplate = target.value;
                 break;
             case "editCssFile":
                 tempObj.cssfile = target.value;
@@ -217,6 +235,7 @@ export default class AddPackageModal
                 break;
         }
 
+        this.#extractStyles();
         this.package = tempObj;
     }
 
@@ -234,18 +253,27 @@ export default class AddPackageModal
     }
 
     #getIconToDisplay(icon: string): string {
-        return this.package.template.replace("{icon}", icon);
+        return this.package.backofficeTemplate.replace("{icon}", icon);
     }
 
     #loadPreview() {
         this.previewButtonState = "waiting";
 
-        this.#processCssFile();
+        if (this.package.extractedStyles.length === 0) {
+            this.previewButtonState = "failed";
+            return
+        }
 
-        //display first icon in the css
-        this.previewIconName = this.package.extractedStyles[0];
-        this.previewIcon = this.#getIconToDisplay(this.previewIconName);
-        this.previewButtonState = "success";
+        this.#loadCssFile().then(() => {
+            //display first icon in the css
+            this.previewIconName = this.package.extractedStyles[0];
+            this.previewIcon = this.#getIconToDisplay(this.previewIconName);
+            this.previewButtonState = "success";
+        }).catch(() => {
+            this.previewIconName = undefined;
+            this.previewIcon = undefined;
+            this.previewButtonState = "failed";
+        });
     }
 
     #removeFilteredIcon(index: number) {
@@ -281,24 +309,29 @@ export default class AddPackageModal
         });
     }
 
-    async #processCssFile() {
+    async #loadCssFile() {
         if (!this.package.cssfile) {
+            this._isCssLoaded = true;
             this.errors["preview.cssrequired"] = false;
         }
 
         var cssContent = await this._dataService.loadCss(this.package.cssfile);
 
         if (cssContent === undefined) {
+            this._isCssLoaded = false;
             this.errors["cssfile.loaded"] = false;
             return;
         }
 
-        const fontSheet = new CSSStyleSheet();
-        fontSheet.replaceSync(cssContent);
-        document.adoptedStyleSheets = [...document.adoptedStyleSheets, fontSheet];
+        if (this._isCssLoaded === false) {
+            const fontSheet = new CSSStyleSheet();
+            fontSheet.replaceSync(cssContent);
+            document.adoptedStyleSheets = [...document.adoptedStyleSheets, fontSheet];
 
-        if (this.shadowRoot) {
-            this.shadowRoot.adoptedStyleSheets = [...this.shadowRoot.adoptedStyleSheets, fontSheet];
+            if (this.shadowRoot) {
+                this.shadowRoot.adoptedStyleSheets = [...this.shadowRoot.adoptedStyleSheets, fontSheet];
+                this._isCssLoaded = true;
+            }
         }
     };
 
@@ -374,7 +407,7 @@ export default class AddPackageModal
                                                 @change="${this.#selectPreconfig}"></uui-select>
                                 </uui-form-layout-item>
                             ` : nothing
-            }
+                        }       
 
                         <uui-form-layout-item>  
                             <uui-label for="packageName" slot="label" >Enter a name</uui-label>
@@ -386,9 +419,17 @@ export default class AddPackageModal
 
                         <uui-form-layout-item>
                             <uui-label for="template" slot="label" >Backoffice template</uui-label>
-                            <uui-input id="template" .value="${this.package.template}" @change="${this.#handleStringValueChange}"  class="full-width" name="template" type="text"></uui-input>
-                            <div ?hidden="${this.errors["template.required"]}">
+                            <uui-input id="template" .value="${this.package.backofficeTemplate}" @change="${this.#handleStringValueChange}"  class="full-width" name="template" type="text"></uui-input>
+                            <div ?hidden="${this.errors["backofficeTemplate.required"]}">
                                 <p>Please enter a template for the icon to display on the backoffice.</p>
+                            </div>
+                        </uui-form-layout-item>
+
+                        <uui-form-layout-item>
+                            <uui-label for="template" slot="label" >Frontend template</uui-label>
+                            <uui-input id="template" .value="${this.package.frontendTemplate}" @change="${this.#handleStringValueChange}"  class="full-width" name="template" type="text"></uui-input>
+                            <div ?hidden="${this.errors["frontendTemplate.required"]}">
+                                <p>Please enter a template for the icon to display on the frontend.</p>
                             </div>
                         </uui-form-layout-item>
                         
@@ -426,6 +467,21 @@ export default class AddPackageModal
                                 
                     </uui-box>
 
+                    <uui-box headline="Preview">
+                         
+                        <div>
+                            <uui-button class="icon" compact label="icon" look="placeholder" ?disabled="${!this.previewIcon}" type="button" color="default">
+                                ${unsafeHTML(this.previewIcon)}
+                            </uui-button>
+                            <div><small><em>${this.previewIconName}</em></small></div>
+                        </div>
+                        <uui-button label="Reload Preview" look="primary" @click="${this.#loadPreview}" ?disabled="${!this.package.extractedStyles}" state="${this.previewButtonState}"></uui-button>                            
+                    
+                        <div ?hidden="${this.errors["cssfile.required"]}">
+                            <p>Please select a CSS file first.</p>
+                        </div>                        
+                    </uui-box>
+
                     <uui-box headline="Filters">
                         <small>Use it to make available just specific icons, instead of the whole set. Leave blank to make all icons available.</small>
                         <div class="flex">
@@ -448,21 +504,7 @@ export default class AddPackageModal
 
                     </uui-box>
 
-                    <uui-box headline="Preview">
-                         
-                        <div>
-                            <uui-button class="icon" compact label="icon" look="placeholder" ?disabled="${!this.previewIcon}" type="button" color="default">
-                                ${unsafeHTML(this.previewIcon)}
-                            </uui-button>
-                            <div><small><em>${this.previewIconName}</em></small></div>
-                        </div>
-                        <uui-button label="Reload Preview" look="primary" @click="${this.#loadPreview}" ?disabled="${!this.package.cssfile}" state="${this.previewButtonState}"></uui-button>                            
-                    
-                        <div ?hidden="${this.errors["cssfile.required"]}">
-                            <p>Please select a CSS file first.</p>
-                        </div>
-                    
-                    </uui-box>
+
                     
                     <umb-footer-layout>
                         <uui-button slot="actions" label="Cancel" @click="${this.#handleCancel}"></uui-button>

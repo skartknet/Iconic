@@ -1,17 +1,17 @@
-import { LitElement as B, html as k, nothing as U, unsafeHTML as C, css as W, property as $, state as n, customElement as D } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as L } from "@umbraco-cms/backoffice/element-api";
-import { UMB_MODAL_MANAGER_CONTEXT as j } from "@umbraco-cms/backoffice/modal";
-import { D as V } from "./dataService-DAQWLY0h.js";
-import { UmbStaticFilePickerContext as x } from "@umbraco-cms/backoffice/static-file";
-import { ICONIC_MODALPICKER_TOKEN as G } from "./modal-picker.token.js";
-class K {
+import { LitElement as B, html as y, nothing as U, unsafeHTML as x, css as W, property as I, state as n, customElement as D } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as j } from "@umbraco-cms/backoffice/element-api";
+import { UMB_MODAL_MANAGER_CONTEXT as V } from "@umbraco-cms/backoffice/modal";
+import { D as G } from "./dataService-2QWwMUxk.js";
+import { UmbStaticFilePickerContext as $ } from "@umbraco-cms/backoffice/static-file";
+import { ICONIC_MODALPICKER_TOKEN as K } from "./modal-picker.token.js";
+class H {
   constructor(t, i) {
     this.icon = t || "", this.packageId = i || "";
   }
 }
-class w {
+class S {
   constructor() {
-    this.id = this.uuid(), this.name = "", this.selector = "", this.template = "", this.cssfile = "", this.sourcefile = "", this.extractedStyles = [], this.filteredIcons = [];
+    this.id = this.uuid(), this.name = "", this.selector = "", this.backofficeTemplate = "", this.frontendTemplate = "", this.cssfile = "", this.sourcefile = "", this.extractedStyles = [], this.filteredIcons = [];
   }
   uuid() {
     var t = "", i, a;
@@ -20,47 +20,47 @@ class w {
     return t;
   }
 }
-var H = Object.defineProperty, X = Object.getOwnPropertyDescriptor, I = (e) => {
+var X = Object.defineProperty, J = Object.getOwnPropertyDescriptor, P = (e) => {
   throw TypeError(e);
 }, c = (e, t, i, a) => {
-  for (var r = a > 1 ? void 0 : a ? X(t, i) : t, v = e.length - 1, b; v >= 0; v--)
-    (b = e[v]) && (r = (a ? b(t, i, r) : b(r)) || r);
-  return a && r && H(t, i, r), r;
-}, S = (e, t, i) => t.has(e) || I("Cannot " + i), p = (e, t, i) => (S(e, t, "read from private field"), t.get(e)), f = (e, t, i) => t.has(e) ? I("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), y = (e, t, i, a) => (S(e, t, "write to private field"), t.set(e, i), i), o = (e, t, i) => (S(e, t, "access private method"), i), d, h, m, s, P, F, O, q, T, M, u, N, R, _, E, z, A, g;
-let l = class extends L(B) {
+  for (var l = a > 1 ? void 0 : a ? J(t, i) : t, b = e.length - 1, k; b >= 0; b--)
+    (k = e[b]) && (l = (a ? k(t, i, l) : k(l)) || l);
+  return a && l && X(t, i, l), l;
+}, _ = (e, t, i) => t.has(e) || P("Cannot " + i), d = (e, t, i) => (_(e, t, "read from private field"), t.get(e)), f = (e, t, i) => t.has(e) ? P("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), w = (e, t, i, a) => (_(e, t, "write to private field"), t.set(e, i), i), o = (e, t, i) => (_(e, t, "access private method"), i), p, h, m, s, T, F, O, q, g, M, N, u, L, R, C, v, E, z, A;
+let r = class extends j(B) {
   constructor() {
-    super(), f(this, s), this.package = new w(), this.configType = "custom", this.errors = {}, this.preconfigsOptions = [], this.preconfigs = [], f(this, d), f(this, h), f(this, m), this._dataService = new V(), y(this, d, new x(this)), y(this, h, new x(this)), this._dataService.loadPreconfigs().then((e) => {
+    super(), f(this, s), this.package = new S(), this.configType = "custom", this.errors = {}, this._isCssLoaded = !1, this.preconfigsOptions = [], this.preconfigs = [], f(this, p), f(this, h), f(this, m), this._dataService = new G(), w(this, p, new $(this)), w(this, h, new $(this)), this._dataService.loadPreconfigs().then((e) => {
       this.preconfigs = e, this.preconfigsOptions = e.map((t) => ({ name: t.name, value: t.name }));
-    }), this.consumeContext(j, (e) => {
-      y(this, m, e);
-    }), o(this, s, P).call(this);
+    }), this.consumeContext(V, (e) => {
+      w(this, m, e);
+    }), o(this, s, T).call(this);
   }
   connectedCallback() {
     var e, t;
-    super.connectedCallback(), this.package = ((t = (e = this.modalContext) == null ? void 0 : e.data) == null ? void 0 : t.package) || new w(), o(this, s, g).call(this);
+    super.connectedCallback(), this.package = ((t = (e = this.modalContext) == null ? void 0 : e.data) == null ? void 0 : t.package) || new S(), o(this, s, v).call(this);
   }
   render() {
-    return k`        
+    return y`        
         <umb-body-layout headline="Add Package">
             <uui-form>                   
                 <form>   
                     <uui-box headline="Details">
                         <uui-form-layout-item>
                             <uui-label for="configType" slot="label" >Configuration Type</uui-label>                            
-                            <uui-radio-group name="configType"  value="${this.configType}" @change=${o(this, s, N)}> 
+                            <uui-radio-group name="configType"  value="${this.configType}" @change=${o(this, s, L)}> 
                                 <uui-radio name="configType" value="custom">Custom</uui-radio>
                                 <uui-radio name="configType" value="preconfigured">Pre-Configured</uui-radio>
                             </uui-radio-group>
                         </uui-form-layout-item>
 
-                        ${this.configType === "preconfigured" ? k`
+                        ${this.configType === "preconfigured" ? y`
                                 <uui-form-layout-item>                        
                                     <uui-select class="full-width"
                                                 placeholder="Select a pre-configuration..."
                                                 .options="${this.preconfigsOptions}"
                                                 @change="${o(this, s, R)}"></uui-select>
                                 </uui-form-layout-item>
-                            ` : U}
+                            ` : U}       
 
                         <uui-form-layout-item>  
                             <uui-label for="packageName" slot="label" >Enter a name</uui-label>
@@ -72,9 +72,17 @@ let l = class extends L(B) {
 
                         <uui-form-layout-item>
                             <uui-label for="template" slot="label" >Backoffice template</uui-label>
-                            <uui-input id="template" .value="${this.package.template}" @change="${o(this, s, u)}"  class="full-width" name="template" type="text"></uui-input>
-                            <div ?hidden="${this.errors["template.required"]}">
+                            <uui-input id="template" .value="${this.package.backofficeTemplate}" @change="${o(this, s, u)}"  class="full-width" name="template" type="text"></uui-input>
+                            <div ?hidden="${this.errors["backofficeTemplate.required"]}">
                                 <p>Please enter a template for the icon to display on the backoffice.</p>
+                            </div>
+                        </uui-form-layout-item>
+
+                        <uui-form-layout-item>
+                            <uui-label for="template" slot="label" >Frontend template</uui-label>
+                            <uui-input id="template" .value="${this.package.frontendTemplate}" @change="${o(this, s, u)}"  class="full-width" name="template" type="text"></uui-input>
+                            <div ?hidden="${this.errors["frontendTemplate.required"]}">
+                                <p>Please enter a template for the icon to display on the frontend.</p>
                             </div>
                         </uui-form-layout-item>
                         
@@ -82,7 +90,7 @@ let l = class extends L(B) {
                             <uui-label for="editCssFile" slot="label">CSS File</uui-label>
                             <div class="flex">
                                 <uui-input id="editCssFile" class="full-width" .value="${this.package.cssfile}" @change="${o(this, s, u)}"  name="editCssFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
-                                <uui-button type="button" label="Select" @click=${o(this, s, T)}></uui-button>
+                                <uui-button type="button" label="Select" @click=${o(this, s, M)}></uui-button>
                             </div>
                             <div ?hidden="${this.errors["cssfile.loaded"]}">
                                 <p>The CSS file could not be loaded.</p>
@@ -103,7 +111,7 @@ let l = class extends L(B) {
                             <uui-label for="editSourceFile" slot="label">Source File</uui-label>
                             <div class="flex">                                
                                 <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}" @change="${o(this, s, u)}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
-                                <uui-button type="button" label="Select" @click=${o(this, s, M)}></uui-button>
+                                <uui-button type="button" label="Select" @click=${o(this, s, N)}></uui-button>
                                 <div ?hidden="${this.errors["name.required"]}">
                                     <p>A source file is required to extract the icons values.</p>
                                 </div>
@@ -112,21 +120,36 @@ let l = class extends L(B) {
                                 
                     </uui-box>
 
+                    <uui-box headline="Preview">
+                         
+                        <div>
+                            <uui-button class="icon" compact label="icon" look="placeholder" ?disabled="${!this.previewIcon}" type="button" color="default">
+                                ${x(this.previewIcon)}
+                            </uui-button>
+                            <div><small><em>${this.previewIconName}</em></small></div>
+                        </div>
+                        <uui-button label="Reload Preview" look="primary" @click="${o(this, s, v)}" ?disabled="${!this.package.extractedStyles}" state="${this.previewButtonState}"></uui-button>                            
+                    
+                        <div ?hidden="${this.errors["cssfile.required"]}">
+                            <p>Please select a CSS file first.</p>
+                        </div>                        
+                    </uui-box>
+
                     <uui-box headline="Filters">
                         <small>Use it to make available just specific icons, instead of the whole set. Leave blank to make all icons available.</small>
                         <div class="flex">
-                            ${this.package.filteredIcons.map((e, t) => k`
+                            ${this.package.filteredIcons.map((e, t) => y`
                                 <div class="icon-filter">                        
                                     <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default">
-                                        ${C(o(this, s, _).call(this, e))}
+                                        ${x(o(this, s, C).call(this, e))}
                                     </uui-button>                                    
-                                    <div @click="${() => o(this, s, z).call(this, t)}" class="icon-remove">
+                                    <div @click="${() => o(this, s, E).call(this, t)}" class="icon-remove">
                                         Remove
                                     </div>
                                 </div>
                             `)}
                                                                            
-                            <uui-button class="icon icon-add" compact label="icon" look="placeholder" type="button" color="default" @click=${o(this, s, A)}>
+                            <uui-button class="icon icon-add" compact label="icon" look="placeholder" type="button" color="default" @click=${o(this, s, z)}>
                                 Add
                             </uui-button>
                             
@@ -134,21 +157,7 @@ let l = class extends L(B) {
 
                     </uui-box>
 
-                    <uui-box headline="Preview">
-                         
-                        <div>
-                            <uui-button class="icon" compact label="icon" look="placeholder" ?disabled="${!this.previewIcon}" type="button" color="default">
-                                ${C(this.previewIcon)}
-                            </uui-button>
-                            <div><small><em>${this.previewIconName}</em></small></div>
-                        </div>
-                        <uui-button label="Reload Preview" look="primary" @click="${o(this, s, E)}" ?disabled="${!this.package.cssfile}" state="${this.previewButtonState}"></uui-button>                            
-                    
-                        <div ?hidden="${this.errors["cssfile.required"]}">
-                            <p>Please select a CSS file first.</p>
-                        </div>
-                    
-                    </uui-box>
+
                     
                     <umb-footer-layout>
                         <uui-button slot="actions" label="Cancel" @click="${o(this, s, O)}"></uui-button>
@@ -160,11 +169,11 @@ let l = class extends L(B) {
         `;
   }
 };
-d = /* @__PURE__ */ new WeakMap();
+p = /* @__PURE__ */ new WeakMap();
 h = /* @__PURE__ */ new WeakMap();
 m = /* @__PURE__ */ new WeakMap();
 s = /* @__PURE__ */ new WeakSet();
-P = function() {
+T = function() {
   this.errors["name.required"] = !0, this.errors["template.required"] = !0, this.errors["cssfile.required"] = !0, this.errors["selector.required"] = !0, this.errors["sourcefile.required"] = !0, this.errors["cssfile.iconsfound"] = !0, this.errors["cssfile.loaded"] = !0;
 };
 F = function() {
@@ -179,37 +188,42 @@ q = function() {
   var e, t;
   o(this, s, F).call(this) && ((e = this.modalContext) == null || e.updateValue({ package: this.package }), (t = this.modalContext) == null || t.submit());
 };
-T = function() {
+g = function() {
+  this._dataService.extractStyles(
+    this.package,
+    (e) => {
+      if (e.length === 0) {
+        this.previewIconName = void 0, this.previewIcon = void 0, this.previewButtonState = "failed", this.errors["cssfile.iconsfound"] = !1;
+        return;
+      }
+      this.package.extractedStyles = e, o(this, s, v).call(this);
+    },
+    () => {
+      this.previewIconName = void 0, this.previewIcon = void 0, this.previewButtonState = "failed", this.errors["cssfile.loaded"] = !1;
+    }
+  );
+};
+M = function() {
   var e, t;
-  (e = p(this, d)) == null || e.selectedItems.subscribe(async (i) => {
+  (e = d(this, p)) == null || e.selectedItems.subscribe(async (i) => {
     if (i.length === 0) return;
     let a = Object.assign({}, this.package);
-    a.cssfile = decodeURIComponent(i[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/"), this.package = a, o(this, s, g).call(this), this._dataService.extractStyles(
-      this.package,
-      (r) => {
-        if (r.length === 0) {
-          this.previewIcon = void 0, this.previewButtonState = "failed", this.errors["cssfile.iconsfound"] = !1;
-          return;
-        }
-        this.package.extractedStyles = r, this.previewIconName = r[0], this.previewIcon = this.package.template.replace("{icon}", this.previewIconName), this.previewButtonState = "success";
-      },
-      () => {
-        this.previewIcon = void 0, this.previewButtonState = "failed", this.errors["cssfile.loaded"] = !1;
-      }
-    );
-  }), (t = p(this, d)) == null || t.openPicker({
+    var l = decodeURIComponent(i[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/");
+    l !== this.package.cssfile && (this._isCssLoaded = !1, a.cssfile = l, this.package = a, o(this, s, g).call(this));
+  }), (t = d(this, p)) == null || t.openPicker({
     foldersOnly: !1,
     multiple: !1,
     filter: (i) => i.name.endsWith(".css"),
     pickableFilter: (i) => i.name.endsWith(".css")
   });
 };
-M = function() {
+N = function() {
   var e, t;
-  (e = p(this, h)) == null || e.selectedItems.subscribe((i) => {
+  (e = d(this, h)) == null || e.selectedItems.subscribe((i) => {
     let a = Object.assign({}, this.package);
-    a.sourcefile = decodeURIComponent(i[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/"), this.package = a;
-  }), (t = p(this, h)) == null || t.openPicker({
+    var l = decodeURIComponent(i[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/");
+    l !== this.package.sourcefile && (a.sourcefile = l, this.package = a, o(this, s, g).call(this));
+  }), (t = d(this, h)) == null || t.openPicker({
     foldersOnly: !1,
     multiple: !1,
     filter: (i) => i.name.endsWith(".css"),
@@ -223,8 +237,11 @@ u = function(e) {
     case "packageName":
       a.name = t.value;
       break;
-    case "template":
-      a.template = t.value;
+    case "backofficeTemplate":
+      a.backofficeTemplate = t.value;
+      break;
+    case "frontendTemplate":
+      a.frontendTemplate = t.value;
       break;
     case "editCssFile":
       a.cssfile = t.value;
@@ -236,30 +253,38 @@ u = function(e) {
       a.sourcefile = t.value;
       break;
   }
-  this.package = a;
+  o(this, s, g).call(this), this.package = a;
 };
-N = function(e) {
+L = function(e) {
   const t = e.target;
   this.configType = t.value;
 };
 R = function(e) {
   const t = e.target;
   let i = this.preconfigs.find((a) => a.name === t.value);
-  i && (this.package = Object.assign(new w(), i));
+  i && (this.package = Object.assign(new S(), i));
 };
-_ = function(e) {
-  return this.package.template.replace("{icon}", e);
+C = function(e) {
+  return this.package.backofficeTemplate.replace("{icon}", e);
 };
-E = function() {
-  this.previewButtonState = "waiting", o(this, s, g).call(this), this.previewIconName = this.package.extractedStyles[0], this.previewIcon = o(this, s, _).call(this, this.previewIconName), this.previewButtonState = "success";
+v = function() {
+  if (this.previewButtonState = "waiting", this.package.extractedStyles.length === 0) {
+    this.previewButtonState = "failed";
+    return;
+  }
+  o(this, s, A).call(this).then(() => {
+    this.previewIconName = this.package.extractedStyles[0], this.previewIcon = o(this, s, C).call(this, this.previewIconName), this.previewButtonState = "success";
+  }).catch(() => {
+    this.previewIconName = void 0, this.previewIcon = void 0, this.previewButtonState = "failed";
+  });
 };
-z = function(e) {
+E = function(e) {
   let t = Object.assign({}, this.package);
   t.filteredIcons.splice(e, 1), this.package = t;
 };
-A = function() {
+z = function() {
   var t;
-  let e = (t = p(this, m)) == null ? void 0 : t.open(this, G, {
+  let e = (t = d(this, m)) == null ? void 0 : t.open(this, K, {
     data: {
       packages: [this.package],
       showFilteredOnly: !1,
@@ -267,7 +292,7 @@ A = function() {
     },
     value: {
       icons: this.package.filteredIcons.map((i) => {
-        var a = new K(i, this.package.id);
+        var a = new H(i, this.package.id);
         return a;
       })
     }
@@ -276,20 +301,22 @@ A = function() {
     if ((i == null ? void 0 : i.icons) == null)
       return;
     let a = Object.assign([], this.package);
-    a.filteredIcons = i.icons.map((r) => r.icon), this.package = a;
+    a.filteredIcons = i.icons.map((l) => l.icon), this.package = a;
   });
 };
-g = async function() {
-  this.package.cssfile || (this.errors["preview.cssrequired"] = !1);
+A = async function() {
+  this.package.cssfile || (this._isCssLoaded = !0, this.errors["preview.cssrequired"] = !1);
   var e = await this._dataService.loadCss(this.package.cssfile);
   if (e === void 0) {
-    this.errors["cssfile.loaded"] = !1;
+    this._isCssLoaded = !1, this.errors["cssfile.loaded"] = !1;
     return;
   }
-  const t = new CSSStyleSheet();
-  t.replaceSync(e), document.adoptedStyleSheets = [...document.adoptedStyleSheets, t], this.shadowRoot && (this.shadowRoot.adoptedStyleSheets = [...this.shadowRoot.adoptedStyleSheets, t]);
+  if (this._isCssLoaded === !1) {
+    const t = new CSSStyleSheet();
+    t.replaceSync(e), document.adoptedStyleSheets = [...document.adoptedStyleSheets, t], this.shadowRoot && (this.shadowRoot.adoptedStyleSheets = [...this.shadowRoot.adoptedStyleSheets, t], this._isCssLoaded = !0);
+  }
 };
-l.styles = W`
+r.styles = W`
         uui-box {
             margin-top: var(--uui-size-layout-1);            
         }
@@ -337,33 +364,36 @@ l.styles = W`
        
     `;
 c([
-  $({ attribute: !1 })
-], l.prototype, "modalContext", 2);
+  I({ attribute: !1 })
+], r.prototype, "modalContext", 2);
 c([
-  $({ attribute: !1 })
-], l.prototype, "data", 2);
-c([
-  n()
-], l.prototype, "package", 2);
+  I({ attribute: !1 })
+], r.prototype, "data", 2);
 c([
   n()
-], l.prototype, "configType", 2);
+], r.prototype, "package", 2);
 c([
   n()
-], l.prototype, "previewIcon", 2);
+], r.prototype, "configType", 2);
 c([
   n()
-], l.prototype, "errors", 2);
+], r.prototype, "previewIcon", 2);
 c([
   n()
-], l.prototype, "previewButtonState", 2);
+], r.prototype, "errors", 2);
 c([
   n()
-], l.prototype, "previewIconName", 2);
-l = c([
+], r.prototype, "previewButtonState", 2);
+c([
+  n()
+], r.prototype, "previewIconName", 2);
+c([
+  n()
+], r.prototype, "_isCssLoaded", 2);
+r = c([
   D("add-package-modal")
-], l);
+], r);
 export {
-  l as default
+  r as default
 };
 //# sourceMappingURL=modal-settings-addpackage.element.js.map

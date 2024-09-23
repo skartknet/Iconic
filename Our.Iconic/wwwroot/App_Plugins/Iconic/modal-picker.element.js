@@ -1,6 +1,6 @@
 import { LitElement as v, html as h, unsafeHTML as b, nothing as k, css as y, property as C, state as _, customElement as x } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin as S } from "@umbraco-cms/backoffice/element-api";
-import { D as $ } from "./dataService-DAQWLY0h.js";
+import { D as $ } from "./dataService-2QWwMUxk.js";
 var P = Object.defineProperty, w = Object.getOwnPropertyDescriptor, p = (e) => {
   throw TypeError(e);
 }, r = (e, t, a, i) => {

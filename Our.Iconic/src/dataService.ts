@@ -3,44 +3,52 @@ import { Package, PreConfiguration } from "./models";
 
 export default class DataService {
     async loadCss(uri: string) {
-        var result = await fetch(uri);
 
-        if (result.ok) {
-            return result.text();
-        } else {
-            throw new Error("CSS file not found");
+        try {
+            var result = await fetch(uri);
+
+            if (result.ok) {
+                return result.text();
+            } else {
+                throw new Error("CSS file not found");
+            }
+        } catch (error) {
+            throw error;
         }
 
     }
 
     async extractStyles(item: Package, successCallback: (extractedStyles: string[]) => void, errorCallback: () => void) {
-        if (!item.selector || item.selector.length <= 0) {
+
+        var tempItem = Object.assign({}, item);
+
+        if (!tempItem.selector || tempItem.selector.length <= 0) {
             errorCallback();
         }
 
-        if (!item.sourcefile) item.sourcefile = item.cssfile;
+        if (!tempItem.sourcefile) tempItem.sourcefile = tempItem.cssfile;
 
-        var result = await fetch(item.sourcefile);
+        var result = await fetch(tempItem.sourcefile);
 
         if (!result.ok) {
             errorCallback();
             return;
         }
 
-        item.extractedStyles = [];
+        tempItem.extractedStyles = [];
 
 
         var data = await result.text();
 
-        var pattern = new RegExp(item.selector, "g");
+        var pattern = new RegExp(tempItem.selector, "g");
         var match = pattern.exec(data);
         while (match !== null) {
-            item.extractedStyles.push(match[1]);
+            tempItem.extractedStyles.push(match[1]);
             match = pattern.exec(data);
         }
 
-        if (item.extractedStyles.length > 0) {
-            successCallback(item.extractedStyles);
+        if (tempItem.extractedStyles.length > 0) {
+            successCallback(tempItem.extractedStyles);
         } else {
             //   displayError("iconicErrors_no_rules");
             errorCallback();
@@ -60,12 +68,12 @@ export default class DataService {
 
 
     async processCssFile(cssFilePath: string, shadowRoot: ShadowRoot | null) {
-        if(!cssFilePath || !shadowRoot) return;
+        if (!cssFilePath || !shadowRoot) return;
 
         var cssContent = await this.loadCss(cssFilePath);
 
         if (cssContent === undefined) {
-            throw new Error("CSS file not found");            
+            throw new Error("CSS file not found");
         }
 
         const fontSheet = new CSSStyleSheet();
@@ -80,7 +88,7 @@ export default class DataService {
     };
 
     async processCssFiles(cssFilePaths: Array<string>, shadowRoot?: ShadowRoot | null) {
-        if(!cssFilePaths || !shadowRoot) return;
+        if (!cssFilePaths || !shadowRoot) return;
         for (const cssFilePath of cssFilePaths) {
             this.processCssFile(cssFilePath, shadowRoot);
         }

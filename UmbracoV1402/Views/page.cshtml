@@ -1,0 +1,16 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Page>
+@{
+	Layout = null;
+}
+
+
+<html>	
+	<head>
+		<title>@Model.Name</title>
+	</head>
+	<body>
+		<h1>@Model.Name</h1>
+		@Model.Icon?.Value
+	</body>
+</html>

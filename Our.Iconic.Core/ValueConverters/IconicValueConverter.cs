@@ -1,80 +1,56 @@
-﻿using Microsoft.AspNetCore.Html;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Our.Iconic.Core.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Cms.Core.Services;
 
 namespace Our.Iconic.Core.ValueConverters
 {
-    public class IconicValueConverter : IPropertyValueConverter
+    public class IconicValueConverter : PropertyValueConverterBase
     {
-        private readonly ConfiguredPackagesCollection _configuredPackages;
 
-        public IconicValueConverter(IDataTypeService dataTypeService, ConfiguredPackagesCollection configuredPackages)
+
+        public override bool IsConverter(IPublishedPropertyType propertyType)
+             => propertyType.EditorUiAlias.Equals("our.iconic", StringComparison.OrdinalIgnoreCase);
+
+        public override Type GetPropertyValueType(IPublishedPropertyType propertyType)
+            => typeof(Icon);
+
+
+
+        public override object ConvertIntermediateToObject(IPublishedElement owner,
+                                                  IPublishedPropertyType propertyType,
+                                                  PropertyCacheLevel referenceCacheLevel,
+                                                  object inter,
+                                                  bool preview)
         {
-            _configuredPackages = configuredPackages;
-        }
-        public bool IsConverter(IPublishedPropertyType propertyType)
-             => propertyType.EditorAlias.Equals("our.iconic");
+            if (inter == null) return null;
 
-        public Type GetPropertyValueType(IPublishedPropertyType propertyType)
-            => typeof(HtmlString);
 
-        public PropertyCacheLevel GetPropertyCacheLevel(IPublishedPropertyType propertyType)
-            => PropertyCacheLevel.Elements;
+            var model = JsonSerializer.Deserialize<Icon>((string)inter);
 
-        public object ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object source, bool preview)
-        {
-            if (source == null) return null;
+            var config = new IconicPackagesConfiguration();
+            var jobj = propertyType.DataType.ConfigurationAs<IDictionary<string, object>>();
 
-            SelectedIcon icon;
-            if (source is JObject jObject)
+            config.Packages = JsonSerializer.Deserialize<IEnumerable<Package>>(jobj["packages"].ToString());
+
+
+            var package = config.Packages.SingleOrDefault(x => x.Id == model.PackageId);
+
+            if (package is null)
             {
-                icon = jObject.ToObject<SelectedIcon>();
-            }
-            else
-            {
-                icon = JsonConvert.DeserializeObject<SelectedIcon>(source.ToString());
+                return null;
             }
 
-            return icon;
+            model.Package = package;
+
+            return model;
         }
 
-        public object ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
-        {
-            if (inter == null) return new HtmlString(string.Empty);
-            string htmlString = string.Empty;
 
-            var icon = (SelectedIcon)inter;
-
-            var packages = _configuredPackages.GetConfiguredPackages(propertyType).GetAwaiter().GetResult();
-
-            if (icon != null && packages.ContainsKey(icon.PackageId))
-            {
-                var pckg = packages[icon.PackageId];
-                htmlString = pckg?.FrontendTemplate.Replace("{icon}", icon.Icon) ?? string.Empty;
-            }
-            return new HtmlString(htmlString);
-        }
-
-        public bool? IsValue(object value, PropertyValueLevel level)
-        {
-            if (value is null) return null;
-
-            if (value is SelectedIcon && level == PropertyValueLevel.Inter) return true;
-            if (value is HtmlString && level == PropertyValueLevel.Object) return true;
-            if (value is JObject && level == PropertyValueLevel.Source) return true;
-
-
-            return false;
-        }
-
-        public object ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object inter, bool preview)
-        {
-            return null;
-        }
     }
 }
