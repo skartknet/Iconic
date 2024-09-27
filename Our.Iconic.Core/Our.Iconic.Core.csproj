@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <Version>14.0.0</Version>
+	  <Version>14.0.0-beat1</Version>
 	  <Authors>Mario Lopez</Authors>
 	  <Description>Highly configurable icon picker for Umbraco. 
 With Iconic you will be able to create a property editor that can use virtually any font package out there and not only that, you will be able to select your icon from more than one package on the same property.
@@ -19,26 +19,7 @@ Core DLL Package Only.</Description>
 	  <PackageIcon>iconic_logo.png</PackageIcon>
 	  <PackageReleaseNotes>Added migration from koben.iconic to our.iconic</PackageReleaseNotes>
   </PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-
-
+	
 	<ItemGroup>
 	  <Compile Remove="IconicPackagesConfigurationEditor.cs" />
 	  <Compile Remove="IconicPropertyEditor.cs" />
@@ -63,10 +44,5 @@ Core DLL Package Only.</Description>
 	  <PackageReference Include="Umbraco.Cms.Core" Version="14.1.1" />
 	</ItemGroup>
 
-	<!-- Workaround for this bug (replace the analyzer name with the one you need to exclude (filename only, no extension) -->
-	<Target Name="RemoveLuceneAnalyzer" BeforeTargets="CoreCompile">
-		<ItemGroup>
-			<Analyzer Remove="@(Analyzer)" Condition="%(FileName) == 'Lucene.Net.CodeAnalysis.CSharp'" />
-		</ItemGroup>
-	</Target>
+
 </Project>
