@@ -58,6 +58,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Release information for v${{ steps.package_version.outputs.version }}
+      shell: bash
       run: |
         echo Release Id: ${{ steps.release.outputs.id }}
         echo Upload URL: ${{ steps.release.outputs.upload_url }}
