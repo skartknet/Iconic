@@ -25,8 +25,9 @@ jobs:
         
     - name: Check Version v${{ steps.package_version.outputs.version }} Pre-Release state
       id: check_prerelease
+      shell: bash
       run: |
-        if [ ${{ steps.package_version.outputs.version }} =~ ^[0-9]+\.[0-9]+\.[0-9]+-.+$ ]; then
+        if [[ ${{ steps.package_version.outputs.version }} =~ ^[0-9]+\.[0-9]+\.[0-9]+-.+$ ]]; then
             echo Pre-Release detected
             echo ::set-output name=prerelease::true
         else
