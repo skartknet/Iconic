@@ -1,4 +1,6 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Our.Iconic.Web
+
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Page>
 @{
 	Layout = null;
@@ -11,6 +13,8 @@
 	</head>
 	<body>
 		<h1>@Model.Name</h1>
-		@Model.Icon?.Value
+
+
+        @Model.Icon.RenderIcon(null, "black")
 	</body>
 </html>

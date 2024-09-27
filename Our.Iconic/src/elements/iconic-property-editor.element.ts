@@ -56,7 +56,7 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
   async #setPreviewIcon() {
     if (this.value?.icon && this._selectedPackage) {
       await this._dataService.processCssFile(this._selectedPackage.cssfile, this.shadowRoot).then(() => {
-        this._selectedIcon = this._selectedPackage?.template.replace("{icon}", this.value!.icon)
+        this._selectedIcon = this._selectedPackage?.backofficeTemplate.replace("{icon}", this.value!.icon)
       });
     } else {
       this._selectedIcon = "";

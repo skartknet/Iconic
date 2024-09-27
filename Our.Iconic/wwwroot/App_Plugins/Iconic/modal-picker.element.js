@@ -1,6 +1,6 @@
 import { LitElement as v, html as h, unsafeHTML as b, nothing as k, css as y, property as C, state as _, customElement as x } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin as S } from "@umbraco-cms/backoffice/element-api";
-import { D as $ } from "./dataService-2QWwMUxk.js";
+import { D as $ } from "./dataService-w_RStjwn.js";
 var P = Object.defineProperty, w = Object.getOwnPropertyDescriptor, p = (e) => {
   throw TypeError(e);
 }, r = (e, t, a, i) => {
@@ -31,7 +31,7 @@ let o = class extends S(v) {
       var t;
       return h`
                     <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${n(this, l, f).call(this, e)} @click=${n(this, l, m)} label=${e} value=${e}>
-                            ${b((t = this._selectedPackage) == null ? void 0 : t.template.replace("{icon}", e))}
+                            ${b((t = this._selectedPackage) == null ? void 0 : t.backofficeTemplate.replace("{icon}", e))}
                     </uui-button>
                 `;
     })}              

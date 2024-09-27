@@ -2,7 +2,7 @@ import { UmbElementMixin as yt } from "@umbraco-cms/backoffice/element-api";
 import { UMB_MODAL_MANAGER_CONTEXT as vt } from "@umbraco-cms/backoffice/modal";
 import { ICONIC_MODALPICKER_TOKEN as Et } from "./modal-picker.token.js";
 import { UmbPropertyValueChangeEvent as Z } from "@umbraco-cms/backoffice/property-editor";
-import { D as St } from "./dataService-2QWwMUxk.js";
+import { D as St } from "./dataService-w_RStjwn.js";
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -679,7 +679,7 @@ Y = async function() {
   var r;
   (r = this.value) != null && r.icon && this._selectedPackage ? await this._dataService.processCssFile(this._selectedPackage.cssfile, this.shadowRoot).then(() => {
     var t;
-    this._selectedIcon = (t = this._selectedPackage) == null ? void 0 : t.template.replace("{icon}", this.value.icon);
+    this._selectedIcon = (t = this._selectedPackage) == null ? void 0 : t.backofficeTemplate.replace("{icon}", this.value.icon);
   }) : this._selectedIcon = "";
 };
 mt = function() {

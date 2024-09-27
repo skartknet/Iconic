@@ -98,7 +98,7 @@ export default class ModalPicker
                 <h4 ?hidden=${this._packages.length > 0}>${this._packages[0].name}</h4>
                 ${this._icons.map((icon) => html`
                     <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${this.#isSelected(icon)} @click=${this.#selectIcon} label=${icon} value=${icon}>
-                            ${unsafeHTML(this._selectedPackage?.template.replace("{icon}", icon))}
+                            ${unsafeHTML(this._selectedPackage?.backofficeTemplate.replace("{icon}", icon))}
                     </uui-button>
                 `)}              
             </umb-body-layout>

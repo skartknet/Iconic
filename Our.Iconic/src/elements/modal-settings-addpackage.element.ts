@@ -1,4 +1,4 @@
-import { html, LitElement, property, customElement, state, css, nothing, unsafeHTML, ifDefined } from "@umbraco-cms/backoffice/external/lit";
+import { html, LitElement, property, customElement, state, css, nothing, unsafeHTML } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { UMB_MODAL_MANAGER_CONTEXT, UmbModalContext } from "@umbraco-cms/backoffice/modal";
 import type { AddPackageModalData, AddPackageModalValue } from "../tokens/modal-settings-addpackage.token.ts";
@@ -8,6 +8,8 @@ import DataService from "../dataService.ts";
 import { UmbStaticFilePickerContext } from "@umbraco-cms/backoffice/static-file";
 import { UUIButtonState } from "@umbraco-cms/backoffice/external/uui";
 import { ICONIC_MODALPICKER_TOKEN } from "../tokens/modal-picker.token.ts";
+import { UMB_NOTIFICATION_CONTEXT } from "@umbraco-cms/backoffice/notification";
+
 
 @customElement('add-package-modal')
 export default class AddPackageModal
@@ -31,7 +33,7 @@ export default class AddPackageModal
     private previewIcon?: string;
 
     @state()
-    private errors: Record<string, boolean> = {};
+    private errors: Record<string, string | undefined> = {};
 
     @state()
     private previewButtonState: UUIButtonState;
@@ -48,6 +50,7 @@ export default class AddPackageModal
     #cssFilePickerModal?: UmbStaticFilePickerContext;
     #sourceFilePickerModal?: UmbStaticFilePickerContext;
     #modalManagerContext?: typeof UMB_MODAL_MANAGER_CONTEXT.TYPE;
+    #notificationContext?: typeof UMB_NOTIFICATION_CONTEXT.TYPE;
 
 
     private _dataService: DataService = new DataService();
@@ -68,8 +71,11 @@ export default class AddPackageModal
             this.#modalManagerContext = instance;
         });
 
+        this.consumeContext(UMB_NOTIFICATION_CONTEXT, (instance) => {
+            this.#notificationContext = instance;
+        });
 
-        this.#initFormValidation();
+        this.#resetFormErrors();
     }
 
 
@@ -79,49 +85,55 @@ export default class AddPackageModal
         this.#loadPreview();
     }
 
-    #initFormValidation(): void {
-        this.errors["name.required"] = true;
-        this.errors["template.required"] = true;
-        this.errors["cssfile.required"] = true;
-        this.errors["selector.required"] = true;
-        this.errors["sourcefile.required"] = true;
-        this.errors["cssfile.iconsfound"] = true;
-        this.errors["cssfile.loaded"] = true;
+    #resetFormErrors(): void {
+        let tempErrors = Object.assign({}, this.errors);
 
+        tempErrors["name"] = undefined;
+        tempErrors["backofficeTemplate"] = undefined;
+        tempErrors["cssfile"] = undefined;
+        tempErrors["selector"] = undefined;
+        tempErrors["sourcefile"] = undefined;
+        tempErrors["cssfile"] = undefined;
+        tempErrors["cssfile"] = undefined;
+
+        this.errors = tempErrors;
     }
 
     #isValidForm(): boolean {
         let isValid = true;
+        let tempErrors = Object.assign({}, this.errors);
+
         if (this.package.name === '') {
-            this.errors["name.required"] = false;
+            tempErrors["name"] = "Name is required";
             isValid = false;
         }
 
-        if (this.package.template === '') {
-            this.errors["template.required"] = false;
+        if (this.package.backofficeTemplate === '') {
+            tempErrors["backofficeTemplate"] = "A backoffice template is required";
             isValid = false;
         }
 
         if (this.package.cssfile === '') {
-            this.errors["cssfile.required"] = false;
+            tempErrors["cssfile"] = "A CSS file is required";
             isValid = false;
         }
 
         if (this.package.selector === '') {
-            this.errors["selector.required"] = false;
+            tempErrors["selector"] = "A selector pattern is required";
             isValid = false;
         }
 
         if (this.package.sourcefile === '') {
-            this.errors["sourcefile.required"] = false;
+            tempErrors["sourcefile"] = "An icons source file is required";
             isValid = false;
         }
 
         if (this.package.extractedStyles.length == 0) {
-            this.errors["cssfile.iconsfound"] = false;
+            tempErrors["sourcefile"] = "No icons found in the source file";
             isValid = false;
         }
 
+        this.errors = tempErrors;
 
         return isValid;
     }
@@ -132,6 +144,10 @@ export default class AddPackageModal
 
     #handleSubmit() {
         if (!this.#isValidForm()) {
+            this.#notificationContext?.peek("danger", {
+                data: { message: "Please review the errors on the form." }
+            });
+
             return;
         }
         this.modalContext?.updateValue({ package: this.package });
@@ -139,28 +155,30 @@ export default class AddPackageModal
     }
 
     #extractStyles() {
-        this._dataService.extractStyles(
-            this.package,
-            (extractedStyles) => {
-                if (extractedStyles.length === 0) {
+        this._dataService.extractStyles(this.package).
+            then(extractedStyles => {
+                if (extractedStyles == undefined || extractedStyles.length === 0) {
                     this.previewIconName = undefined;
                     this.previewIcon = undefined;
                     this.previewButtonState = "failed";
-                    this.errors["cssfile.iconsfound"] = false;
+                    this.errors["sourcefile"] = "No icons found in the source file";
                     return;
+                } else {
+                    this.package.extractedStyles = extractedStyles;
+                    this.#loadPreview();
                 }
-
-                this.package.extractedStyles = extractedStyles;
-
-                this.#loadPreview();
             },
-            () => {
-                this.previewIconName = undefined;
-                this.previewIcon = undefined;
-                this.previewButtonState = "failed";
-                this.errors["cssfile.loaded"] = false;
-            }
-        );
+                (error) => {
+                    this.previewIconName = undefined;
+                    this.previewIcon = undefined;
+                    this.previewButtonState = "failed";
+                    this.#notificationContext?.peek("danger", {
+                        data: {
+                            message: "Error reading the file. " + error
+                        }
+                    })
+                }
+            );
     }
 
     #openCssFilePicker() {
@@ -235,8 +253,11 @@ export default class AddPackageModal
                 break;
         }
 
-        this.#extractStyles();
         this.package = tempObj;
+
+        this.#resetFormErrors();
+        this.#isValidForm();
+        this.#extractStyles();
     }
 
     #handleConfigTypeChange(event: Event) {
@@ -265,8 +286,18 @@ export default class AddPackageModal
         }
 
         this.#loadCssFile().then(() => {
-            //display first icon in the css
+            //display first icon in the css file
             this.previewIconName = this.package.extractedStyles[0];
+
+            if(this.package.backofficeTemplate === undefined){
+                this.#notificationContext?.peek("danger", {
+                    data: { message: "Please review the errors on the form." }
+                });
+                
+                this.previewButtonState = "failed";
+                return;
+            }
+
             this.previewIcon = this.#getIconToDisplay(this.previewIconName);
             this.previewButtonState = "success";
         }).catch(() => {
@@ -311,15 +342,15 @@ export default class AddPackageModal
 
     async #loadCssFile() {
         if (!this.package.cssfile) {
-            this._isCssLoaded = true;
-            this.errors["preview.cssrequired"] = false;
+            this._isCssLoaded = false;
+            this.errors["cssfile"] = "Select a valid CSS file";
         }
 
         var cssContent = await this._dataService.loadCss(this.package.cssfile);
 
         if (cssContent === undefined) {
             this._isCssLoaded = false;
-            this.errors["cssfile.loaded"] = false;
+            this.errors["cssfile"] = "Error loading the CSS file";
             return;
         }
 
@@ -382,6 +413,14 @@ export default class AddPackageModal
             font-size: var(--uui-size-5);
         }
        
+        .error{
+            padding: var(--uui-size-space-3);      
+            background-color: var(--uui-color-danger);  
+            color: var(--uui-color-danger-contrast);    
+        }       
+        .required::after {
+            content: '*';    
+        }
     `
 
     render() {
@@ -399,7 +438,7 @@ export default class AddPackageModal
                         </uui-form-layout-item>
 
                         ${this.configType === "preconfigured" ?
-                            html`
+                html`
                                 <uui-form-layout-item>                        
                                     <uui-select class="full-width"
                                                 placeholder="Select a pre-configuration..."
@@ -407,60 +446,54 @@ export default class AddPackageModal
                                                 @change="${this.#selectPreconfig}"></uui-select>
                                 </uui-form-layout-item>
                             ` : nothing
-                        }       
+            }       
 
                         <uui-form-layout-item>  
-                            <uui-label for="packageName" slot="label" >Enter a name</uui-label>
+                            <uui-label for="packageName" slot="label"><span class="required">Enter a name</span></uui-label>
                             <uui-input id="packageName" .value="${this.package.name}" @change="${this.#handleStringValueChange}"  class="full-width" name="packageName" type="text"></uui-input>
-                            <div ?hidden="${this.errors["name.required"]}">
-                                <p>Please enter a name for the package.</p>
+                            <div ?hidden="${this.errors["name"] == undefined}">
+                                <p class="error">${this.errors["name"]}</p>
                             </div>
                         </uui-form-layout-item>                                    
 
                         <uui-form-layout-item>
-                            <uui-label for="template" slot="label" >Backoffice template</uui-label>
-                            <uui-input id="template" .value="${this.package.backofficeTemplate}" @change="${this.#handleStringValueChange}"  class="full-width" name="template" type="text"></uui-input>
-                            <div ?hidden="${this.errors["backofficeTemplate.required"]}">
-                                <p>Please enter a template for the icon to display on the backoffice.</p>
+                            <uui-label for="backofficeTemplate" slot="label" ><span class="required">Backoffice template</span></uui-label>
+                            <uui-input id="backofficeTemplate" .value="${this.package.backofficeTemplate}" @change="${this.#handleStringValueChange}"  class="full-width" name="backofficeTemplate" type="text"></uui-input>
+                            <div ?hidden="${this.errors["backofficeTemplate"] == undefined}">
+                                <p class="error">${this.errors["backofficeTemplate"]}</p>
                             </div>
                         </uui-form-layout-item>
 
                         <uui-form-layout-item>
-                            <uui-label for="template" slot="label" >Frontend template</uui-label>
-                            <uui-input id="template" .value="${this.package.frontendTemplate}" @change="${this.#handleStringValueChange}"  class="full-width" name="template" type="text"></uui-input>
-                            <div ?hidden="${this.errors["frontendTemplate.required"]}">
-                                <p>Please enter a template for the icon to display on the frontend.</p>
-                            </div>
+                            <uui-label for="frontendTemplate" slot="label" >Frontend template</uui-label>
+                            <uui-input id="frontendTemplate" .value="${this.package.frontendTemplate}" @change="${this.#handleStringValueChange}"  class="full-width" name="frontendTemplate" type="text"></uui-input>
                         </uui-form-layout-item>
                         
                         <uui-form-layout-item>                            
-                            <uui-label for="editCssFile" slot="label">CSS File</uui-label>
+                            <uui-label for="editCssFile" slot="label"><span class="required">CSS File</span></uui-label>
                             <div class="flex">
                                 <uui-input id="editCssFile" class="full-width" .value="${this.package.cssfile}" @change="${this.#handleStringValueChange}"  name="editCssFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
                                 <uui-button type="button" label="Select" @click=${this.#openCssFilePicker}></uui-button>
                             </div>
-                            <div ?hidden="${this.errors["cssfile.loaded"]}">
-                                <p>The CSS file could not be loaded.</p>
-                            </div>
-                            <div ?hidden="${this.errors["cssfile.iconsfound"]}">
-                                <p>No icons could be found.</p>
-                            </div>
+                            <div ?hidden="${this.errors["cssfile"] == undefined}">
+                                <p class="error">${this.errors["cssfile"]}</p>
+                            </div>                            
                         </uui-form-layout-item>
                     </uui-box>      
                     <uui-box headline="Rules">                            
 
                         <uui-form-layout-item>
-                            <uui-label for="editSelector" slot="label">Selector</uui-label>
+                            <uui-label for="editSelector" slot="label"><span class="required">Selector</span></uui-label>
                             <uui-input id="editSelector" .value="${this.package.selector}" @change="${this.#handleStringValueChange}"  class="full-width" name="editSelector" type="text"></uui-input>
                         </uui-form-layout-item>
 
                         <uui-form-layout-item>
-                            <uui-label for="editSourceFile" slot="label">Source File</uui-label>
+                            <uui-label for="editSourceFile" slot="label"><span class="required">Source File</span></uui-label>
                             <div class="flex">                                
                                 <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}" @change="${this.#handleStringValueChange}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
                                 <uui-button type="button" label="Select" @click=${this.#openSourceFilePicker}></uui-button>
-                                <div ?hidden="${this.errors["name.required"]}">
-                                    <p>A source file is required to extract the icons values.</p>
+                                <div ?hidden="${this.errors["sourcefile"] == undefined}">
+                                    <p class="error">${this.errors["sourcefile"]}</p>
                                 </div>
                             </div>
                         </uui-form-layout-item>                
@@ -477,8 +510,8 @@ export default class AddPackageModal
                         </div>
                         <uui-button label="Reload Preview" look="primary" @click="${this.#loadPreview}" ?disabled="${!this.package.extractedStyles}" state="${this.previewButtonState}"></uui-button>                            
                     
-                        <div ?hidden="${this.errors["cssfile.required"]}">
-                            <p>Please select a CSS file first.</p>
+                        <div ?hidden="${this.errors["cssfile"] == undefined}">
+                            <p class="error">${this.errors["cssfile"]}</p>
                         </div>                        
                     </uui-box>
 

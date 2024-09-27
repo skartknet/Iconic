@@ -18,21 +18,26 @@ export default class DataService {
 
     }
 
-    async extractStyles(item: Package, successCallback: (extractedStyles: string[]) => void, errorCallback: () => void) {
+    async extractStyles(item: Package): Promise<string[] | undefined> {
 
         var tempItem = Object.assign({}, item);
 
         if (!tempItem.selector || tempItem.selector.length <= 0) {
-            errorCallback();
+            return undefined;
         }
 
         if (!tempItem.sourcefile) tempItem.sourcefile = tempItem.cssfile;
 
-        var result = await fetch(tempItem.sourcefile);
+        let result: Response;
+
+        try {
+            result = await fetch(tempItem.sourcefile);
+        } catch (error) {
+            throw error;
+        }
 
         if (!result.ok) {
-            errorCallback();
-            return;
+            return undefined;
         }
 
         tempItem.extractedStyles = [];
@@ -48,10 +53,9 @@ export default class DataService {
         }
 
         if (tempItem.extractedStyles.length > 0) {
-            successCallback(tempItem.extractedStyles);
+            return tempItem.extractedStyles;
         } else {
-            //   displayError("iconicErrors_no_rules");
-            errorCallback();
+            return undefined;
         }
 
     }

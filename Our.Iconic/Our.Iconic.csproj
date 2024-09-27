@@ -24,26 +24,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="src-old\**" />
+    <Content Remove="src-old\**" />
+    <EmbeddedResource Remove="src-old\**" />
+    <None Remove="src-old\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="public\lang\en-US.xml" />
     <None Remove="public\lang\es-ES.xml" />
-    <None Remove="src-old\background.png" />
-    <None Remove="src-old\js\build\findPolyfill.min.js" />
-    <None Remove="src-old\js\src\iconic.controller.js" />
-    <None Remove="src-old\js\src\iconic.dialog.controller.js" />
-    <None Remove="src-old\js\src\iconic.directives.js" />
-    <None Remove="src-old\js\src\iconic.models.js" />
-    <None Remove="src-old\js\src\iconic.prevalues.controller.js" />
-    <None Remove="src-old\js\src\iconic.prevalues.editor.controller.js" />
-    <None Remove="src-old\lang\en-US.xml" />
-    <None Remove="src-old\lang\es-ES.xml" />
-    <None Remove="src-old\Styles\iconic.css" />
-    <None Remove="src-old\Styles\iconic.min.css" />
-    <None Remove="src-old\Styles\iconic.min.css.map" />
-    <None Remove="src-old\Styles\iconic.scss" />
-    <None Remove="src-old\Views\iconic.dialog.html" />
-    <None Remove="src-old\Views\iconic.edit.dialog.html" />
-    <None Remove="src-old\Views\iconic.html" />
-    <None Remove="src-old\Views\iconic.prevalues.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,78 +41,6 @@
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
     <Content Include="public\lang\es-ES.xml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\background.png">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\js\build\findPolyfill.min.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\js\src\iconic.controller.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\js\src\iconic.dialog.controller.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\js\src\iconic.directives.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\js\src\iconic.models.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\js\src\iconic.prevalues.controller.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\js\src\iconic.prevalues.editor.controller.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\lang\en-US.xml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\lang\es-ES.xml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\Styles\iconic.css">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\Styles\iconic.min.css">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\Styles\iconic.min.css.map">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\Styles\iconic.scss">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\Views\iconic.dialog.html">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\Views\iconic.edit.dialog.html">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\Views\iconic.html">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Include="src-old\Views\iconic.prevalues.html">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
@@ -155,9 +72,6 @@
 
   <ItemGroup>
     <Content Update="public\preconfigs.json">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="src-old\preconfigs.json">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
   </ItemGroup>

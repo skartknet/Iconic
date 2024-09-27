@@ -50,12 +50,12 @@ class Package {
 class PreConfiguration{
     name: string;
     selector: string;
-    template: string;
+    backofficeTemplate: string;
 
-    constructor(name: string, selector: string, template: string){
+    constructor(name: string, selector: string, backofficeTemplate: string){
         this.name = name;
         this.selector = selector;
-        this.template = template;
+        this.backofficeTemplate = backofficeTemplate;
     }
 
 }
