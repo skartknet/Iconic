@@ -10,7 +10,7 @@
 [Tips & Tricks](Tips)
 
 ## How to Contribute
-If you have information to share about how to configure a specific icon set,  or do something cool with Iconic, please fork this repository and contribute your findings to the appropriate Documentation section.
+If you have information to share about how to configure a specific icon set, or do something cool with Iconic, please fork this repository and contribute your findings to the appropriate Documentation section.
 
 To contribute [Code](https://github.com/skartknet/Iconic/pulls), [Issues/Bugs](https://github.com/skartknet/Iconic/issues), [Ideas, etc.](https://github.com/skartknet/Iconic/discussions) check out the [GitHub site](https://github.com/skartknet/Iconic).
 
