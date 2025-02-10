@@ -109,9 +109,9 @@ let l = class extends V(U) {
                             <div class="flex">                                
                                 <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}" @change="${o(this, s, u)}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
                                 <uui-button type="button" label="Select" @click=${o(this, s, A)}></uui-button>
-                                <div ?hidden="${this.errors.sourcefile == null}">
-                                    <p class="error">${this.errors.sourcefile}</p>
-                                </div>
+                            </div>
+                            <div ?hidden="${this.errors.sourcefile == null}">
+                                <p class="error">${this.errors.sourcefile}</p>
                             </div>
                         </uui-form-layout-item>                
                                 

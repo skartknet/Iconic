@@ -289,11 +289,11 @@ export default class AddPackageModal
             //display first icon in the css file
             this.previewIconName = this.package.extractedStyles[0];
 
-            if(this.package.backofficeTemplate === undefined){
+            if (this.package.backofficeTemplate === undefined) {
                 this.#notificationContext?.peek("danger", {
                     data: { message: "Please review the errors on the form." }
                 });
-                
+
                 this.previewButtonState = "failed";
                 return;
             }
@@ -492,9 +492,9 @@ export default class AddPackageModal
                             <div class="flex">                                
                                 <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}" @change="${this.#handleStringValueChange}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
                                 <uui-button type="button" label="Select" @click=${this.#openSourceFilePicker}></uui-button>
-                                <div ?hidden="${this.errors["sourcefile"] == undefined}">
-                                    <p class="error">${this.errors["sourcefile"]}</p>
-                                </div>
+                            </div>
+                            <div ?hidden="${this.errors["sourcefile"] == undefined}">
+                                <p class="error">${this.errors["sourcefile"]}</p>
                             </div>
                         </uui-form-layout-item>                
                                 
