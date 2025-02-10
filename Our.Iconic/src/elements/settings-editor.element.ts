@@ -19,6 +19,8 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
     constructor() {
         super();
 
+        this.value = this.value || [];
+
         this.consumeContext(UMB_MODAL_MANAGER_CONTEXT, (instance) => {
             this._modalManagerContext = instance;
         });
@@ -36,7 +38,7 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
 
         modalContext?.onSubmit().then((val) => {
             if (val?.package) {
-                let tempVal = this.value.map(x => x);
+                let tempVal = this.value ? this.value.map(x => x) : [];
                 tempVal.push(Object.assign({}, val.package));
 
                 this.value = tempVal;

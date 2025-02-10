@@ -9,7 +9,7 @@ var C = Object.defineProperty, w = Object.getOwnPropertyDescriptor, g = (e) => {
   for (var i = s > 1 ? void 0 : s ? w(t, a) : t, n = e.length - 1, r; n >= 0; n--)
     (r = e[n]) && (i = (s ? r(t, a, i) : r(i)) || i);
   return s && i && C(t, a, i), i;
-}, M = (e, t, a) => t.has(e) || g("Cannot " + a), l = (e, t, a) => (M(e, t, "read from private field"), a ? a.call(e) : t.get(e)), c = (e, t, a) => t.has(e) ? g("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), u, p, h, v;
+}, M = (e, t, a) => t.has(e) || g("Cannot " + a), l = (e, t, a) => (M(e, t, "read from private field"), a ? a.call(e) : t.get(e)), c = (e, t, a) => t.has(e) ? g("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), u, h, p, v;
 let o = class extends y(b) {
   constructor() {
     super(), this.value = [], c(this, u, () => {
@@ -17,11 +17,11 @@ let o = class extends y(b) {
       let e = (t = this._modalManagerContext) == null ? void 0 : t.open(this, f);
       e == null || e.onSubmit().then((a) => {
         if (a != null && a.package) {
-          let s = this.value.map((i) => i);
+          let s = this.value ? this.value.map((i) => i) : [];
           s.push(Object.assign({}, a.package)), this.value = s, this.dispatchEvent(new d());
         }
       });
-    }), c(this, p, (e) => {
+    }), c(this, h, (e) => {
       var a;
       let t = (a = this._modalManagerContext) == null ? void 0 : a.open(this, f, {
         data: {
@@ -37,7 +37,7 @@ let o = class extends y(b) {
           }
         }
       });
-    }), c(this, h, (e) => {
+    }), c(this, p, (e) => {
       if (this.value && this.value.length > e) {
         let t = Array.from(this.value);
         t.splice(e, 1), this.value = t, this.dispatchEvent(new d());
@@ -56,15 +56,15 @@ let o = class extends y(b) {
                             </div>
                         </div>
                         <uui-action-bar>
-                            <uui-button label="edit" compact  @click="${() => l(this, p).call(this, e)}">
+                            <uui-button label="edit" compact  @click="${() => l(this, h).call(this, e)}">
                                 <uui-icon name="icon-edit"></uui-icon>
                             </uui-button>		
-                            <uui-button label="delete" compact @click="${() => l(this, h).call(this, t)}">
+                            <uui-button label="delete" compact @click="${() => l(this, p).call(this, t)}">
                                 <uui-icon name="icon-remove"></uui-icon>
                             </uui-button>
                         </uui-action-bar>
                     </div>    
-                    `), this.consumeContext(I, (e) => {
+                    `), this.value = this.value || [], this.consumeContext(I, (e) => {
       this._modalManagerContext = e;
     });
   }
@@ -88,8 +88,8 @@ let o = class extends y(b) {
   }
 };
 u = /* @__PURE__ */ new WeakMap();
-p = /* @__PURE__ */ new WeakMap();
 h = /* @__PURE__ */ new WeakMap();
+p = /* @__PURE__ */ new WeakMap();
 v = /* @__PURE__ */ new WeakMap();
 o.styles = [k`
         :host {
