@@ -6,7 +6,7 @@ on:
 
 env:
   SOLUTION: Iconic.sln  
-  WEB_PROJECT: Our.Iconic.Core/Our.Iconic.Web.csproj
+  WEB_PROJECT: Our.Iconic.Web/Our.Iconic.Web.csproj
   OUTPUT_PATH: ${{ github.workspace }}/build.out
   
 jobs:
