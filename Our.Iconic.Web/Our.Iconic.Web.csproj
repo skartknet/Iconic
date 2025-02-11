@@ -24,7 +24,7 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageTags>umbraco plugin package icon picker editor backoffice</PackageTags>
 		<NeutralLanguage>en-US</NeutralLanguage>
-		<PackageReadmeFile>README.nuget.md</PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>iconic_logo.png</PackageIcon>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
