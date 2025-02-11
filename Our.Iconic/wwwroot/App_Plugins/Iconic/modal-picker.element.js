@@ -1,66 +1,72 @@
-import { LitElement as v, html as h, unsafeHTML as b, nothing as k, css as y, property as C, state as _, customElement as x } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as S } from "@umbraco-cms/backoffice/element-api";
-import { D as $ } from "./dataService-w_RStjwn.js";
-var P = Object.defineProperty, w = Object.getOwnPropertyDescriptor, p = (e) => {
+import { LitElement as y, html as u, unsafeHTML as C, nothing as S, css as P, property as x, state as m, customElement as O } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as $ } from "@umbraco-cms/backoffice/element-api";
+import { D as w } from "./dataService-w_RStjwn.js";
+var I = Object.defineProperty, T = Object.getOwnPropertyDescriptor, f = (e) => {
   throw TypeError(e);
-}, r = (e, t, a, i) => {
-  for (var s = i > 1 ? void 0 : i ? w(t, a) : t, c = e.length - 1, u; c >= 0; c--)
-    (u = e[c]) && (s = (i ? u(t, a, s) : u(s)) || s);
-  return i && s && P(t, a, s), s;
-}, O = (e, t, a) => t.has(e) || p("Cannot " + a), I = (e, t, a) => t.has(e) ? p("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), n = (e, t, a) => (O(e, t, "access private method"), a), l, m, f, g, d;
-let o = class extends S(v) {
+}, r = (e, t, a, c) => {
+  for (var s = c > 1 ? void 0 : c ? T(t, a) : t, o = e.length - 1, n; o >= 0; o--)
+    (n = e[o]) && (s = (c ? n(t, a, s) : n(s)) || s);
+  return c && s && I(t, a, s), s;
+}, E = (e, t, a) => t.has(e) || f("Cannot " + a), F = (e, t, a) => t.has(e) ? f("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), l = (e, t, a) => (E(e, t, "access private method"), a), i, g, d, k, v, b, p;
+let h = class extends $(y) {
   constructor() {
-    super(...arguments), I(this, l), this._value = [], this._multiSelect = !1, this._dataService = new $(), this._packages = [], this._showFilteredOnly = !1, this._icons = [];
+    super(...arguments), F(this, i), this._value = [], this._multiSelect = !1, this._dataService = new w(), this._packages = [], this._packagesOptions = [], this._showFilteredOnly = !1, this._icons = [];
   }
   connectedCallback() {
-    var e, t, a, i, s;
-    super.connectedCallback(), this._packages = ((e = this.modalContext) == null ? void 0 : e.data.packages) ?? [], this._showFilteredOnly = ((t = this.modalContext) == null ? void 0 : t.data.showFilteredOnly) ?? !1, this._multiSelect = ((a = this.modalContext) == null ? void 0 : a.data.multiSelect) ?? !1, this._value = Array.from(((s = (i = this.modalContext) == null ? void 0 : i.getValue()) == null ? void 0 : s.icons) ?? []), this._packages && this._packages.length > 0 && (this._selectedPackage = this._packages[0], this._dataService.processCssFiles(this._packages.map((c) => c.cssfile), this.shadowRoot).then(() => {
-      this._selectedPackage.filteredIcons.length > 0 && this._showFilteredOnly ? this._icons = this._selectedPackage.filteredIcons : this._icons = this._selectedPackage.extractedStyles;
-    }));
+    var e, t, a, c, s, o, n;
+    super.connectedCallback(), this._packages = ((e = this.modalContext) == null ? void 0 : e.data.packages) ?? [], this._packagesOptions = ((a = (t = this.modalContext) == null ? void 0 : t.data.packages) == null ? void 0 : a.map((_) => ({ name: _.name, value: _.id }))) ?? [], this._packagesOptions.length > 0 && (this._packagesOptions[0].selected = !0), this._showFilteredOnly = ((c = this.modalContext) == null ? void 0 : c.data.showFilteredOnly) ?? !1, this._multiSelect = ((s = this.modalContext) == null ? void 0 : s.data.multiSelect) ?? !1, this._value = Array.from(((n = (o = this.modalContext) == null ? void 0 : o.getValue()) == null ? void 0 : n.icons) ?? []), this._packages && this._packages.length > 0 && (this._selectedPackage = this._packages[0], l(this, i, d).call(this));
   }
   render() {
-    return h`
+    return u`
             <umb-body-layout headline="Select Icons" style="height:95%;">  
-                <select ?hidden=${this._packages.length <= 1}>
-                    ${this._packages.map((e) => h`
-                        <option value="${e.id}">${e.name}</option>
-                    `)}
-                </select>
-                <h4 ?hidden=${this._packages.length > 0}>${this._packages[0].name}</h4>
+                
+                <uui-select ?hidden=${this._packagesOptions.length == 0} .options=${this._packagesOptions}  @change="${l(this, i, k)}"></uui-select>
+
+                </umb-property-editor-ui-dropdown>
+                <h4 ?hidden=${this._packages.length == 0}>${this._packages[0].name}</h4>
                 ${this._icons.map((e) => {
       var t;
-      return h`
-                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${n(this, l, f).call(this, e)} @click=${n(this, l, m)} label=${e} value=${e}>
-                            ${b((t = this._selectedPackage) == null ? void 0 : t.backofficeTemplate.replace("{icon}", e))}
+      return u`
+                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${l(this, i, v).call(this, e)} @click=${l(this, i, g)} label=${e} value=${e}>
+                            ${C((t = this._selectedPackage) == null ? void 0 : t.backofficeTemplate.replace("{icon}", e))}
                     </uui-button>
                 `;
     })}              
             </umb-body-layout>
             <umb-footer-layout>
-                        ${this._multiSelect ? h`<uui-button slot="actions" label="Submit" @click="${n(this, l, d)}"></uui-button>` : k}                        
-                        <uui-button slot="actions" label="Cancel" @click="${n(this, l, g)}"></uui-button>                        
+                        ${this._multiSelect ? u`<uui-button slot="actions" label="Submit" @click="${l(this, i, p)}"></uui-button>` : S}                        
+                        <uui-button slot="actions" label="Cancel" @click="${l(this, i, b)}"></uui-button>                        
             </umb-footer-layout> 
         `;
   }
 };
-l = /* @__PURE__ */ new WeakSet();
-m = function(e) {
+i = /* @__PURE__ */ new WeakSet();
+g = function(e) {
   var t = e.currentTarget.getAttribute("value");
-  t && (this._value.push({ packageId: this._selectedPackage.id, icon: t }), e.currentTarget.setAttribute("disabled", "true"), this._multiSelect || n(this, l, d).call(this));
+  t && (this._value.push({ packageId: this._selectedPackage.id, icon: t }), e.currentTarget.setAttribute("disabled", "true"), this._multiSelect || l(this, i, p).call(this));
 };
-f = function(e) {
+d = function() {
+  this._dataService.processCssFiles(this._packages.map((e) => e.cssfile), this.shadowRoot).then(() => {
+    this._selectedPackage.filteredIcons.length > 0 && this._showFilteredOnly ? this._icons = this._selectedPackage.filteredIcons : this._icons = this._selectedPackage.extractedStyles;
+  });
+};
+k = function(e) {
+  var t = e.currentTarget.value;
+  t && (this._selectedPackage = this._packages.find((a) => a.id === t), l(this, i, d).call(this));
+};
+v = function(e) {
   return this._value.findIndex((t) => t.icon === e) >= 0;
 };
-g = function() {
+b = function() {
   var e;
   (e = this.modalContext) == null || e.submit();
 };
-d = function() {
+p = function() {
   var e, t;
   (e = this.modalContext) == null || e.updateValue({ icons: this._value }), (t = this.modalContext) == null || t.submit();
 };
-o.styles = [
-  y`
+h.styles = [
+  P`
           .icon{
                 font-size: var(--uui-size-8);
                 height: 55px;
@@ -71,18 +77,18 @@ o.styles = [
         `
 ];
 r([
-  C({ attribute: !1 })
-], o.prototype, "modalContext", 2);
+  x({ attribute: !1 })
+], h.prototype, "modalContext", 2);
 r([
-  _()
-], o.prototype, "_icons", 2);
+  m()
+], h.prototype, "_icons", 2);
 r([
-  _()
-], o.prototype, "_selectedPackage", 2);
-o = r([
-  x("modal-picker")
-], o);
+  m()
+], h.prototype, "_selectedPackage", 2);
+h = r([
+  O("modal-picker")
+], h);
 export {
-  o as default
+  h as default
 };
 //# sourceMappingURL=modal-picker.element.js.map

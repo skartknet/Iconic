@@ -5,6 +5,7 @@ import type { ModalPickerData, ModalPickerValue } from "../tokens/modal-picker.t
 import { UmbModalExtensionElement } from "@umbraco-cms/backoffice/extension-registry";
 import DataService from "../dataService.ts";
 import { Icon, Package } from "../models.ts";
+import { UUISelectElement } from "@umbraco-cms/backoffice/external/uui";
 
 @customElement('modal-picker')
 export default class ModalPicker
@@ -18,6 +19,8 @@ export default class ModalPicker
     private _multiSelect: boolean = false;
     private _dataService: DataService = new DataService();
     private _packages: Package[] = [];
+    private _packagesOptions: Option[] = [];
+
     private _showFilteredOnly: boolean = false;
 
     @state()
@@ -31,19 +34,19 @@ export default class ModalPicker
         super.connectedCallback();
 
         this._packages = this.modalContext?.data.packages ?? [];
+        this._packagesOptions = this.modalContext?.data.packages?.map(x => <Option>{ name: x.name, value: x.id }) ?? [];
+
+        if(this._packagesOptions.length > 0){
+            this._packagesOptions[0].selected = true;
+        }
+
         this._showFilteredOnly = this.modalContext?.data.showFilteredOnly ?? false;
         this._multiSelect = this.modalContext?.data.multiSelect ?? false;
         this._value = Array.from(this.modalContext?.getValue()?.icons ?? []);
 
         if (this._packages && this._packages.length > 0) {
             this._selectedPackage = this._packages[0];
-            this._dataService.processCssFiles(this._packages.map(x => x.cssfile), this.shadowRoot).then(() => {
-                if (this._selectedPackage!.filteredIcons.length > 0 && this._showFilteredOnly) {
-                    this._icons = this._selectedPackage!.filteredIcons;
-                } else {
-                    this._icons = this._selectedPackage!.extractedStyles;
-                }
-            });
+            this.#loadSelectedPackage();
         }
 
 
@@ -59,6 +62,26 @@ export default class ModalPicker
             if (!this._multiSelect) {
                 this.#handleSave();
             }
+        }
+    }
+
+    #loadSelectedPackage() {
+
+        this._dataService.processCssFiles(this._packages.map(x => x.cssfile), this.shadowRoot).then(() => {
+            if (this._selectedPackage!.filteredIcons.length > 0 && this._showFilteredOnly) {
+                this._icons = this._selectedPackage!.filteredIcons;
+            } else {
+                this._icons = this._selectedPackage!.extractedStyles;
+            }
+        });
+    }
+
+    #handlePackageSelection(e: Event) {
+        var val = (e.currentTarget as UUISelectElement).value;
+
+        if (val) {
+            this._selectedPackage = this._packages.find(x => x.id === val);
+            this.#loadSelectedPackage();
         }
     }
 
@@ -90,12 +113,11 @@ export default class ModalPicker
     render() {
         return html`
             <umb-body-layout headline="Select Icons" style="height:95%;">  
-                <select ?hidden=${this._packages.length <= 1}>
-                    ${this._packages.map((pck) => html`
-                        <option value="${pck.id}">${pck.name}</option>
-                    `)}
-                </select>
-                <h4 ?hidden=${this._packages.length > 0}>${this._packages[0].name}</h4>
+                
+                <uui-select ?hidden=${this._packagesOptions.length == 0} .options=${this._packagesOptions}  @change="${this.#handlePackageSelection}"></uui-select>
+
+                </umb-property-editor-ui-dropdown>
+                <h4 ?hidden=${this._packages.length == 0}>${this._packages[0].name}</h4>
                 ${this._icons.map((icon) => html`
                     <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${this.#isSelected(icon)} @click=${this.#selectIcon} label=${icon} value=${icon}>
                             ${unsafeHTML(this._selectedPackage?.backofficeTemplate.replace("{icon}", icon))}

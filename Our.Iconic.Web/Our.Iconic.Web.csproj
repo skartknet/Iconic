@@ -10,7 +10,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Version>15.0.0</Version>
 		<Authors>Mario Lopez</Authors>
 		<Description>
@@ -25,8 +25,7 @@
 		<PackageTags>umbraco plugin package icon picker editor backoffice</PackageTags>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageIcon>iconic_logo.png</PackageIcon>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageIcon>iconic_logo.png</PackageIcon>		
 
 	</PropertyGroup>
 
