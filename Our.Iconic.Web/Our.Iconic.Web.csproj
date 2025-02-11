@@ -1,10 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Version>15.0.0</Version>
+		<Authors>Mario Lopez</Authors>
+		<Description>
+			Highly configurable icon picker for Umbraco.
+			With Iconic you will be able to create a property editor that can use virtually any font package out there and not only that, you will be able to select your icon from more than one package on the same property.			
+		</Description>
+		<Copyright>Copyright © Mario Lopez</Copyright>
+		<Product>$(AssemblyName) - Web DLL</Product>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/Skartknet/Iconic</PackageProjectUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageTags>umbraco plugin package icon picker editor backoffice</PackageTags>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<PackageReadmeFile>README.nuget.md</PackageReadmeFile>
+		<PackageIcon>iconic_logo.png</PackageIcon>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+	</PropertyGroup>
+
+
+
+	<ItemGroup>
+	  <None Include="..\iconic_logo.png" Link="iconic_logo.png">
+	    <PackagePath></PackagePath>
+	    <Pack>True</Pack>
+	  </None>
+
+
+		<None Include="README.nuget.md" Link="README.nuget.md">
+			<PackagePath></PackagePath>
+			<PackagePath>README.md</PackagePath>
+			<Pack>True</Pack>
+		</None>
+	</ItemGroup>
+
+	
+	<ItemGroup>
+	  <PackageReference Include="Umbraco.Cms.Core" Version="15.2.0" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Our.Iconic\Our.Iconic.csproj" />

@@ -5,15 +5,9 @@
     <Nullable>enable</Nullable>
     <CompressionEnabled>false</CompressionEnabled> <!-- Disable compression. E.g. for umbraco backoffice files. These files should be precompressed by node and not let dotnet handle it -->
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Views\**" />
-    <Content Remove="Views\**" />
-    <EmbeddedResource Remove="Views\**" />
-    <None Remove="Views\**" />
-  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Umbraco.Cms" Version="15.1.2" />
+    <PackageReference Include="Umbraco.Cms" Version="15.2.0" />
     <PackageReference Include="Umbraco.TheStarterKit" Version="15.0.0" />
   </ItemGroup>
 
