@@ -5,8 +5,6 @@ namespace Our.Iconic.Core.Models
 {
     public class Icon
     {
-        [JsonPropertyName("packageId")]
-        public Guid PackageId { get; set; }
 
         [JsonPropertyName("icon")]
         public string Value { get; set; }

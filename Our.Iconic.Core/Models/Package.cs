@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Our.Iconic.Core.Models
@@ -26,11 +25,5 @@ namespace Our.Iconic.Core.Models
 
         [JsonPropertyName("sourcefile")]
         public string SourceFile { get; set; }
-
-        [JsonPropertyName("extractedStyles")]
-        public IEnumerable<string> ExtractedStyles { get; set; }
-
-        [JsonPropertyName("filteredIcons")]
-        public IEnumerable<string> FilteredIcons { get; set; }
     }
 }

@@ -28,6 +28,17 @@ namespace Our.Iconic.Core.ValueConverters
         {
             if (inter == null) return null;
 
+            string jsonString = (string)inter;
+            string packageId = null;
+
+            using (JsonDocument document = JsonDocument.Parse(jsonString))
+            {
+                if (document.RootElement.TryGetProperty("packageId", out JsonElement packageIdElement))
+                {
+                    packageId = packageIdElement.GetString();
+                }
+            }
+
 
             var model = JsonSerializer.Deserialize<Icon>((string)inter);
 
@@ -37,7 +48,7 @@ namespace Our.Iconic.Core.ValueConverters
             config.Packages = JsonSerializer.Deserialize<IEnumerable<Package>>(jobj["packages"].ToString());
 
 
-            var package = config.Packages.SingleOrDefault(x => x.Id == model.PackageId);
+            var package = config.Packages.SingleOrDefault(x => x.Id.ToString() == packageId);
 
             if (package is null)
             {
