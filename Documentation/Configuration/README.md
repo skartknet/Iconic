@@ -14,6 +14,7 @@ Specific Icon Sets Configurations:
 -  [Font Awesome 5](FontAwesome5)
 -  [Glyphicons](Glyphicons)
 -  [Material Icons](MaterialIcons)
+-  [Material Symbols](MaterialSymbols)
 
 
 ## <a name="create"></a> Create a new DataType
