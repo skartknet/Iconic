@@ -6,13 +6,14 @@ With Iconic you will be able to create a property editor that can use virtually 
 
 ## Installation
 
+Use V15 for Umbraco 15.0.0\
 Use V5 for Umbraco 10.2.0 and above\
 Use V3 for Umbraco 8, 9 & 10.1.0\
 Use V2 for Umbraco 8\
 Use V1 for Umbraco 7
 
 ### IMPORTANT: Upgrading to Iconic V5
-The new version 5 of Iconic is built as a <a href="https://learn.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-6.0&tabs=visual-studio" target="_blank">Razor Class Library</a> (RCL). The dll generated contains all the files that otherwise would go into your `app_plugins` folder.
+From version 5, Iconic is built as a <a href="https://learn.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-6.0&tabs=visual-studio" target="_blank">Razor Class Library</a> (RCL). The dll generated contains all the files that otherwise would go into your `app_plugins` folder.
 
 If you are upgrading from previous Iconic versions, follow these steps (you shouldn't lose any data if you follow the instructions):
 - Uninstall the previous Iconic package from your project

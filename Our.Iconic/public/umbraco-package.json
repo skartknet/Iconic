@@ -1,7 +1,9 @@
 {
-  "$schema": "../../UmbracoV1402/umbraco-package-schema.json",
-  "name": "Iconic",
-  "version": "14.0.0",
+  "$schema": "../../UmbracoV15/umbraco-package-schema.json",
+  "name": "Iconic",  
+  "id": "Our.Iconic",
+  "allowTelemetry": true,
+  "version": "15.0.0",
   "extensions": [
     {
       "type": "propertyEditorUi",

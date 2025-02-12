@@ -9,7 +9,7 @@
 **Source file**: https://raw.githubusercontent.com/google/material-design-icons/refs/heads/master/variablefont/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].codepoints
 
 
-On the CSS file, you can filter out the icons you need to reduce the size of it appending &icon_names= . Check the Material docs to see how this works.
+On the CSS file, you can filter out the icons you need to reduce the size of it appending `&icon_names=` . Check the [Material Symbols guide](https://developers.google.com/fonts/docs/material_symbols) to see how this works.
 Also, there are other CSS files available depending the style of the icon you need.
 
 There are more codepoints files in here: https://github.com/google/material-design-icons/tree/master/variablefont
