@@ -38,7 +38,7 @@
 	  </None>
 
 
-		<None Include="README.nuget.md" Link="README.nuget.md">			
+		<None Include="README.md" Link="README.md">			
 			<PackagePath>README.md</PackagePath>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>True</Pack>

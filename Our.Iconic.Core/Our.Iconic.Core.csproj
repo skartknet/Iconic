@@ -15,7 +15,7 @@ With Iconic you will be able to create a property editor that can use virtually 
 	  <PackageIcon>icon.png</PackageIcon>
 	  <PackageTags>umbraco plugin package icon picker editor backoffice</PackageTags>
 	  <NeutralLanguage>en-US</NeutralLanguage>
-	  <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageIcon>iconic_logo.png</PackageIcon>	  
   </PropertyGroup>
 	
@@ -30,7 +30,7 @@ With Iconic you will be able to create a property editor that can use virtually 
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
-		<None Include="..\README.nuget.md">
+		<None Include="..\README.md">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
