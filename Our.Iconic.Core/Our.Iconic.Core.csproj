@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <Version>16.0.0</Version>
+	  <Version>16.0.0-rc1</Version>
 	  <Authors>Mario Lopez</Authors>
 	  <Description>Highly configurable icon picker for Umbraco. 
 With Iconic you will be able to create a property editor that can use virtually any font package out there and not only that, you will be able to select your icon from more than one package on the same property.
