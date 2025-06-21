@@ -1,12 +1,13 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
-import { UmbPropertyEditorUiElement } from "@umbraco-cms/backoffice/extension-registry";
+import type { UmbPropertyEditorUiElement } from '@umbraco-cms/backoffice/property-editor';
 import { Icon, Package } from '../models';
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal';
 import { ICONIC_MODALPICKER_TOKEN } from '../tokens/modal-picker.token';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { UmbPropertyEditorConfigCollection, UmbPropertyValueChangeEvent } from '@umbraco-cms/backoffice/property-editor';
+import { UmbPropertyEditorConfigCollection} from '@umbraco-cms/backoffice/property-editor';
+import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import DataService from '../dataService';
 
 @customElement('iconic-property-editor')
@@ -63,11 +64,20 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
     }
   }
 
+  #removeIcon() {
+    this.value = undefined;
+    this._selectedIcon = undefined;
+    this.dispatchEvent(new UmbChangeEvent());
+  }
+
   #openModal() {
     let modalContext = this.#modalManagerContext?.open(this, ICONIC_MODALPICKER_TOKEN, {
       data: {
         packages: this._packages,
         showFilteredOnly: true
+      },
+      value: {
+        icons: this.value ? [this.value] : []
       },
     });
 
@@ -76,12 +86,12 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
       if (val?.icons?.length && val?.icons?.length > 0) {
         tempVal = val.icons[0];
         this.value = tempVal;
-        this.dispatchEvent(new UmbPropertyValueChangeEvent());
+        this.dispatchEvent(new UmbChangeEvent());
         this._selectedPackage = this._packages?.find((el) => el.id === this.value?.packageId);
         this.#setPreviewIcon();
       } else {
         this.value = tempVal;
-        this.dispatchEvent(new UmbPropertyValueChangeEvent());
+        this.dispatchEvent(new UmbChangeEvent());
       }
     })
   }
@@ -95,6 +105,17 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
             margin-right: var(--uui-size-space-1);
             margin-bottom: var(--uui-size-space-2);
         }
+      .action {
+        cursor: pointer;
+        color: var(--uui-color-text-alt);
+        font-size: var(--uui-size-4);
+        font-weight: 500;
+      }
+
+      .action:hover {
+        color: var(--uui-color-text);
+        text-decoration: underline;
+      }
     `
   ]
 
@@ -104,6 +125,9 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
               <uui-button class="icon" compact label="icon" look="placeholder" @click=${this.#openModal} type="button" color="default">
                 ${unsafeHTML(this._selectedIcon)}
               </uui-button>
+              ${this._selectedIcon ? html`                                
+                <div><small class="action" @click=${this.#removeIcon}>Remove</small></div>
+              ` : ''}
     `
   }
 

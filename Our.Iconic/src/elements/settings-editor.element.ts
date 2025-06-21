@@ -1,5 +1,5 @@
 import { html, customElement, property, LitElement, css } from "@umbraco-cms/backoffice/external/lit";
-import { UmbPropertyEditorUiElement } from "@umbraco-cms/backoffice/extension-registry";
+import type { UmbPropertyEditorUiElement } from '@umbraco-cms/backoffice/property-editor';
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { Package } from "../models";
 import { UMB_MODAL_MANAGER_CONTEXT } from "@umbraco-cms/backoffice/modal";

@@ -3,7 +3,7 @@
   "name": "Iconic",  
   "id": "Our.Iconic",
   "allowTelemetry": true,
-  "version": "15.0.0",
+  "version": "16.0.0",
   "extensions": [
     {
       "type": "propertyEditorUi",

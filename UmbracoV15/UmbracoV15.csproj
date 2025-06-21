@@ -25,6 +25,18 @@
     <ProjectReference Include="..\Our.Iconic.Web\Our.Iconic.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove=".\umbraco\**" />
+    <Content Include=".\umbraco\**" Watch="false" />
+</ItemGroup>
+
+<ItemGroup>
+  <!-- Explicitly exclude SQLite WAL files from watch -->
+  <Watch Remove=".\umbraco\**\*.db-wal" />
+  <Watch Remove=".\umbraco\**\*.db-shm" />
+  <Watch Remove=".\umbraco\Data\**" />
+</ItemGroup>
+
   <PropertyGroup>
     <!-- Razor files are needed for the backoffice to work correctly -->
     <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>

@@ -2,10 +2,12 @@ import { html, LitElement, property, customElement, state, css, nothing, unsafeH
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { UMB_MODAL_MANAGER_CONTEXT, UmbModalContext } from "@umbraco-cms/backoffice/modal";
 import type { AddPackageModalData, AddPackageModalValue } from "../tokens/modal-settings-addpackage.token.ts";
-import { UmbModalExtensionElement } from "@umbraco-cms/backoffice/extension-registry";
+import type { UmbModalExtensionElement } from '@umbraco-cms/backoffice/modal';
 import { Icon, Package, PreConfiguration } from "../models.ts";
 import DataService from "../dataService.ts";
-import { UmbStaticFilePickerContext } from "@umbraco-cms/backoffice/static-file";
+import { UmbStaticFilePickerInputContext } from "@umbraco-cms/backoffice/static-file";
+
+
 import { UUIButtonState } from "@umbraco-cms/backoffice/external/uui";
 import { ICONIC_MODALPICKER_TOKEN } from "../tokens/modal-picker.token.ts";
 import { UMB_NOTIFICATION_CONTEXT } from "@umbraco-cms/backoffice/notification";
@@ -44,11 +46,14 @@ export default class AddPackageModal
     @state()
     private _isCssLoaded: boolean = false;
 
+    @state()
+    private openedPickerName?: string;
+
     private preconfigsOptions: Option[] = [];
     private preconfigs: PreConfiguration[] = [];
 
-    #cssFilePickerModal?: UmbStaticFilePickerContext;
-    #sourceFilePickerModal?: UmbStaticFilePickerContext;
+    #filePickerModal?: UmbStaticFilePickerInputContext;        
+
     #modalManagerContext?: typeof UMB_MODAL_MANAGER_CONTEXT.TYPE;
     #notificationContext?: typeof UMB_NOTIFICATION_CONTEXT.TYPE;
 
@@ -57,8 +62,9 @@ export default class AddPackageModal
 
     constructor() {
         super();
-        this.#cssFilePickerModal = new UmbStaticFilePickerContext(this);
-        this.#sourceFilePickerModal = new UmbStaticFilePickerContext(this);
+        this.#filePickerModal = new UmbStaticFilePickerInputContext(this);        
+
+        
         this._dataService.loadPreconfigs()
             .then(results => {
                 this.preconfigs = results;
@@ -165,6 +171,7 @@ export default class AddPackageModal
                     return;
                 } else {
                     this.package.extractedStyles = extractedStyles;
+                    this.errors["sourcefile"] = undefined;
                     this.#loadPreview();
                 }
             },
@@ -182,7 +189,9 @@ export default class AddPackageModal
     }
 
     #openCssFilePicker() {
-        this.#cssFilePickerModal?.selectedItems.subscribe(async (selection) => {
+        this.#filePickerModal?.selectedItems.subscribe(async (selection) => {
+            if( this.openedPickerName != "cssFilePicker") return;
+
             if (selection.length === 0) return;
             let packageCopy = Object.assign({}, this.package);
 
@@ -193,20 +202,29 @@ export default class AddPackageModal
             this._isCssLoaded = false;
 
             packageCopy.cssfile = cssfile;
-            this.package = packageCopy;
-            this.#extractStyles();
+            this.package = packageCopy;            
+            
+            this.openedPickerName = undefined;
         });
 
-        this.#cssFilePickerModal?.openPicker({
+        this.openedPickerName = "cssFilePicker";
+
+        this.#filePickerModal?.openPicker({
             foldersOnly: false,
             multiple: false,
+            hideTreeRoot: true,
             filter: (item) => item.name.endsWith(".css"),
             pickableFilter: (item) => item.name.endsWith(".css")
         });
     }
 
     #openSourceFilePicker() {
-        this.#sourceFilePickerModal?.selectedItems.subscribe((selection) => {
+        this.#filePickerModal?.selectedItems.subscribe((selection) => {
+
+            if( this.openedPickerName != "sourceFilePicker") return;
+
+             if (selection.length === 0) return;
+
             let packageCopy = Object.assign({}, this.package);
 
             var sourcefile = decodeURIComponent(selection[0].unique).replace("%dot%", ".").replace("/wwwroot/", "/");
@@ -215,12 +233,17 @@ export default class AddPackageModal
             packageCopy.sourcefile = sourcefile;
             this.package = packageCopy;
             this.#extractStyles();
+ 
+            this.openedPickerName = undefined;
 
         });
 
-        this.#sourceFilePickerModal?.openPicker({
+        this.openedPickerName = "sourceFilePicker";
+
+        this.#filePickerModal?.openPicker({
             foldersOnly: false,
             multiple: false,
+            hideTreeRoot: true,
             filter: (item) => item.name.endsWith(".css"),
             pickableFilter: (item) => item.name.endsWith(".css")
         });
@@ -473,7 +496,7 @@ export default class AddPackageModal
                             <uui-label for="editCssFile" slot="label"><span class="required">CSS File</span></uui-label>
                             <div class="flex">
                                 <uui-input id="editCssFile" class="full-width" .value="${this.package.cssfile}" @change="${this.#handleStringValueChange}"  name="editCssFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
-                                <uui-button type="button" label="Select" @click=${this.#openCssFilePicker}></uui-button>
+                                <uui-button type="button" look="primary" label="Select" @click=${this.#openCssFilePicker}></uui-button>
                             </div>
                             <div ?hidden="${this.errors["cssfile"] == undefined}">
                                 <p class="error">${this.errors["cssfile"]}</p>
@@ -491,7 +514,7 @@ export default class AddPackageModal
                             <uui-label for="editSourceFile" slot="label"><span class="required">Source File</span></uui-label>
                             <div class="flex">                                
                                 <uui-input id="editSourceFile" .value="${decodeURIComponent(this.package.sourcefile)}" @change="${this.#handleStringValueChange}"  class="full-width" name="editSourceFile" type="text" placeholder="Enter partial or absolute URL, or select from the filesystem."></uui-input>
-                                <uui-button type="button" label="Select" @click=${this.#openSourceFilePicker}></uui-button>
+                                <uui-button type="button" look="primary" label="Select" @click=${this.#openSourceFilePicker}></uui-button>
                             </div>
                             <div ?hidden="${this.errors["sourcefile"] == undefined}">
                                 <p class="error">${this.errors["sourcefile"]}</p>

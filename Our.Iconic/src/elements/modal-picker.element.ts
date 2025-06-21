@@ -2,7 +2,7 @@ import { html, LitElement, property, customElement, state, unsafeHTML, css, noth
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import type { UmbModalContext } from "@umbraco-cms/backoffice/modal";
 import type { ModalPickerData, ModalPickerValue } from "../tokens/modal-picker.token.ts";
-import { UmbModalExtensionElement } from "@umbraco-cms/backoffice/extension-registry";
+import type { UmbModalExtensionElement } from '@umbraco-cms/backoffice/modal';
 import DataService from "../dataService.ts";
 import { Icon, Package } from "../models.ts";
 import { UUISelectElement } from "@umbraco-cms/backoffice/external/uui";
@@ -36,16 +36,21 @@ export default class ModalPicker
         this._packages = this.modalContext?.data.packages ?? [];
         this._packagesOptions = this.modalContext?.data.packages?.map(x => <Option>{ name: x.name, value: x.id }) ?? [];
 
-        if(this._packagesOptions.length > 0){
-            this._packagesOptions[0].selected = true;
-        }
 
         this._showFilteredOnly = this.modalContext?.data.showFilteredOnly ?? false;
         this._multiSelect = this.modalContext?.data.multiSelect ?? false;
         this._value = Array.from(this.modalContext?.getValue()?.icons ?? []);
 
         if (this._packages && this._packages.length > 0) {
-            this._selectedPackage = this._packages[0];
+            var selectedPackageIndex = this._packages.findIndex(x => x.id == this._value[0]?.packageId);
+            this._selectedPackage = selectedPackageIndex >= 0 ? this._packages[selectedPackageIndex] : this._packages[0];
+
+            if (selectedPackageIndex >= 0) {
+                this._packagesOptions[selectedPackageIndex].selected = true;
+            } else {
+                this._packagesOptions[0].selected = true;
+            }
+
             this.#loadSelectedPackage();
         }
 
@@ -56,7 +61,12 @@ export default class ModalPicker
         var val = (e.currentTarget as HTMLElement).getAttribute("value");
 
         if (val) {
-            this._value.push({ packageId: this._selectedPackage!.id, icon: val });
+            if (this._multiSelect) {
+                this._value.push({ packageId: this._selectedPackage!.id, icon: val });
+            } else {
+                this._value = [{ packageId: this._selectedPackage!.id, icon: val }];
+            }
+
             (e.currentTarget as HTMLElement).setAttribute("disabled", "true");
 
             if (!this._multiSelect) {
@@ -94,6 +104,7 @@ export default class ModalPicker
     }
 
     #handleSave() {
+
         this.modalContext?.updateValue({ icons: this._value });
         this.modalContext?.submit();
     }
@@ -107,6 +118,12 @@ export default class ModalPicker
                 margin-right: var(--uui-size-space-1);
                 margin-bottom: var(--uui-size-space-2);
             }
+
+        uui-select {
+            width: 100%;
+            display: block;
+            margin-bottom: var(--uui-size-space-2);
+        
         `
     ]
 
@@ -114,10 +131,9 @@ export default class ModalPicker
         return html`
             <umb-body-layout headline="Select Icons" style="height:95%;">  
                 
-                <uui-select ?hidden=${this._packagesOptions.length == 0} .options=${this._packagesOptions}  @change="${this.#handlePackageSelection}"></uui-select>
-
-                </umb-property-editor-ui-dropdown>
-                <h4 ?hidden=${this._packages.length == 0}>${this._packages[0].name}</h4>
+            ${this._packagesOptions.length > 1 ? html`                                
+                    <uui-select .options=${this._packagesOptions}  @change="${this.#handlePackageSelection}"></uui-select>                
+            ` : ''}
                 ${this._icons.map((icon) => html`
                     <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${this.#isSelected(icon)} @click=${this.#selectIcon} label=${icon} value=${icon}>
                             ${unsafeHTML(this._selectedPackage?.backofficeTemplate.replace("{icon}", icon))}

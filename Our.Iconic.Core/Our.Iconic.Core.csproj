@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <Version>15.1.0</Version>
+	  <Version>16.0.0</Version>
 	  <Authors>Mario Lopez</Authors>
 	  <Description>Highly configurable icon picker for Umbraco. 
 With Iconic you will be able to create a property editor that can use virtually any font package out there and not only that, you will be able to select your icon from more than one package on the same property.
@@ -40,7 +40,7 @@ With Iconic you will be able to create a property editor that can use virtually 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-	  <PackageReference Include="Umbraco.Cms.Core" Version="15.2.0" />
+	  <PackageReference Include="Umbraco.Cms.Core" Version="16.0.0" />
 	</ItemGroup>
 
 
