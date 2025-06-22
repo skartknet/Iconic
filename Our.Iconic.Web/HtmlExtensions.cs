@@ -21,7 +21,7 @@ namespace Our.Iconic.Web
         public static IHtmlContent RenderIcon(this Icon icon, object? htmlAttributes, params string[]? extraClasses)
 
         {
-            ArgumentNullException.ThrowIfNull(icon);
+            if(icon is null) return new HtmlString(string.Empty);
 
 
             var template = icon.Package.FrontendTemplate;
@@ -67,8 +67,7 @@ namespace Our.Iconic.Web
 
         public static IHtmlContent RenderIcon(this Icon icon)
         {
-            ArgumentNullException.ThrowIfNull(icon);
-
+            if(icon is null) return new HtmlString(string.Empty);
 
             var template = icon.Package.FrontendTemplate;
 
