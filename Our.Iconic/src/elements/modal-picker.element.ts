@@ -5,7 +5,7 @@ import type { ModalPickerData, ModalPickerValue } from "../tokens/modal-picker.t
 import type { UmbModalExtensionElement } from '@umbraco-cms/backoffice/modal';
 import DataService from "../dataService.ts";
 import { Icon, Package } from "../models.ts";
-import { UUISelectElement } from "@umbraco-cms/backoffice/external/uui";
+import { UUIInputElement, UUISelectElement } from "@umbraco-cms/backoffice/external/uui";
 
 @customElement('modal-picker')
 export default class ModalPicker

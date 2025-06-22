@@ -12,7 +12,7 @@
 	</Description>
 	<Product>$(AssemblyName)</Product>
 	<PackageTags>umbraco plugin package icon picker editor backoffice umbraco-marketplace</PackageTags>
-	<Version>16.0.0-rc1</Version>
+	<Version>16.0.0</Version>
 	<Authors>Mario Lopez</Authors>
 	<PackageProjectUrl>https://github.com/Skartknet/Iconic</PackageProjectUrl>
 	<PackageIcon>iconic_logo.png</PackageIcon>
