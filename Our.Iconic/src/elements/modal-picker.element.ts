@@ -22,9 +22,13 @@ export default class ModalPicker
     private _packagesOptions: Option[] = [];
 
     private _showFilteredOnly: boolean = false;
+    private _searchTerm: string = '';
 
     @state()
     private _icons: string[] = [];
+
+    @state()
+    private _filteredIcons: string[] = [];
 
     @state()
     private _selectedPackage?: Package;
@@ -51,7 +55,11 @@ export default class ModalPicker
                 this._packagesOptions[0].selected = true;
             }
 
-            this.#loadSelectedPackage();
+
+            this.#loadSelectedPackage().then(() => {
+                this.#filterIcons();
+            });
+
         }
 
 
@@ -77,13 +85,14 @@ export default class ModalPicker
 
     #loadSelectedPackage() {
 
-        this._dataService.processCssFiles(this._packages.map(x => x.cssfile), this.shadowRoot).then(() => {
+        return this._dataService.processCssFiles(this._packages.map(x => x.cssfile), this.shadowRoot).then(() => {
             if (this._selectedPackage!.filteredIcons.length > 0 && this._showFilteredOnly) {
                 this._icons = this._selectedPackage!.filteredIcons;
             } else {
                 this._icons = this._selectedPackage!.extractedStyles;
             }
         });
+
     }
 
     #handlePackageSelection(e: Event) {
@@ -91,7 +100,9 @@ export default class ModalPicker
 
         if (val) {
             this._selectedPackage = this._packages.find(x => x.id === val);
-            this.#loadSelectedPackage();
+            this.#loadSelectedPackage().then(() => {
+                this.#filterIcons();
+            });
         }
     }
 
@@ -109,6 +120,21 @@ export default class ModalPicker
         this.modalContext?.submit();
     }
 
+    #search(e: Event) {
+        var el = e.target as UUIInputElement
+        this._searchTerm = (el.value as string).trim().toLowerCase() || '';
+
+        this.#filterIcons();
+    }
+
+    #filterIcons() {
+        if (this._searchTerm) {
+            this._filteredIcons = this._selectedPackage!.extractedStyles.filter(icon => icon.toLowerCase().includes(this._searchTerm));
+        } else {
+            this._filteredIcons = this._icons;
+        }
+    }
+
     static styles = [
         css`
           .icon{
@@ -122,23 +148,38 @@ export default class ModalPicker
         uui-select {
             width: 100%;
             display: block;
+            margin-bottom: var(--uui-size-space-2);            
+        }
+
+        uui-input {
+            width: 100%;            
             margin-bottom: var(--uui-size-space-2);
-        
-        `
+        }
+        `        
     ]
 
     render() {
         return html`
             <umb-body-layout headline="Select Icons" style="height:95%;">  
-                
+                    
             ${this._packagesOptions.length > 1 ? html`                                
                     <uui-select .options=${this._packagesOptions}  @change="${this.#handlePackageSelection}"></uui-select>                
             ` : ''}
-                ${this._icons.map((icon) => html`
-                    <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${this.#isSelected(icon)} @click=${this.#selectIcon} label=${icon} value=${icon}>
-                            ${unsafeHTML(this._selectedPackage?.backofficeTemplate.replace("{icon}", icon))}
-                    </uui-button>
-                `)}              
+
+            <uui-input @input="${this.#search}" placeholder="Search icons" clearable>
+                <div slot="prepend">
+                    <uui-icon-registry-essential>
+                        <uui-icon name="search"></uui-icon>
+                    </uui-icon-registry-essential>
+                </div>
+            </uui-input>
+
+            ${this._filteredIcons.map((icon) => html`
+                <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${this.#isSelected(icon)} @click=${this.#selectIcon} label=${icon} value=${icon} title=${icon}>
+                        ${unsafeHTML(this._selectedPackage?.backofficeTemplate.replace("{icon}", icon))}
+                </uui-button>
+            `)}    
+                                    
             </umb-body-layout>
             <umb-footer-layout>
                         ${this._multiSelect ? html`<uui-button slot="actions" label="Submit" @click="${this.#handleSave}"></uui-button>` : nothing}                        
