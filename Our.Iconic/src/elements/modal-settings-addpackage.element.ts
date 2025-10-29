@@ -403,6 +403,10 @@ export default class AddPackageModal
             display: flex;
         }
 
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
         .flex-column {
             flex-direction: column;
         }
@@ -540,7 +544,7 @@ export default class AddPackageModal
 
                     <uui-box headline="Filters">
                         <small>Use it to make available just specific icons, instead of the whole set. Leave blank to make all icons available.</small>
-                        <div class="flex">
+                        <div class="flex flex-wrap">
                             ${this.package.filteredIcons.map((filteredIcon, index) => html`
                                 <div class="icon-filter">                        
                                     <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default">
