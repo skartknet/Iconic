@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 
@@ -28,7 +29,27 @@ namespace Our.Iconic.Core.ValueConverters
         {
             if (inter == null) return null;
 
-            string jsonString = (string)inter;
+            // Handle both string (Umbraco 13 and earlier) and JsonObject/JsonElement (Umbraco 14+)
+            // This fixes compatibility with Umbraco 14+ where the intermediate value is JsonObject instead of string
+            string jsonString;
+            if (inter is JsonObject jsonObject)
+            {
+                jsonString = jsonObject.ToJsonString();
+            }
+            else if (inter is JsonElement jsonElement)
+            {
+                jsonString = jsonElement.GetRawText();
+            }
+            else if (inter is string str)
+            {
+                jsonString = str;
+            }
+            else
+            {
+                // Fallback for any other type
+                jsonString = inter.ToString();
+            }
+            
             string packageId = null;
 
             using (JsonDocument document = JsonDocument.Parse(jsonString))
@@ -40,7 +61,7 @@ namespace Our.Iconic.Core.ValueConverters
             }
 
 
-            var model = JsonSerializer.Deserialize<Icon>((string)inter);
+            var model = JsonSerializer.Deserialize<Icon>(jsonString);
 
             var config = new IconicPackagesConfiguration();
             var jobj = propertyType.DataType.ConfigurationAs<IDictionary<string, object>>();
