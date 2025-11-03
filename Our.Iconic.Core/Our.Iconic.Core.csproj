@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <Version>16.0.0</Version>
+	  <Version>16.1.0</Version>
 	  <Authors>Mario Lopez</Authors>
 	  <Description>Highly configurable icon picker for Umbraco. </Description>
 	  <Copyright>Copyright © Mario Lopez</Copyright>
