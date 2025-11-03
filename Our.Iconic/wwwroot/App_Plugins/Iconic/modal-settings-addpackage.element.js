@@ -27,15 +27,15 @@ var J = Object.defineProperty, Q = Object.getOwnPropertyDescriptor, I = (e) => {
   for (var r = a > 1 ? void 0 : a ? Q(t, i) : t, g = e.length - 1, k; g >= 0; g--)
     (k = e[g]) && (r = (a ? k(t, i, r) : k(r)) || r);
   return a && r && J(t, i, r), r;
-}, S = (e, t, i) => t.has(e) || I("Cannot " + i), n = (e, t, i) => (S(e, t, "read from private field"), t.get(e)), f = (e, t, i) => t.has(e) ? I("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), y = (e, t, i, a) => (S(e, t, "write to private field"), t.set(e, i), i), o = (e, t, i) => (S(e, t, "access private method"), i), d, m, h, s, _, C, F, N, x, O, E, p, M, R, T, v, A, L, q;
+}, S = (e, t, i) => t.has(e) || I("Cannot " + i), n = (e, t, i) => (S(e, t, "read from private field"), t.get(e)), h = (e, t, i) => t.has(e) ? I("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), y = (e, t, i, a) => (S(e, t, "write to private field"), t.set(e, i), i), o = (e, t, i) => (S(e, t, "access private method"), i), d, m, f, s, _, C, F, N, x, O, E, p, M, R, T, v, A, L, q;
 let l = class extends j(B) {
   constructor() {
-    super(), f(this, s), this.package = new w(), this.configType = "custom", this.errors = {}, this._isCssLoaded = !1, this.preconfigsOptions = [], this.preconfigs = [], f(this, d), f(this, m), f(this, h), this._dataService = new V(), y(this, d, new G(this)), this._dataService.loadPreconfigs().then((e) => {
+    super(), h(this, s), this.package = new w(), this.configType = "custom", this.errors = {}, this._isCssLoaded = !1, this.preconfigsOptions = [], this.preconfigs = [], h(this, d), h(this, m), h(this, f), this._dataService = new V(), y(this, d, new G(this)), this._dataService.loadPreconfigs().then((e) => {
       this.preconfigs = e, this.preconfigsOptions = e.map((t) => ({ name: t.name, value: t.name }));
     }), this.consumeContext(D, (e) => {
       y(this, m, e);
     }), this.consumeContext(X, (e) => {
-      y(this, h, e);
+      y(this, f, e);
     }), o(this, s, _).call(this);
   }
   connectedCallback() {
@@ -134,7 +134,7 @@ let l = class extends j(B) {
 
                     <uui-box headline="Filters">
                         <small>Use it to make available just specific icons, instead of the whole set. Leave blank to make all icons available.</small>
-                        <div class="flex">
+                        <div class="flex flex-wrap">
                             ${this.package.filteredIcons.map((e, t) => b`
                                 <div class="icon-filter">                        
                                     <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default">
@@ -168,7 +168,7 @@ let l = class extends j(B) {
 };
 d = /* @__PURE__ */ new WeakMap();
 m = /* @__PURE__ */ new WeakMap();
-h = /* @__PURE__ */ new WeakMap();
+f = /* @__PURE__ */ new WeakMap();
 s = /* @__PURE__ */ new WeakSet();
 _ = function() {
   let e = Object.assign({}, this.errors);
@@ -185,7 +185,7 @@ F = function() {
 N = function() {
   var e, t, i;
   if (!o(this, s, C).call(this)) {
-    (e = n(this, h)) == null || e.peek("danger", {
+    (e = n(this, f)) == null || e.peek("danger", {
       data: { message: "Please review the errors on the form." }
     });
     return;
@@ -203,7 +203,7 @@ x = function() {
     },
     (e) => {
       var t;
-      this.previewIconName = void 0, this.previewIcon = void 0, this.previewButtonState = "failed", (t = n(this, h)) == null || t.peek("danger", {
+      this.previewIconName = void 0, this.previewIcon = void 0, this.previewButtonState = "failed", (t = n(this, f)) == null || t.peek("danger", {
         data: {
           message: "Error reading the file. " + e
         }
@@ -286,7 +286,7 @@ v = function() {
   o(this, s, q).call(this).then(() => {
     var e;
     if (this.previewIconName = this.package.extractedStyles[0], this.package.backofficeTemplate === void 0) {
-      (e = n(this, h)) == null || e.peek("danger", {
+      (e = n(this, f)) == null || e.peek("danger", {
         data: { message: "Please review the errors on the form." }
       }), this.previewButtonState = "failed";
       return;
@@ -345,6 +345,10 @@ l.styles = U`
 
         .flex {
             display: flex;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
         }
 
         .flex-column {
