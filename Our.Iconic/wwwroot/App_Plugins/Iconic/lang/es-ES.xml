@@ -1,48 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language alias="en_us" intName="English (US)" localName="English (US)" lcid="" culture="en-US">
-  <creator>
-    <name>Mario Lopez</name>
-    <link>https://github.com/Skartknet/Iconic</link>
-  </creator>
-  <area alias="iconicDialog">
-    <key alias="noIconsFound">No se encontraron iconos.</key>
-    <key alias="selectOption">Selecciona una opción...</key>
-  </area>
-  <area alias="iconicConfig">
-    <key alias="addNewPackage">Añadir nuevo paquete</key>
-    <key alias="addPackage">Añadir paquete</key>
-    <key alias="selectPreconf">Seleccionar pre-configuración..</key>
-    <key alias="name">Nombre</key>
-    <key alias="selector">Seleccionador</key>
-    <key alias="template">Plantilla</key>
-	  <key alias="backofficeTemplateDescription">Overrides the Template value when icon is displayed on the backoffice. Allows to have a different icon template in your backoffice. i.e. size, color, ...</key>
-	  <key alias="backofficeTemplate">Reemplazar plantilla en backoffice</key>
-    <key alias="cssFile">Archivo Css</key>
-    <key alias="rulesFile">Archivo fuente de reglas</key>
-    <key alias="rulesFileDescription">De donde extraer la lista de iconos. Si no se elige one, el utilizado para el Archivo CSS se usara por defecto.</key>
-    <key alias="extractedStyles">Estilos extraidos</key>
-    <key alias="remove">Eliminar</key>
-    <key alias="icons">Iconos</key>
-    <key alias="custom">Personalizado</key>
-    <key alias="preconf">Pre-Configurado</key>
-    <key alias="icons">Iconos</key>
-    <key alias="editPackage">Editar Paquete</key>
-    <key alias="save">Guardar</key>
-    <key alias="cancel">Cancelar</key>
-    <key alias="preview">Vista Previa</key>
-  </area>
-  <area alias="iconicErrors">
-    <key alias="analysing">Hubo un error extrayendo las reglas de los iconos. Revisa que las rutas a los archivos y el Regex son correctos.</key>    
-    <key alias="loading_preconfigs">Error cargando archivo de pre-configuraciones</key>
-    <key alias="loadingCss">Error cargando archivo CSS</key>
-    <key alias="no_rules">Hay un error en algún lado, las reglas extraídas son 0. Revisa el Regex.</key>
-    <key alias="selector">Error con seleccionador, revisa el Regex</key>    
-  </area>
-  <area alias="iconicValidation">
-    <key alias="name">Introduce un nombre, por favor.</key>
-    <key alias="css">Selecciona un archivo CSS, por favor.</key>
-    <key alias="selector">Introduce un seleccionador, por favor.</key>
-    <key alias="rules">Introduce la ruta al archivo fuente de reglas, por favor.</key>
-    <key alias="template">Introduce una platilla, por favor.</key>
-  </area>
+	<creator>
+		<name>Mario Lopez</name>
+		<link>https://github.com/Skartknet/Iconic</link>
+	</creator>
+	<area alias="iconicDialog">
+		<key alias="noIconsFound">No se encontraron iconos.</key>
+		<key alias="selectOption">Selecciona una opción...</key>
+		<key alias="noPackageSelected">No se ha elegido ninguna opción.</key>
+	</area>
+	<area alias="iconicConfig">
+		<key alias="addNewPackage">Añadir nuevo paquete</key>
+		<key alias="addPackage">Añadir paquete</key>
+		<key alias="selectPreconf">Seleccionar pre-configuración..</key>
+		<key alias="name">Nombre</key>
+		<key alias="selector">Seleccionador</key>
+		<key alias="selectorDescription">Introduce una expresión que extraiga el código de cada icono.</key>
+		<key alias="template">Plantilla</key>
+		<key alias="templateDescription">Introduce una plantilla para el icono</key>
+		<key alias="cssFile">Archivo Css</key>
+		<key alias="cssFileDescription">Fuente CSS para mostrar el icono en el backoffice</key>
+		<key alias="configType">Tipo de configuración</key>
+		<key alias="selectConfig">Selecciona configuración</key>
+		<key alias="rulesFile">Archivo fuente de reglas</key>
+		<key alias="rulesFileDescription">De donde extraer la lista de iconos. Si no se elige one, el utilizado para el Archivo CSS se usara por defecto.</key>
+		<key alias="extractedStyles">Estilos extraidos</key>
+		<key alias="remove">Eliminar</key>
+		<key alias="icons">Iconos</key>
+		<key alias="custom">Personalizado</key>
+		<key alias="preconf">Pre-Configurado</key>
+		<key alias="icons">Iconos</key>
+		<key alias="editPackage">Editar Paquete</key>
+		<key alias="save">Guardar</key>
+		<key alias="cancel">Cancelar</key>
+		<key alias="preview">Vista Previa en Backoffice</key>
+		<key alias="invalidConfig">Configuración inválida</key>
+		<key alias="backoffice">Backoffice</key>
+
+	</area>
+	<area alias="iconicErrors">
+		<key alias="analysing">Hubo un error extrayendo las reglas de los iconos. Revisa que las rutas a los archivos y el Regex son correctos.</key>
+		<key alias="loading_preconfigs">Error cargando archivo de pre-configuraciones</key>
+		<key alias="loadingCss">Error cargando archivo CSS</key>
+		<key alias="no_rules">Hay un error en algún lado, las reglas extraídas son 0. Revisa el Regex.</key>
+		<key alias="selector">Error con seleccionador, revisa el Regex</key>
+	</area>
+	<area alias="iconicValidation">
+		<key alias="name">Introduce un nombre, por favor.</key>
+		<key alias="css">Selecciona un archivo CSS, por favor.</key>
+		<key alias="selector">Introduce un seleccionador, por favor.</key>
+		<key alias="rules">Introduce la ruta al archivo fuente de reglas, por favor.</key>
+		<key alias="template">Introduce una platilla, por favor.</key>
+	</area>
 </language>

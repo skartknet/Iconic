@@ -41,7 +41,7 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Build NPM
-      run: npm run build
+      run: npm run build --prefix Our.Iconic
 
     - name: Create Nuget Packages
       run: dotnet pack --configuration Release -o  ${{ env.OUTPUT_PATH }}

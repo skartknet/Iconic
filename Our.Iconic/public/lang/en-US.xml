@@ -2,7 +2,7 @@
 <language alias="en_us" intName="English (US)" localName="English (US)" lcid="" culture="en-US">
 	<creator>
 		<name>Mario Lopez</name>
-		<link>https://github.com/KOBENDigital/Iconic</link>
+		<link>https://github.com/skartknet/Iconic</link>
 	</creator>
 	<area alias="iconicDialog">
 		<key alias="noIconsFound">No icons were found.</key>
