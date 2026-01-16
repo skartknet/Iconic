@@ -378,3 +378,6 @@ healthchecksdb
 /UmbracoV9/App_Plugins/Iconic
 /UmbracoV9/umbraco/Data/Umbraco.sdf
 /UmbracoV10/umbraco/Data/
+**/Data/TEMP/
+/UmbracoV15/umbraco/Data/
+/UmbracoV15/umbraco/Logs/

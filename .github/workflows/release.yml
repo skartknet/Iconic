@@ -1,30 +1,29 @@
-name: Our.Umbraco.Iconic - Release
+name: Our.Iconic - Release
 
 on:
   push:
-    branches: [ 'release/*' ]
+    branches: [ release/* ]
 
-env:
-  SOLUTION: Iconic.sln
-  PLUGIN_PROJECT: Our.Iconic/Our.Iconic.csproj
-  CORE_PROJECT: Our.Iconic.Core/Our.Iconic.Core.csproj
+env:  
+  ICONIC_PROJECT: Our.Iconic/Our.Iconic.csproj
   OUTPUT_PATH: ${{ github.workspace }}/build.out
   
 jobs:
   publish-nuget:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
 
     - name: Get Release Version
       id: package_version
-      uses: KageKirin/get-csproj-version@v0.0.1
+      uses: KageKirin/get-csproj-version@v0
       with:
-        file: ${{ env.PLUGIN_PROJECT }}
+        file: ${{ env.ICONIC_PROJECT }}
         regex: ^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
         
     - name: Check Version v${{ steps.package_version.outputs.version }} Pre-Release state
       id: check_prerelease
+      shell: bash
       run: |
         if [[ ${{ steps.package_version.outputs.version }} =~ ^[0-9]+\.[0-9]+\.[0-9]+-.+$ ]]; then
             echo Pre-Release detected
@@ -34,17 +33,15 @@ jobs:
             echo ::set-output name=prerelease::false
         fi
     
-        
-    - name: Setup .NET Core SDK 7.x
-      uses: actions/setup-dotnet@v3
-
-      with:
-        dotnet-version: 7.x
 
     - name: Restore dependencies
       run: dotnet restore
 
-    - run: dotnet build --configuration Release
+    - name: Build .NET
+      run: dotnet build --configuration Release
+
+    - name: Build NPM
+      run: npm run build
 
     - name: Create Nuget Packages
       run: dotnet pack --configuration Release -o  ${{ env.OUTPUT_PATH }}
@@ -63,6 +60,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Release information for v${{ steps.package_version.outputs.version }}
+      shell: bash
       run: |
         echo Release Id: ${{ steps.release.outputs.id }}
         echo Upload URL: ${{ steps.release.outputs.upload_url }}

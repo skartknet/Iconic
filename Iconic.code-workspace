@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Umbraco-CMS-v14"
+		}
+	],
+	"settings": {
+		"Scss2css.output": "expanded"
+	}
+}

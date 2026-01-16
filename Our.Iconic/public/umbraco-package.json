@@ -1,0 +1,60 @@
+{
+  "$schema": "../../UmbracoV15/umbraco-package-schema.json",
+  "name": "Iconic",  
+  "id": "Our.Iconic",
+  "allowTelemetry": true,
+  "version": "16.0.0",
+  "extensions": [
+    {
+      "type": "propertyEditorUi",
+      "alias": "Our.Iconic",
+      "name": "Iconic",
+      "element": "/App_Plugins/Iconic/iconic-property-editor.element.js",
+      "meta": {
+        "label": "Iconic",
+        "icon": "iconic-logo",
+        "group": "pickers",
+        "propertyEditorSchemaAlias": "Umbraco.Plain.Json",
+        "settings": {          
+          "properties": [
+            {
+              "alias": "packages",
+              "label": "Packages",
+              "description": "Configure available packages",
+              "propertyEditorUiAlias": "Our.Iconic.Settings"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "propertyEditorUi",
+      "name": "Iconic Settings",
+      "alias": "Our.Iconic.Settings",
+      "element": "/App_Plugins/Iconic/settings-editor.element.js",
+      "meta": {
+        "label": "Iconic Settings",
+        "icon": "iconic-logo",
+        "group": "pickers"        
+      }
+    },
+    {
+      "type": "icons",
+      "alias": "Our.Iconic.Icons",
+      "name": "Iconic Icons",
+      "js": "/App_Plugins/Iconic/icons.js"
+    },
+    {
+      "type": "modal",
+      "alias": "Our.Iconic.ModalPicker",
+      "name": "Iconic Modal Picker",
+      "element": "/App_Plugins/Iconic/modal-picker.element.js"
+    },
+    {
+      "type": "modal",
+      "alias": "Our.Iconic.Settings.AddPackageModal",
+      "name": "Add Package Modal",
+      "element": "/App_Plugins/Iconic/modal-settings-addpackage.element.js"
+    }
+  ]
+}

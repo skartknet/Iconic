@@ -1,0 +1,25 @@
+name: Our.Iconic - Release
+
+on:
+  push:
+    branches: [ dev/* ]
+
+env:  
+  ICONIC_PROJECT: Our.Iconic/Our.Iconic.csproj
+  OUTPUT_PATH: ${{ github.workspace }}/build.out
+  
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build .NET
+      run: dotnet build --configuration Release
+
+    - name: Build NPM
+      run: npm run build
+    

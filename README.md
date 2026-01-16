@@ -1,30 +1,29 @@
-# Iconic Configuration & Usage Documentation
+# Iconic
+Highly configurable icon picker for Umbraco.
 
+## Introduction
+With Iconic you will be able to create a property editor that can use virtually any font package out there and not only that, you will  be able to select your icon from more than one package on the same property.
 
-## Contents
+## Installation
 
-[Configuring the Datatype](Documentation/Configuration)
+### Our.Iconic
+This is the main package. Includes all the necessary for Iconic to run in the backoffice.
 
-[Datatype Usage and Rendering Icons](Documentation/Usage)
+[![NuGet version](https://badge.fury.io/nu/Our.Iconic.svg?icon=si%3Anuget)](https://badge.fury.io/nu/Our.Iconic)
 
-[Tips & Tricks](Documentation/Tips)
+### Our.Iconic.Web
+This package includes an extension method to render your icons easily in Razor views.
 
-## How to Contribute
-If you have information to share about how to configure a specific icon set,  or do something cool with Iconic, please fork this repository and contribute your findings to the appropriate Documentation section.
+[![NuGet version](https://badge.fury.io/nu/Our.Iconic.Web.svg?icon=si%3Anuget)](https://badge.fury.io/nu/Our.Iconic.Web)
 
-To contribute [Code](https://github.com/skartknet/Iconic/pulls), [Issues/Bugs](https://github.com/skartknet/Iconic/issues), [Ideas, etc.](https://github.com/skartknet/Iconic/discussions) check out the [GitHub site](https://github.com/skartknet/Iconic).
+### Our.Iconic.Core
+Core functionality, like value converter or a few models.
 
-## Need Help?
-Head over to the [Discussions section](https://github.com/skartknet/Iconic/discussions/categories/q-a) to see if anyone else has solved you particular issue, or [add your own "Q&A" categorized post](https://github.com/skartknet/Iconic/discussions/new?category=q-a).
+[![NuGet version](https://badge.fury.io/nu/Our.Iconic.Core.svg?icon=si%3Anuget)](https://badge.fury.io/nu/Our.Iconic.Core)
 
-# Changelog
+### Umbraco Marketplace
+https://marketplace.umbraco.com/package/our.iconic
 
-## v5.4.1
-- added preconfigs.user.json
-- moved README.md to root
-- added Umbraco 13.1.1 testing site
+---
 
-## v5.4
-- Update Material icons codepoints
-- Fixed Rules source file not taking default CSS file is empty. (#41)
-- Added support for user preconfigs
+Handmade by Mario Lopez - 2025

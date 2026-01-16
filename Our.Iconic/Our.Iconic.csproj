@@ -1,115 +1,87 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-	<PropertyGroup>
-		<TargetFrameworks>net7.0</TargetFrameworks>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<StaticWebAssetBasePath>App_Plugins/Iconic</StaticWebAssetBasePath>
-		<ContentTargetFolders>.</ContentTargetFolders>
-		<Description>
-			Highly configurable icon picker for Umbraco.
-			With Iconic you will be able to create a property editor that can use virtually any font package out there and not only that, you will be able to select your icon from more than one package on the same property.
-		</Description>
-		<Product>$(AssemblyName)</Product>
-		<PackageTags>umbraco plugin package icon picker editor backoffice umbraco-marketplace</PackageTags>
-		<Version>12.0.0</Version>
-		<Authors>Mario Lopez</Authors>
-		<PackageProjectUrl>https://github.com/Skartknet/Iconic</PackageProjectUrl>
-		<PackageIcon>iconic_logo.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/Skartknet/Iconic</RepositoryUrl>
-		<PackageReleaseNotes></PackageReleaseNotes>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	</PropertyGroup>
+  <PropertyGroup>
+	  <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+
+	  <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+	<ContentTargetFolders>.</ContentTargetFolders>
+	<Description>
+		Highly configurable icon picker for Umbraco.	
+	</Description>
+	<Product>$(AssemblyName)</Product>
+	<PackageTags>umbraco plugin package icon picker editor backoffice umbraco-marketplace</PackageTags>
+	<Version>17.0.0</Version>
+	<Authors>Mario Lopez</Authors>
+	<PackageProjectUrl>https://github.com/Skartknet/Iconic</PackageProjectUrl>
+	<PackageIcon>iconic_logo.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/Skartknet/Iconic</RepositoryUrl>
+	<PackageReleaseNotes></PackageReleaseNotes>
+	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="package-lock.json" />
+    <Content Remove="package.json" />
+    <Content Remove="tsconfig.json" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <None Remove="public\lang\en-US.xml" />
+    <None Remove="public\lang\es-ES.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="public\lang\en-US.xml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="public\lang\es-ES.xml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\iconic_logo.png">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
-		<None Include="..\README.nuget.md">
-			<Pack>True</Pack>
-			<PackagePath>README.md</PackagePath>
+		<None Include="..\README.md">
+			<Pack>True</Pack>			
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Include="package-lock.json" />
+		<None Include="package.json" />
+		<None Include="tsconfig.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<SupportedPlatform Include="browser" />
+	  <PackageReference Include="Umbraco.Cms.Core" Version="16.0.0" />
 	</ItemGroup>
+	
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
-		<PackageReference Include="Umbraco.Cms.Core" Version="12.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Our.Iconic.Core\Our.Iconic.Core.csproj" />
-	</ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\js\build\findPolyfill.min.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.controller.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.dialog.controller.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.directives.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.models.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.prevalues.controller.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\src\iconic.prevalues.editor.controller.js">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\lang\en-US.xml">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\lang\es-ES.xml">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\preconfigs.user.json">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\preconfigs.json">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Styles\iconic.css">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Styles\iconic.min.css">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Styles\iconic.min.css.map">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Styles\iconic.scss">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Views\iconic.dialog.html">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Views\iconic.edit.dialog.html">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Views\iconic.html">
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\Views\iconic.prevalues.html">
+    <ProjectReference Include="..\Our.Iconic.Core\Our.Iconic.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="public\preconfigs.json">
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
-	<!-- Workaround for this bug (replace the analyzer name with the one you need to exclude (filename only, no extension) -->
-	<Target Name="RemoveLuceneAnalyzer" BeforeTargets="CoreCompile">
-		<ItemGroup>
-			<Analyzer Remove="@(Analyzer)" Condition="%(FileName) == 'Lucene.Net.CodeAnalysis.CSharp'" />
-		</ItemGroup>
-	</Target>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

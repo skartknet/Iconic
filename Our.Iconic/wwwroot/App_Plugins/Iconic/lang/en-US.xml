@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language alias="en_us" intName="English (US)" localName="English (US)" lcid="" culture="en-US">
+  <creator>
+    <name>Mario Lopez</name>
+    <link>https://github.com/KOBENDigital/Iconic</link>
+  </creator>
+  <area alias="iconicDialog">
+    <key alias="noIconsFound">No icons were found.</key>
+    <key alias="selectOption">Select a package...</key>
+    <key alias="noPackageSelected">No package selected.</key>
+  </area>
+  <area alias="iconicConfig">
+    <key alias="addNewPackage">Add new package</key>    
+    <key alias="addPackage">Add package</key>    
+    <key alias="selectPreconf">Select a pre-configuration..</key>    
+    <key alias="name">Name</key>
+    <key alias="name">Name</key>
+    <key alias="selector">Selector</key>
+    <key alias="selectorDescription">Enter a valid regex that extracts the individual icon code</key>
+    <key alias="template">Template</key>
+    <key alias="templateDescription">Enter an icon template</key>
+    <key alias="backofficeTemplateDescription">Overrides the Template value when icon is displayed on the backoffice. Allows to have a different icon template in your backoffice. i.e. size, color, ...</key>        
+    <key alias="cssFile">CSS file</key>
+    <key alias="cssFileDescription">CSS source to style the icon on the backoffice</key>
+    <key alias="configType">Configuration type</key>
+    <key alias="selectConfig">Select configuration</key>
+    <key alias="rulesFile">Rules source file</key>
+    <key alias="rulesFileDescription">Where you want to extract the icons list from. If none selected, it will use the chosen CSS file.</key>
+    <key alias="extractedStyles">Extracted styles</key>
+    <key alias="remove">Remove</key>
+    <key alias="icons">Icons</key>
+    <key alias="custom">Custom</key>
+    <key alias="preconf">Pre-Configured</key>
+    <key alias="icons">Icons</key>
+    <key alias="editPackage">Edit Package</key>
+    <key alias="save">Save</key>
+    <key alias="cancel">Cancel</key>
+    <key alias="preview">Preview</key>
+  </area>
+  <area alias="iconicErrors">
+    <key alias="analysing">There was an error extracting icon rules. Please check the files' paths and Selector regex.</key>
+    <key alias="loading_preconfigs">Error loading preconfigs file.</key>
+    <key alias="loadingCss">Error loading CSS file.</key>
+    <key alias="no_rules">The extracted icons are 0. Please check that the Selector regex is correct.</key>
+    <key alias="selector">Error with Selector, please review it.</key>
+  </area>
+  <area alias="iconicValidation">
+    <key alias="name">Please enter a name</key>
+    <key alias="css">Please select a CSS file</key>
+    <key alias="selector">Please enter a selector</key>    
+    <key alias="template">Please enter a template</key>
+  </area>
+</language>
