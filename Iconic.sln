@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Our.Iconic.Core", "Our.Iconic.Core\Our.Iconic.Core.csproj", "{4461A583-E561-4E6C-8983-2647116F51D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Our.Iconic", "Our.Iconic\Our.Iconic.csproj", "{9E17796D-D73D-4781-BA3A-F05457C2C8DB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our.Iconic.Web", "Our.Iconic.Web\Our.Iconic.Web.csproj", "{F92CDE0C-11C0-4311-8D99-FE130A6B6609}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmbracoV16", "UmbracoV16\UmbracoV16.csproj", "{FC447BFB-216F-4BC5-8398-FDC5619FDAA3}"
 EndProject
@@ -47,18 +45,6 @@ Global
 		{9E17796D-D73D-4781-BA3A-F05457C2C8DB}.Release|x64.Build.0 = Release|Any CPU
 		{9E17796D-D73D-4781-BA3A-F05457C2C8DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E17796D-D73D-4781-BA3A-F05457C2C8DB}.Release|x86.Build.0 = Release|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Debug|x64.Build.0 = Debug|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Debug|x86.Build.0 = Debug|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Release|x64.ActiveCfg = Release|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Release|x64.Build.0 = Release|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Release|x86.ActiveCfg = Release|Any CPU
-		{F92CDE0C-11C0-4311-8D99-FE130A6B6609}.Release|x86.Build.0 = Release|Any CPU
 		{FC447BFB-216F-4BC5-8398-FDC5619FDAA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC447BFB-216F-4BC5-8398-FDC5619FDAA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC447BFB-216F-4BC5-8398-FDC5619FDAA3}.Debug|x64.ActiveCfg = Debug|Any CPU
