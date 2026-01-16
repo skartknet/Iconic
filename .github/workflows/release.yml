@@ -40,6 +40,11 @@ jobs:
     - name: Build .NET
       run: dotnet build --configuration Release
 
+    - uses: actions/setup-node@v4
+
+    - name: Install NPM dependencies
+      run: npm install --prefix Our.Iconic
+
     - name: Build NPM
       run: npm run build --prefix Our.Iconic
 
