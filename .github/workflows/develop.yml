@@ -1,4 +1,4 @@
-name: Our.Iconic - Release
+name: Our.Iconic - Build Develop
 
 on:
   push:
