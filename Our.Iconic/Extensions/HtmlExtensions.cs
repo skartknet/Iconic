@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Umbraco.Extensions;
 
-namespace Our.Iconic.Web
+namespace Our.Iconic
 {
     public static class HtmlExtensions
     {

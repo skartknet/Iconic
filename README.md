@@ -26,4 +26,4 @@ https://marketplace.umbraco.com/package/our.iconic
 
 ---
 
-Handmade by Mario Lopez - 2025
+Handmade by Mario Lopez - 2026
