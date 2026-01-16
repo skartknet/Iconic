@@ -37,7 +37,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - run: dotnet build --configuration Release
+    - name: Build .NET
+      run: dotnet build --configuration Release
+
+    - name: Build NPM
+      run: npm run build
 
     - name: Create Nuget Packages
       run: dotnet pack --configuration Release -o  ${{ env.OUTPUT_PATH }}

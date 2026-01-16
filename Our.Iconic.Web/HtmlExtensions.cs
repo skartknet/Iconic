@@ -14,14 +14,14 @@ namespace Our.Iconic.Web
         /// </summary>
         /// <param name="helper"></param>
         /// <param name="icon"></param>
-        /// <param name="htmlAttributes">Replaces an {attributes} placeholder in the icon template with the atttributes.</param>
+        /// <param name="htmlAttributes">Replaces an {attributes} placeholder in the icon template with the attributes.</param>
         /// <param name="extraClasses">Replaces an {classes} placeholder in the icon template.</param>
         /// <returns></returns>
 
         public static IHtmlContent RenderIcon(this Icon icon, object? htmlAttributes, params string[]? extraClasses)
 
         {
-            if(icon is null) return new HtmlString(string.Empty);
+            if (icon is null) return new HtmlString(string.Empty);
 
 
             var template = icon.Package.FrontendTemplate;
@@ -33,26 +33,27 @@ namespace Our.Iconic.Web
 
 
             var modifiedTemplate = template.Replace("{icon}", icon.Value);
-            
-            if(htmlAttributes is null)
+
+            if (htmlAttributes is null)
             {
                 modifiedTemplate = modifiedTemplate.Replace("{attributes}", "");
             }
 
             else
             {
+
                 var htmlAttributesDict = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
                 StringBuilder attributesString = new StringBuilder();
 
                 foreach (var item in htmlAttributesDict)
                 {
-                    attributesString.Append($"{ConvertToKebabCase(item.Key)}=\"{item.Value}\"");
+                    attributesString.Append($"{item.Key}=\"{item.Value}\"");
                 }
                 modifiedTemplate = modifiedTemplate.Replace("{attributes}", attributesString.ToString());
 
             }
 
-            if (extraClasses is null)
+            if (extraClasses is null || extraClasses.Length == 0)
             {
                 modifiedTemplate = modifiedTemplate.Replace("{classes}", "");
             }
@@ -67,7 +68,7 @@ namespace Our.Iconic.Web
 
         public static IHtmlContent RenderIcon(this Icon icon)
         {
-            if(icon is null) return new HtmlString(string.Empty);
+            if (icon is null) return new HtmlString(string.Empty);
 
             var template = icon.Package.FrontendTemplate;
 
@@ -76,6 +77,8 @@ namespace Our.Iconic.Web
                 template = icon.Package.BackofficeTemplate;
             }
 
+            template = template.Replace("{attributes}", "");
+            template = template.Replace("{classes}", "");
 
             return new HtmlString(template.Replace("{icon}", icon.Value));
         }
