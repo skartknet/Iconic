@@ -7,7 +7,8 @@ on:
 env:  
   ICONIC_PROJECT: Our.Iconic/Our.Iconic.csproj
   OUTPUT_PATH: ${{ github.workspace }}/build.out
-  
+  CLIENT_FOLDER: Our.Iconic
+
 jobs:
   publish-nuget:
     runs-on: windows-latest
@@ -33,20 +34,26 @@ jobs:
             echo ::set-output name=prerelease::false
         fi
     
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '${{env.CLIENT_FOLDER}}/package.json'
+        cache: 'npm'
+        cache-dependency-path: '${{env.CLIENT_FOLDER}}/package-lock.json'
+
+    - name: Install Node dependencies
+      run: npm ci
+      working-directory: ${{env.CLIENT_PROJECT}}
+
+    - name: Build Client
+      run: npm run build
+      working-directory: ${{env.CLIENT_PROJECT}}
 
     - name: Restore dependencies
       run: dotnet restore
 
     - name: Build .NET
       run: dotnet build --configuration Release
-
-    - uses: actions/setup-node@v4
-
-    - name: Install NPM dependencies
-      run: npm install --prefix Our.Iconic
-
-    - name: Build NPM
-      run: npm run build --prefix Our.Iconic
 
     - name: Create Nuget Packages
       run: dotnet pack --configuration Release -o  ${{ env.OUTPUT_PATH }}
