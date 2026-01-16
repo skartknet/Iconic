@@ -1,9 +1,0 @@
-{
-  "preconfigs": [
-    {
-      "name": "Test1",
-      "selector": "\\.(glyphicon-[\\w-]+):before{",
-      "template": "<i class=\"glyphicon {icon}\"></i>"
-    }
-  ]
-}
