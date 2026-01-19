@@ -29,7 +29,6 @@ Remember to wrap the icon in `Html.Raw` so Razor displays the returned html prop
 
 There is a second way of rendering your icon that allow you to add extra classes and attributes from your views. Remember that you need to add the placeholders on the right place of your template when you configure Iconic.
 
-**⚠️ Remember to include `@using Our.Iconic.Web` in your view.**
 
 Example:
 
