@@ -43,11 +43,11 @@ jobs:
 
     - name: Install Node dependencies
       run: npm ci
-      working-directory: ${{env.CLIENT_PROJECT}}
+      working-directory: ${{env.CLIENT_FOLDER}}
 
     - name: Build Client
       run: npm run build
-      working-directory: ${{env.CLIENT_PROJECT}}
+      working-directory: ${{env.CLIENT_FOLDER}}
 
     - name: Restore dependencies
       run: dotnet restore
