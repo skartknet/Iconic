@@ -174,8 +174,8 @@ export default class ModalPicker
                 </div>
             </uui-input>
 
-            ${this._filteredIcons.map((icon) => this.#isSelected(icon) ? nothing : html`
-                <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" @click=${this.#selectIcon} label=${icon} value=${icon} title=${icon}>
+            ${this._filteredIcons.map((icon) => html`
+                <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${this.#isSelected(icon)} @click=${this.#selectIcon} label=${icon} value=${icon} title=${icon}>
                         ${unsafeHTML(this._selectedPackage?.backofficeTemplate.replace("{icon}", icon))}
                 </uui-button>
             `)}    

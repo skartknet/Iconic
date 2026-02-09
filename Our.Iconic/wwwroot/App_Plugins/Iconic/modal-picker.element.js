@@ -1,14 +1,14 @@
-import { LitElement as x, html as d, nothing as k, unsafeHTML as O, css as $, property as I, state as _, customElement as T } from "@umbraco-cms/backoffice/external/lit";
+import { LitElement as P, html as d, unsafeHTML as x, nothing as O, css as $, property as I, state as _, customElement as T } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin as z } from "@umbraco-cms/backoffice/element-api";
 import { D as E } from "./dataService-w_RStjwn.js";
-var F = Object.defineProperty, M = Object.getOwnPropertyDescriptor, b = (e) => {
+var F = Object.defineProperty, M = Object.getOwnPropertyDescriptor, k = (e) => {
   throw TypeError(e);
 }, h = (e, t, i, c) => {
   for (var l = c > 1 ? void 0 : c ? M(t, i) : t, n = e.length - 1, r; n >= 0; n--)
     (r = e[n]) && (l = (c ? r(t, i, l) : r(l)) || l);
   return c && l && F(t, i, l), l;
-}, A = (e, t, i) => t.has(e) || b("Cannot " + i), D = (e, t, i) => t.has(e) ? b("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), a = (e, t, i) => (A(e, t, "access private method"), i), s, y, f, C, S, w, m, P, p;
-let o = class extends z(x) {
+}, A = (e, t, i) => t.has(e) || k("Cannot " + i), D = (e, t, i) => t.has(e) ? k("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), a = (e, t, i) => (A(e, t, "access private method"), i), s, b, f, y, C, S, m, w, p;
+let o = class extends z(P) {
   constructor() {
     super(...arguments), D(this, s), this._value = [], this._multiSelect = !1, this._dataService = new E(), this._packages = [], this._packagesOptions = [], this._showFilteredOnly = !1, this._searchTerm = "", this._icons = [], this._filteredIcons = [];
   }
@@ -29,10 +29,10 @@ let o = class extends z(x) {
             <umb-body-layout headline="Select Icons" style="height:95%;">  
                     
             ${this._packagesOptions.length > 1 ? d`                                
-                    <uui-select .options=${this._packagesOptions}  @change="${a(this, s, C)}"></uui-select>                
+                    <uui-select .options=${this._packagesOptions}  @change="${a(this, s, y)}"></uui-select>                
             ` : ""}
 
-            <uui-input @input="${a(this, s, P)}" placeholder="Search icons" clearable>
+            <uui-input @input="${a(this, s, w)}" placeholder="Search icons" clearable>
                 <div slot="prepend">
                     <uui-icon-registry-essential>
                         <uui-icon name="search"></uui-icon>
@@ -42,23 +42,23 @@ let o = class extends z(x) {
 
             ${this._filteredIcons.map((e) => {
       var t;
-      return a(this, s, S).call(this, e) ? k : d`
-                <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" @click=${a(this, s, y)} label=${e} value=${e} title=${e}>
-                        ${O((t = this._selectedPackage) == null ? void 0 : t.backofficeTemplate.replace("{icon}", e))}
+      return d`
+                <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${a(this, s, C).call(this, e)} @click=${a(this, s, b)} label=${e} value=${e} title=${e}>
+                        ${x((t = this._selectedPackage) == null ? void 0 : t.backofficeTemplate.replace("{icon}", e))}
                 </uui-button>
             `;
     })}    
                                     
             </umb-body-layout>
             <umb-footer-layout>
-                        ${this._multiSelect ? d`<uui-button slot="actions" label="Submit" @click="${a(this, s, m)}"></uui-button>` : k}                        
-                        <uui-button slot="actions" label="Cancel" @click="${a(this, s, w)}"></uui-button>                        
+                        ${this._multiSelect ? d`<uui-button slot="actions" label="Submit" @click="${a(this, s, m)}"></uui-button>` : O}                        
+                        <uui-button slot="actions" label="Cancel" @click="${a(this, s, S)}"></uui-button>                        
             </umb-footer-layout> 
         `;
   }
 };
 s = /* @__PURE__ */ new WeakSet();
-y = function(e) {
+b = function(e) {
   var t = e.currentTarget.getAttribute("value");
   t && (this._multiSelect ? this._value.push({ packageId: this._selectedPackage.id, icon: t }) : this._value = [{ packageId: this._selectedPackage.id, icon: t }], e.currentTarget.setAttribute("disabled", "true"), this._multiSelect || a(this, s, m).call(this));
 };
@@ -67,16 +67,16 @@ f = function() {
     this._selectedPackage.filteredIcons.length > 0 && this._showFilteredOnly ? this._icons = this._selectedPackage.filteredIcons : this._icons = this._selectedPackage.extractedStyles;
   });
 };
-C = function(e) {
+y = function(e) {
   var t = e.currentTarget.value;
   t && (this._selectedPackage = this._packages.find((i) => i.id === t), a(this, s, f).call(this).then(() => {
     a(this, s, p).call(this);
   }));
 };
-S = function(e) {
+C = function(e) {
   return this._value.findIndex((t) => t.icon === e) >= 0;
 };
-w = function() {
+S = function() {
   var e;
   (e = this.modalContext) == null || e.submit();
 };
@@ -84,7 +84,7 @@ m = function() {
   var e, t;
   (e = this.modalContext) == null || e.updateValue({ icons: this._value }), (t = this.modalContext) == null || t.submit();
 };
-P = function(e) {
+w = function(e) {
   var t = e.target;
   this._searchTerm = t.value.trim().toLowerCase() || "", a(this, s, p).call(this);
 };

@@ -123,7 +123,7 @@ export default class IconicPropertyEditor extends UmbElementMixin((LitElement)) 
   render() {
     return html`
               <uui-button class="icon" compact label="icon" look="placeholder" @click=${this.#openModal} type="button" color="default">
-                ${unsafeHTML(this._selectedIcon)}
+                ${this._selectedIcon ? unsafeHTML(this._selectedIcon) : unsafeHTML('<span style="font-size: var(--uui-size-4);">Add</span>')}                
               </uui-button>
               ${this._selectedIcon ? html`                                
                 <div><small class="action" @click=${this.#removeIcon}>Remove</small></div>
