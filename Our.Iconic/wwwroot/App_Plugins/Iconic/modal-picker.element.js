@@ -1,38 +1,34 @@
-import { LitElement as P, html as d, unsafeHTML as x, nothing as O, css as $, property as I, state as _, customElement as T } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as z } from "@umbraco-cms/backoffice/element-api";
-import { D as E } from "./dataService-w_RStjwn.js";
-var F = Object.defineProperty, M = Object.getOwnPropertyDescriptor, k = (e) => {
+import { LitElement as C, nothing as S, html as r, unsafeHTML as w, css as P, property as x, state as p, customElement as O } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as $ } from "@umbraco-cms/backoffice/element-api";
+import { D as I } from "./dataService-w_RStjwn.js";
+var T = Object.defineProperty, z = Object.getOwnPropertyDescriptor, m = (e) => {
   throw TypeError(e);
-}, h = (e, t, i, c) => {
-  for (var l = c > 1 ? void 0 : c ? M(t, i) : t, n = e.length - 1, r; n >= 0; n--)
-    (r = e[n]) && (l = (c ? r(t, i, l) : r(l)) || l);
-  return c && l && F(t, i, l), l;
-}, A = (e, t, i) => t.has(e) || k("Cannot " + i), D = (e, t, i) => t.has(e) ? k("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, i), a = (e, t, i) => (A(e, t, "access private method"), i), s, b, f, y, C, S, m, w, p;
-let o = class extends z(P) {
+}, o = (e, t, a, n) => {
+  for (var l = n > 1 ? void 0 : n ? z(t, a) : t, u = e.length - 1, d; u >= 0; u--)
+    (d = e[u]) && (l = (n ? d(t, a, l) : d(l)) || l);
+  return n && l && T(t, a, l), l;
+}, E = (e, t, a) => t.has(e) || m("Cannot " + a), F = (e, t, a) => t.has(e) ? m("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), s = (e, t, a) => (E(e, t, "access private method"), a), i, g, _, v, k, b, f, y, h;
+let c = class extends $(C) {
   constructor() {
-    super(...arguments), D(this, s), this._value = [], this._multiSelect = !1, this._dataService = new E(), this._packages = [], this._packagesOptions = [], this._showFilteredOnly = !1, this._searchTerm = "", this._icons = [], this._filteredIcons = [];
+    super(...arguments), F(this, i), this._value = [], this._multiSelect = !1, this._dataService = new I(), this._packages = [], this._packagesOptions = [], this._showFilteredOnly = !1, this._searchTerm = "", this._icons = [], this._filteredIcons = [];
   }
   connectedCallback() {
-    var t, i, c, l, n, r, g;
-    if (super.connectedCallback(), this._packages = ((t = this.modalContext) == null ? void 0 : t.data.packages) ?? [], this._packagesOptions = ((c = (i = this.modalContext) == null ? void 0 : i.data.packages) == null ? void 0 : c.map((u) => ({ name: u.name, value: u.id }))) ?? [], this._showFilteredOnly = ((l = this.modalContext) == null ? void 0 : l.data.showFilteredOnly) ?? !1, this._multiSelect = ((n = this.modalContext) == null ? void 0 : n.data.multiSelect) ?? !1, this._value = Array.from(((g = (r = this.modalContext) == null ? void 0 : r.getValue()) == null ? void 0 : g.icons) ?? []), this._packages && this._packages.length > 0) {
-      var e = this._packages.findIndex((u) => {
-        var v;
-        return u.id == ((v = this._value[0]) == null ? void 0 : v.packageId);
-      });
-      this._selectedPackage = e >= 0 ? this._packages[e] : this._packages[0], e >= 0 ? this._packagesOptions[e].selected = !0 : this._packagesOptions[0].selected = !0, a(this, s, f).call(this).then(() => {
-        a(this, s, p).call(this);
+    if (super.connectedCallback(), this._packages = this.modalContext?.data.packages ?? [], this._packagesOptions = this.modalContext?.data.packages?.map((t) => ({ name: t.name, value: t.id })) ?? [], this._showFilteredOnly = this.modalContext?.data.showFilteredOnly ?? !1, this._multiSelect = this.modalContext?.data.multiSelect ?? !1, this._value = Array.from(this.modalContext?.getValue()?.icons ?? []), this._packages && this._packages.length > 0) {
+      var e = this._packages.findIndex((t) => t.id == this._value[0]?.packageId);
+      this._selectedPackage = e >= 0 ? this._packages[e] : this._packages[0], e >= 0 ? this._packagesOptions[e].selected = !0 : this._packagesOptions[0].selected = !0, s(this, i, _).call(this).then(() => {
+        s(this, i, h).call(this);
       });
     }
   }
   render() {
-    return d`
+    return r`
             <umb-body-layout headline="Select Icons" style="height:95%;">  
                     
-            ${this._packagesOptions.length > 1 ? d`                                
-                    <uui-select .options=${this._packagesOptions}  @change="${a(this, s, y)}"></uui-select>                
+            ${this._packagesOptions.length > 1 ? r`                                
+                    <uui-select .options=${this._packagesOptions}  @change="${s(this, i, v)}"></uui-select>                
             ` : ""}
 
-            <uui-input @input="${a(this, s, w)}" placeholder="Search icons" clearable>
+            <uui-input @input="${s(this, i, y)}" placeholder="Search icons" clearable>
                 <div slot="prepend">
                     <uui-icon-registry-essential>
                         <uui-icon name="search"></uui-icon>
@@ -40,59 +36,54 @@ let o = class extends z(P) {
                 </div>
             </uui-input>
 
-            ${this._filteredIcons.map((e) => {
-      var t;
-      return d`
-                <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${a(this, s, C).call(this, e)} @click=${a(this, s, b)} label=${e} value=${e} title=${e}>
-                        ${x((t = this._selectedPackage) == null ? void 0 : t.backofficeTemplate.replace("{icon}", e))}
+            ${this._filteredIcons.map((e) => r`
+                <uui-button class="icon" compact label="icon" look="placeholder" type="button" color="default" ?disabled=${s(this, i, k).call(this, e)} @click=${s(this, i, g)} label=${e} value=${e} title=${e}>
+                        ${w(this._selectedPackage?.backofficeTemplate.replace("{icon}", e))}
                 </uui-button>
-            `;
-    })}    
+            `)}    
                                     
             </umb-body-layout>
             <umb-footer-layout>
-                        ${this._multiSelect ? d`<uui-button slot="actions" label="Submit" @click="${a(this, s, m)}"></uui-button>` : O}                        
-                        <uui-button slot="actions" label="Cancel" @click="${a(this, s, S)}"></uui-button>                        
+                        ${this._multiSelect ? r`<uui-button slot="actions" label="Submit" @click="${s(this, i, f)}"></uui-button>` : S}                        
+                        <uui-button slot="actions" label="Cancel" @click="${s(this, i, b)}"></uui-button>                        
             </umb-footer-layout> 
         `;
   }
 };
-s = /* @__PURE__ */ new WeakSet();
-b = function(e) {
+i = /* @__PURE__ */ new WeakSet();
+g = function(e) {
   var t = e.currentTarget.getAttribute("value");
-  t && (this._multiSelect ? this._value.push({ packageId: this._selectedPackage.id, icon: t }) : this._value = [{ packageId: this._selectedPackage.id, icon: t }], e.currentTarget.setAttribute("disabled", "true"), this._multiSelect || a(this, s, m).call(this));
+  t && (this._multiSelect ? this._value.push({ packageId: this._selectedPackage.id, icon: t }) : this._value = [{ packageId: this._selectedPackage.id, icon: t }], e.currentTarget.setAttribute("disabled", "true"), this._multiSelect || s(this, i, f).call(this));
 };
-f = function() {
+_ = function() {
   return this._dataService.processCssFiles(this._packages.map((e) => e.cssfile), this.shadowRoot).then(() => {
     this._selectedPackage.filteredIcons.length > 0 && this._showFilteredOnly ? this._icons = this._selectedPackage.filteredIcons : this._icons = this._selectedPackage.extractedStyles;
   });
 };
-y = function(e) {
+v = function(e) {
   var t = e.currentTarget.value;
-  t && (this._selectedPackage = this._packages.find((i) => i.id === t), a(this, s, f).call(this).then(() => {
-    a(this, s, p).call(this);
+  t && (this._selectedPackage = this._packages.find((a) => a.id === t), s(this, i, _).call(this).then(() => {
+    s(this, i, h).call(this);
   }));
 };
-C = function(e) {
+k = function(e) {
   return this._value.findIndex((t) => t.icon === e) >= 0;
 };
-S = function() {
-  var e;
-  (e = this.modalContext) == null || e.submit();
+b = function() {
+  this.modalContext?.submit();
 };
-m = function() {
-  var e, t;
-  (e = this.modalContext) == null || e.updateValue({ icons: this._value }), (t = this.modalContext) == null || t.submit();
+f = function() {
+  this.modalContext?.updateValue({ icons: this._value }), this.modalContext?.submit();
 };
-w = function(e) {
+y = function(e) {
   var t = e.target;
-  this._searchTerm = t.value.trim().toLowerCase() || "", a(this, s, p).call(this);
+  this._searchTerm = t.value.trim().toLowerCase() || "", s(this, i, h).call(this);
 };
-p = function() {
+h = function() {
   this._searchTerm ? this._filteredIcons = this._selectedPackage.extractedStyles.filter((e) => e.toLowerCase().includes(this._searchTerm)) : this._filteredIcons = this._icons;
 };
-o.styles = [
-  $`
+c.styles = [
+  P`
           .icon{
                 font-size: var(--uui-size-8);
                 height: 55px;
@@ -113,22 +104,22 @@ o.styles = [
         }
         `
 ];
-h([
-  I({ attribute: !1 })
-], o.prototype, "modalContext", 2);
-h([
-  _()
-], o.prototype, "_icons", 2);
-h([
-  _()
-], o.prototype, "_filteredIcons", 2);
-h([
-  _()
-], o.prototype, "_selectedPackage", 2);
-o = h([
-  T("modal-picker")
-], o);
+o([
+  x({ attribute: !1 })
+], c.prototype, "modalContext", 2);
+o([
+  p()
+], c.prototype, "_icons", 2);
+o([
+  p()
+], c.prototype, "_filteredIcons", 2);
+o([
+  p()
+], c.prototype, "_selectedPackage", 2);
+c = o([
+  O("modal-picker")
+], c);
 export {
-  o as default
+  c as default
 };
 //# sourceMappingURL=modal-picker.element.js.map

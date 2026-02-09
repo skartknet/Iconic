@@ -1,48 +1,44 @@
-import { LitElement as b, html as m, css as k, property as x, customElement as E } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as y } from "@umbraco-cms/backoffice/element-api";
-import { UMB_MODAL_MANAGER_CONTEXT as I } from "@umbraco-cms/backoffice/modal";
+import { LitElement as b, html as m, css as x, property as C, customElement as k } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as E } from "@umbraco-cms/backoffice/element-api";
+import { UMB_MODAL_MANAGER_CONTEXT as y } from "@umbraco-cms/backoffice/modal";
 import { ICONIC_SETTINGS_ADDPACKAGE_TOKEN as f } from "./modal-settings-addpackage.token.js";
 import { UmbPropertyValueChangeEvent as d } from "@umbraco-cms/backoffice/property-editor";
-var C = Object.defineProperty, w = Object.getOwnPropertyDescriptor, g = (e) => {
+var I = Object.defineProperty, w = Object.getOwnPropertyDescriptor, g = (e) => {
   throw TypeError(e);
-}, _ = (e, t, a, s) => {
-  for (var i = s > 1 ? void 0 : s ? w(t, a) : t, n = e.length - 1, r; n >= 0; n--)
-    (r = e[n]) && (i = (s ? r(t, a, i) : r(i)) || i);
-  return s && i && C(t, a, i), i;
-}, M = (e, t, a) => t.has(e) || g("Cannot " + a), l = (e, t, a) => (M(e, t, "read from private field"), a ? a.call(e) : t.get(e)), c = (e, t, a) => t.has(e) ? g("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), u, h, p, v;
-let o = class extends y(b) {
+}, _ = (e, t, a, n) => {
+  for (var i = n > 1 ? void 0 : n ? w(t, a) : t, s = e.length - 1, c; s >= 0; s--)
+    (c = e[s]) && (i = (n ? c(t, a, i) : c(i)) || i);
+  return n && i && I(t, a, i), i;
+}, M = (e, t, a) => t.has(e) || g("Cannot " + a), l = (e, t, a) => (M(e, t, "read from private field"), a ? a.call(e) : t.get(e)), o = (e, t, a) => t.has(e) ? g("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), u, h, p, v;
+let r = class extends E(b) {
   constructor() {
-    super(), this.value = [], c(this, u, () => {
-      var t;
-      let e = (t = this._modalManagerContext) == null ? void 0 : t.open(this, f);
-      e == null || e.onSubmit().then((a) => {
-        if (a != null && a.package) {
-          let s = this.value ? this.value.map((i) => i) : [];
-          s.push(Object.assign({}, a.package)), this.value = s, this.dispatchEvent(new d());
+    super(), this.value = [], o(this, u, () => {
+      this._modalManagerContext?.open(this, f)?.onSubmit().then((t) => {
+        if (t?.package) {
+          let a = this.value ? this.value.map((n) => n) : [];
+          a.push(Object.assign({}, t.package)), this.value = a, this.dispatchEvent(new d());
         }
       });
-    }), c(this, h, (e) => {
-      var a;
-      let t = (a = this._modalManagerContext) == null ? void 0 : a.open(this, f, {
+    }), o(this, h, (e) => {
+      this._modalManagerContext?.open(this, f, {
         data: {
           package: e
         }
-      });
-      t == null || t.onSubmit().then((s) => {
-        if (s.package) {
-          var i = this.value.findIndex((n) => n.id === s.package.id);
-          if (i >= 0) {
-            let n = this.value.map((r) => r);
-            n[i] = Object.assign({}, s.package), this.value = n, this.dispatchEvent(new d());
+      })?.onSubmit().then((a) => {
+        if (a.package) {
+          var n = this.value.findIndex((i) => i.id === a.package.id);
+          if (n >= 0) {
+            let i = this.value.map((s) => s);
+            i[n] = Object.assign({}, a.package), this.value = i, this.dispatchEvent(new d());
           }
         }
       });
-    }), c(this, p, (e) => {
+    }), o(this, p, (e) => {
       if (this.value && this.value.length > e) {
         let t = Array.from(this.value);
         t.splice(e, 1), this.value = t, this.dispatchEvent(new d());
       }
-    }), c(this, v, (e, t) => m`
+    }), o(this, v, (e, t) => m`
                     <div class="item" data-package-id="${e.id}">
                         <div class="details">                
                             <b>${e.name}</b>
@@ -64,7 +60,7 @@ let o = class extends y(b) {
                             </uui-button>
                         </uui-action-bar>
                     </div>    
-                    `), this.value = this.value || [], this.consumeContext(I, (e) => {
+                    `), this.value = this.value || [], this.consumeContext(y, (e) => {
       this._modalManagerContext = e;
     });
   }
@@ -72,10 +68,9 @@ let o = class extends y(b) {
     super.connectedCallback();
   }
   render() {
-    var e;
     return m`                
         <div class="container">                   
-            ${(e = this.value) == null ? void 0 : e.map((t, a) => l(this, v).call(this, t, a))}   
+            ${this.value?.map((e, t) => l(this, v).call(this, e, t))}   
         </div>                                         
 
         <uui-button
@@ -91,7 +86,7 @@ u = /* @__PURE__ */ new WeakMap();
 h = /* @__PURE__ */ new WeakMap();
 p = /* @__PURE__ */ new WeakMap();
 v = /* @__PURE__ */ new WeakMap();
-o.styles = [k`
+r.styles = [x`
         :host {
             display: flex;
             flex-direction: column;
@@ -116,12 +111,12 @@ o.styles = [k`
         }
   `];
 _([
-  x({ type: Array })
-], o.prototype, "value", 2);
-o = _([
-  E("iconic-settings-element")
-], o);
+  C({ type: Array })
+], r.prototype, "value", 2);
+r = _([
+  k("iconic-settings-element")
+], r);
 export {
-  o as default
+  r as default
 };
 //# sourceMappingURL=settings-editor.element.js.map
