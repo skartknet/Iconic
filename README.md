@@ -11,13 +11,14 @@ Install the nuget packages
 ### Our.Iconic
 This is the main package. Includes all the necessary for Iconic to run in the backoffice.
 
-[![NuGet version](https://badge.fury.io/nu/Our.Iconic.svg?icon=si%3Anuget)](https://badge.fury.io/nu/Our.Iconic)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Our.Iconic?label=Our.Iconic)
 
 
 ### Our.Iconic.Core
 Core functionality, like value converter or a few models.
 
-[![NuGet version](https://badge.fury.io/nu/Our.Iconic.Core.svg?icon=si%3Anuget)](https://badge.fury.io/nu/Our.Iconic.Core)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Our.Iconic.Core?label=Our.Iconic.Core)
+
 
 ### Umbraco Marketplace
 https://marketplace.umbraco.com/package/our.iconic
