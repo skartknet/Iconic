@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmbracoV16", "UmbracoV16\Um
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmbracoV17", "UmbracoV17\UmbracoV17.csproj", "{FD7F01AD-3F5B-4D03-B306-59D6842DC981}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmbracoV18", "UmbracoV18\UmbracoV18.csproj", "{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{FD7F01AD-3F5B-4D03-B306-59D6842DC981}.Release|x64.Build.0 = Release|Any CPU
 		{FD7F01AD-3F5B-4D03-B306-59D6842DC981}.Release|x86.ActiveCfg = Release|Any CPU
 		{FD7F01AD-3F5B-4D03-B306-59D6842DC981}.Release|x86.Build.0 = Release|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Debug|x64.Build.0 = Debug|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Debug|x86.Build.0 = Debug|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Release|x64.ActiveCfg = Release|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Release|x64.Build.0 = Release|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Release|x86.ActiveCfg = Release|Any CPU
+		{69DC6315-92BA-486A-BEE4-E5B7AE47F26D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
