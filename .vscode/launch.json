@@ -2,30 +2,5 @@
     "version": "0.2.0",
     "configurations": [
         
-        {
-            "name": ".NET Core Launch (Umbraco 10)",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/UmbracoV10/bin/Debug/net6.0/UmbracoV10.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/UmbracoV10",
-            "stopAtEntry": false,            
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach"
-        }
     ]
 }
