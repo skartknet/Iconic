@@ -1,14 +1,14 @@
 import { LitElement as b, html as m, css as x, property as C, customElement as k } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin as E } from "@umbraco-cms/backoffice/element-api";
-import { UMB_MODAL_MANAGER_CONTEXT as y } from "@umbraco-cms/backoffice/modal";
+import { UMB_MODAL_MANAGER_CONTEXT as I } from "@umbraco-cms/backoffice/modal";
 import { ICONIC_SETTINGS_ADDPACKAGE_TOKEN as f } from "./modal-settings-addpackage.token.js";
-import { UmbPropertyValueChangeEvent as d } from "@umbraco-cms/backoffice/property-editor";
-var I = Object.defineProperty, w = Object.getOwnPropertyDescriptor, g = (e) => {
+import { UmbChangeEvent as d } from "@umbraco-cms/backoffice/event";
+var y = Object.defineProperty, w = Object.getOwnPropertyDescriptor, g = (e) => {
   throw TypeError(e);
 }, _ = (e, t, a, n) => {
   for (var i = n > 1 ? void 0 : n ? w(t, a) : t, s = e.length - 1, c; s >= 0; s--)
     (c = e[s]) && (i = (n ? c(t, a, i) : c(i)) || i);
-  return n && i && I(t, a, i), i;
+  return n && i && y(t, a, i), i;
 }, M = (e, t, a) => t.has(e) || g("Cannot " + a), l = (e, t, a) => (M(e, t, "read from private field"), a ? a.call(e) : t.get(e)), o = (e, t, a) => t.has(e) ? g("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), u, h, p, v;
 let r = class extends E(b) {
   constructor() {
@@ -60,7 +60,7 @@ let r = class extends E(b) {
                             </uui-button>
                         </uui-action-bar>
                     </div>    
-                    `), this.value = this.value || [], this.consumeContext(y, (e) => {
+                    `), this.value = this.value || [], this.consumeContext(I, (e) => {
       this._modalManagerContext = e;
     });
   }

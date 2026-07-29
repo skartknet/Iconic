@@ -9,6 +9,7 @@ import { UmbStaticFilePickerInputContext } from "@umbraco-cms/backoffice/static-
 
 
 import { UUIButtonState } from "@umbraco-cms/backoffice/external/uui";
+import type { UUISelectOption } from "@umbraco-cms/backoffice/external/uui";
 import { ICONIC_MODALPICKER_TOKEN } from "../tokens/modal-picker.token.ts";
 import { UMB_NOTIFICATION_CONTEXT } from "@umbraco-cms/backoffice/notification";
 
@@ -49,7 +50,7 @@ export default class AddPackageModal
     @state()
     private openedPickerName?: string;
 
-    private preconfigsOptions: Option[] = [];
+    private preconfigsOptions: UUISelectOption[] = [];
     private preconfigs: PreConfiguration[] = [];
 
     #filePickerModal?: UmbStaticFilePickerInputContext;        

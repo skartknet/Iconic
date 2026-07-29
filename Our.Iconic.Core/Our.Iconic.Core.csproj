@@ -4,7 +4,7 @@
 	  <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
 
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <Version>17.0.0</Version>
+	  <Version>18.0.0</Version>
 	  <Authors>Mario Lopez</Authors>
 	  <Description>Highly configurable icon picker for Umbraco. </Description>
 	  <Copyright>Copyright © Mario Lopez</Copyright>
