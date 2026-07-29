@@ -376,8 +376,8 @@ healthchecksdb
 # End of https://www.gitignore.io/api/umbraco,visualstudio
 
 /UmbracoV9/App_Plugins/Iconic
-/UmbracoV9/umbraco/Data/Umbraco.sdf
-/UmbracoV10/umbraco/Data/
 **/Data/TEMP/
-/UmbracoV15/umbraco/Data/
-/UmbracoV15/umbraco/Logs/
+**/umbraco/Data
+**/umbraco/Logs
+*.csproj.lscache
+.DS_Store
