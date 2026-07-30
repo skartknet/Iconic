@@ -1,0 +1,23 @@
+﻿@using Our.Iconic
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Home>
+
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Iconic</title>
+	<link rel="stylesheet" href="/css/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    
+	@Model.Icon.RenderIcon(new {dataX = "mydata"})
+
+
+    @Model.Icon.RenderIcon()
+</body>
+</html>

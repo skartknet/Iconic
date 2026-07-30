@@ -4,7 +4,7 @@ import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { Package } from "../models";
 import { UMB_MODAL_MANAGER_CONTEXT } from "@umbraco-cms/backoffice/modal";
 import { ICONIC_SETTINGS_ADDPACKAGE_TOKEN } from "../tokens/modal-settings-addpackage.token";
-import { UmbPropertyValueChangeEvent } from "@umbraco-cms/backoffice/property-editor";
+import { UmbChangeEvent } from "@umbraco-cms/backoffice/event";
 
 
 @customElement('iconic-settings-element')
@@ -42,7 +42,7 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
                 tempVal.push(Object.assign({}, val.package));
 
                 this.value = tempVal;
-                this.dispatchEvent(new UmbPropertyValueChangeEvent());
+                this.dispatchEvent(new UmbChangeEvent());
             }
         })
     };
@@ -66,7 +66,7 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
                 tempVal[existingPackage] = Object.assign({}, value.package);
 
                 this.value = tempVal;
-                this.dispatchEvent(new UmbPropertyValueChangeEvent());
+                this.dispatchEvent(new UmbChangeEvent());
             }
         })
     };
@@ -76,7 +76,7 @@ export default class IconicSettingsElement extends UmbElementMixin((LitElement))
             let tempVal = Array.from(this.value);
             tempVal.splice(index, 1);
             this.value = tempVal;
-            this.dispatchEvent(new UmbPropertyValueChangeEvent());
+            this.dispatchEvent(new UmbChangeEvent());
         }
     };
 

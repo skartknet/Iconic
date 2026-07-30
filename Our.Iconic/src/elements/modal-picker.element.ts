@@ -6,6 +6,7 @@ import type { UmbModalExtensionElement } from '@umbraco-cms/backoffice/modal';
 import DataService from "../dataService.ts";
 import { Icon, Package } from "../models.ts";
 import { UUIInputElement, UUISelectElement } from "@umbraco-cms/backoffice/external/uui";
+import type { UUISelectOption } from "@umbraco-cms/backoffice/external/uui";
 
 @customElement('modal-picker')
 export default class ModalPicker
@@ -19,7 +20,7 @@ export default class ModalPicker
     private _multiSelect: boolean = false;
     private _dataService: DataService = new DataService();
     private _packages: Package[] = [];
-    private _packagesOptions: Option[] = [];
+    private _packagesOptions: UUISelectOption[] = [];
 
     private _showFilteredOnly: boolean = false;
     private _searchTerm: string = '';
@@ -38,7 +39,7 @@ export default class ModalPicker
         super.connectedCallback();
 
         this._packages = this.modalContext?.data.packages ?? [];
-        this._packagesOptions = this.modalContext?.data.packages?.map(x => <Option>{ name: x.name, value: x.id }) ?? [];
+        this._packagesOptions = this.modalContext?.data.packages?.map(x => <UUISelectOption>{ name: x.name, value: x.id }) ?? [];
 
 
         this._showFilteredOnly = this.modalContext?.data.showFilteredOnly ?? false;
