@@ -27,60 +27,75 @@ namespace Our.Iconic.Core.ValueConverters
                                                   object inter,
                                                   bool preview)
         {
-            if (inter == null) return null;
-
-            // Handle both string (Umbraco 13 and earlier) and JsonObject/JsonElement (Umbraco 14+)
-            // This fixes compatibility with Umbraco 14+ where the intermediate value is JsonObject instead of string
-            string jsonString;
-            if (inter is JsonObject jsonObject)
+            // No icon picked. Depending on the Umbraco version and where the property lives, that arrives as null,
+            // an empty string, or JSON null (block list/grid items keep an empty picker as null).
+            var value = AsJsonObject(inter);
+            if (value is null)
             {
-                jsonString = jsonObject.ToJsonString();
-            }
-            else if (inter is JsonElement jsonElement)
-            {
-                jsonString = jsonElement.GetRawText();
-            }
-            else if (inter is string str)
-            {
-                jsonString = str;
-            }
-            else
-            {
-                // Fallback for any other type
-                jsonString = inter.ToString();
-            }
-            
-            string packageId = null;
-
-            using (JsonDocument document = JsonDocument.Parse(jsonString))
-            {
-                if (document.RootElement.TryGetProperty("packageId", out JsonElement packageIdElement))
-                {
-                    packageId = packageIdElement.GetString();
-                }
+                return null;
             }
 
+            var iconValue = GetString(value, "icon");
+            if (string.IsNullOrWhiteSpace(iconValue) || !Guid.TryParse(GetString(value, "packageId"), out var packageId))
+            {
+                return null;
+            }
 
-            var model = JsonSerializer.Deserialize<Icon>(jsonString);
+            var configuration = propertyType.DataType.ConfigurationAs<IDictionary<string, object>>();
+            if (configuration is null || !configuration.TryGetValue("packages", out var packages) || packages is null)
+            {
+                return null;
+            }
 
-            var config = new IconicPackagesConfiguration();
-            var jobj = propertyType.DataType.ConfigurationAs<IDictionary<string, object>>();
-
-            config.Packages = JsonSerializer.Deserialize<IEnumerable<Package>>(jobj["packages"].ToString());
-
-
-            var package = config.Packages.SingleOrDefault(x => x.Id.ToString() == packageId);
+            var package = JsonSerializer.Deserialize<IEnumerable<Package>>(packages.ToString())?
+                .FirstOrDefault(x => x.Id == packageId);
 
             if (package is null)
             {
                 return null;
             }
 
-            model.Package = package;
-
-            return model;
+            return new Icon
+            {
+                Value = iconValue,
+                Package = package
+            };
         }
 
+        /// <summary>
+        /// Gets the stored value as a JSON object: Umbraco 14+ hands over a JsonObject or JsonElement, earlier versions
+        /// (and values stored as text) a string. Returns null for anything that isn't an object.
+        /// </summary>
+        private static JsonObject AsJsonObject(object inter)
+        {
+            try
+            {
+                switch (inter)
+                {
+                    case JsonObject jsonObject:
+                        return jsonObject;
+                    case JsonElement { ValueKind: JsonValueKind.Object } jsonElement:
+                        return JsonNode.Parse(jsonElement.GetRawText()) as JsonObject;
+                    case JsonElement { ValueKind: JsonValueKind.String } jsonElement:
+                        return Parse(jsonElement.GetString());
+                    case JsonValue jsonValue when jsonValue.TryGetValue(out string text):
+                        return Parse(text);
+                    case string text:
+                        return Parse(text);
+                    default:
+                        return null;
+                }
+            }
+            catch (JsonException)
+            {
+                return null;
+            }
+        }
 
+        private static JsonObject Parse(string json)
+            => string.IsNullOrWhiteSpace(json) ? null : JsonNode.Parse(json) as JsonObject;
+
+        private static string GetString(JsonObject value, string propertyName)
+            => value[propertyName] is JsonValue jsonValue && jsonValue.TryGetValue(out string text) ? text : null;
     }
 }
